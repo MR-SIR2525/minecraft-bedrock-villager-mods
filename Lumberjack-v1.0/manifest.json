@@ -1,0 +1,31 @@
+{
+	"format_version": 2,
+	"header": {
+		"name": "Lumberjack Villager by MRxSIR v1.0",
+		"description": "Lumberjack villager pack by MRxSIR.",
+		"uuid": "c6dded78-60ea-49d2-885a-aefb958e4ae2",
+		"version": [1, 0, 0],
+		"min_engine_version": [1, 16, 0]
+	},
+	"metadata": {
+		"authors": ["MRxSIR"],
+		"generated_with": {
+			"blockbench_entity_wizard": ["1.3.1"]
+		}
+	},
+	"modules": [
+		{
+			"description": "Behavior",
+			"version": [1, 0, 0],
+			"uuid": "4736ae9e-ac6e-429a-b5b3-e8d5fd1ee336",
+			"type": "data"
+		}
+	],
+	"dependencies": [
+		{
+			//not sure what this is...
+			"uuid": "94069b6b-8537-0014-5ee8-8a41688d58b6",
+			"version": [1, 0, 0]
+		}
+	]
+}
