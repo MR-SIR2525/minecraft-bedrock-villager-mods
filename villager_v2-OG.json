@@ -1,7 +1,9 @@
 {
   "format_version": "1.19.0",
-  "minecraft:entity": {
-    "description": {
+  "minecraft:entity": 
+  {
+    "description": 
+    {
       "identifier": "minecraft:villager_v2",
       "is_spawnable": true,
       "is_summonable": false,
