@@ -8,10 +8,7 @@
 		"min_engine_version": [1, 16, 0]
 	},
 	"metadata": {
-		"authors": ["MRxSIR"],
-		"generated_with": {
-			"blockbench_entity_wizard": ["1.3.1"]
-		}
+		"authors": ["MRxSIR"]
 	},
 	"modules": [
 		{
@@ -19,6 +16,12 @@
 			"version": [1, 0, 0],
 			"uuid": "4736ae9e-ac6e-429a-b5b3-e8d5fd1ee336",
 			"type": "data"
+		},
+		{
+			"description": "Villager model textures",
+			"version": [1, 0, 0],
+			"uuid": "297595f0-a742-453e-85d7-3b3e4f794fb9",
+			"type": "resources"
 		}
 	],
 	"dependencies": [

@@ -1,2 +1,5 @@
 Guard-type roles: refer to "minecraft:dweller" and look at roles.
 
+https://www.uuidtools.com/minecraft
+
+https://mcasset.cloud/# 
