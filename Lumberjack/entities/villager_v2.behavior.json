@@ -1,7 +1,9 @@
 {
   "format_version": "1.19.0",
-  "minecraft:entity": {
-    "description": {
+  "minecraft:entity": 
+  {
+    "description": 
+    {
       "identifier": "minecraft:villager_v2",
       "is_spawnable": true,
       "is_summonable": false,
@@ -1117,7 +1119,7 @@
         }
       },
 
-      "mason": {
+      "mason": { //variant 13
         "minecraft:type_family": {
           "family": [ "villager", "artisan", "stone_mason", "mob" ]
         },
@@ -1144,6 +1146,42 @@
           "dwelling_type": "village",
           "dweller_role": "inhabitant",
           "preferred_profession": "mason",
+          "update_interval_base": 60,
+          "update_interval_variant": 40,
+          "can_find_poi": true,
+          "can_migrate": true,
+          "first_founding_reward": 5
+        }
+      },
+
+      //villagers created by MRxSIR start at villager variant 50 to avoid conflicts with other packs...
+      "lumberjack": { //created by MrxSIR
+        "minecraft:type_family": {
+          "family":[ "villager", "peasant", "lumberjack", "mob" ]
+        },
+        "minecraft:variant": {
+          "value": 50
+        },
+        "minecraft:behavior.trade_interest": {
+          "priority": 5,
+          "within_radius": 6.0,
+          "interest_time": 45.0,
+          "remove_item_time": 1.0,
+          "carried_item_switch_time": 2.0,
+          "cooldown": 2.0
+        },
+        "minecraft:economy_trade_table": {
+          "display_name": "entity.villager.lumberjack",
+          "table": "trading/economy_trades/lumberjack_trades.json",
+          "new_screen": true,
+          "persist_trades": true,
+          "cured_discount": [-100, -100],
+          "max_cured_discount": [-500, -500]
+        },
+        "minecraft:dweller": {
+          "dwelling_type": "village",
+          "dweller_role": "defender", //villagers are usually `inhabitant`, but can this be `defender`?
+          "preferred_profession": "lumberjack",
           "update_interval_base": 60,
           "update_interval_variant": 40,
           "can_find_poi": true,
