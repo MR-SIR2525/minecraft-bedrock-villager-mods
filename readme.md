@@ -10,7 +10,7 @@
   - in progress
 - ### Villager Intelligence Update 
   - various improvements to villager intelligence and behavior.
-  - 
+  - nametags work on villagers
   - not really started yet.
 
 
@@ -29,3 +29,6 @@
 ### 3. Methodology for alterations
 - use custom files where possible and override some things, such as `villager_v2.behavior.json`, with as few alterations as possible to maintain compatibility and stability. 
 - keep it kosher/vanilla for the most part.
+
+### 4. Version History
+- Each pack will have an accompanying folder for older versions containing folders named `[pack_name]_vX.X.X`.
