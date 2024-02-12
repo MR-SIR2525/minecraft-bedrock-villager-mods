@@ -4,7 +4,7 @@
 **Gives**
 - wooden axe
 - sticks
-- coal
+- charcoal
 - wooden planks
 
 **Wants**
