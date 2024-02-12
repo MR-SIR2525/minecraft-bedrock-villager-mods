@@ -1,0 +1,23 @@
+{
+	"format_version": 2,
+	"header": {
+		"name": "Villager Intelligence Update by MRxSIR",
+		"description": "Behavior and intelligence improvements for villagers",
+		"uuid": "62e7136e-7d10-4c7c-b4f3-f638e721eb79",
+		"version": [1, 0, 0],
+		"min_engine_version": [1, 16, 0]
+	},
+	"metadata": {
+		"authors": ["MRxSIR"],
+		"product_type": "addon"
+	},
+	"modules": [
+		{
+			"description": "Behavior",
+			"version": [1, 0, 0],
+			"uuid": "e517a1a3-fdf1-42ab-b10f-25a5c0e40fd7",
+			"type": "data"
+		}
+	],
+	"dependencies": [ ]
+}

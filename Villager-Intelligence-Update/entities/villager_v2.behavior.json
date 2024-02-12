@@ -1461,7 +1461,14 @@
         "width": 0.6,
         "height": 1.9
       },
-      "minecraft:nameable": {
+      "minecraft:nameable": { //altered by MR SIR to allow villager renaming
+        "allow_name_tag_renaming": true,
+        "always_show": false,
+        "default_trigger": 
+        {
+          "event": "minecraft:celebrate",
+          "target": "self"
+        }
       },
       "minecraft:movement": {
         "value": 0.5

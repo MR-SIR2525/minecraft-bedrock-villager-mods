@@ -1,1 +1,1 @@
-- Renaming with nametags enabled
+- pack_icon.png generated with DALL-E

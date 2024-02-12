@@ -22,10 +22,6 @@
 		}
 	],
 	"dependencies": [
-		{
-			//not sure what this is...
-			"uuid": "94069b6b-8537-0014-5ee8-8a41688d58b6",
-			"version": [1, 0, 0]
-		}
+
 	]
 }
