@@ -89,7 +89,7 @@
             { //oak planks (6) for oak log (1)
               "wants": [
                 {
-                  "item": "minecraft:oak_planks",
+                  "item": "minecraft:planks",
                   "quantity": 6,
                   "price_multiplier": 0.05
                 }
