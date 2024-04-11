@@ -2210,6 +2210,7 @@
         ]
       },
 
+      //choose skin color, make it a baby, determine appropriate biome attire
       "minecraft:entity_born": {
         "sequence": [
           {
