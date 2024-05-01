@@ -13,11 +13,16 @@
 	},
 	"modules": [
 		{
-			"description": "Behavior",
+			"description": "Behavior Pack for Helpful Villagers addon",
 			"version": [0, 0, 1],
 			"uuid": "e517a1a3-fdf1-42ab-b10f-25a5c0e40fd7",
 			"type": "data"
 		}
 	],
-	"dependencies": [ ]
+	"dependencies": [
+		{
+			"uuid": "cacb0330-d0a3-4d19-9661-cb1e8f53ea16",
+			"version": [0, 0, 1]
+		}
+	]
 }
