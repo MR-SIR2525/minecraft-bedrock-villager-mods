@@ -427,6 +427,7 @@
         }
       },
 
+      // MRxSIR: tweaking farmer to do complex tasks
       "work_schedule_fisher": {
         "minecraft:behavior.work": {
           "priority": 7,
@@ -518,7 +519,7 @@
         "minecraft:behavior.fertilize_farm_block": {
           "priority": 8
         }
-      },
+      },  // end of work_schedule_farmer
 
       "work_schedule_librarian": {
         "minecraft:behavior.work": {
