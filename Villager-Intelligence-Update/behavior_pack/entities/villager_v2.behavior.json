@@ -403,6 +403,8 @@
       "job_specific_goals": {
         "minecraft:behavior.inspect_bookshelf": {},
         "minecraft:behavior.harvest_farm_block": {},
+        "minecraft:behavior.fertilize_farm_block": {},  //why was this not here..? Mojang??
+        // "mrsir:behavior.store_harvest": {},
         "minecraft:behavior.explore_outskirts": {},
         "minecraft:behavior.work": {},
         "minecraft:behavior.work_composter": {},
@@ -427,7 +429,6 @@
         }
       },
 
-      // MRxSIR: tweaking farmer to do complex tasks
       "work_schedule_fisher": {
         "minecraft:behavior.work": {
           "priority": 7,
@@ -445,6 +446,7 @@
         }
       },
 
+      // MRxSIR: tweaking farmer to do complex tasks
       "work_schedule_farmer": {
         "minecraft:shareables": {
           "items": [
@@ -519,7 +521,82 @@
         "minecraft:behavior.fertilize_farm_block": {
           "priority": 8
         }
+        // ********might need someway to indicate when the farmer needs to go store the harvest
       },  // end of work_schedule_farmer
+
+      // to be called from "farmer_tempt_interaction"
+      "farmer_can_be_tempted": {
+        "minecraft:behavior.tempt": {
+          "priority": 5,
+          // "speed_multiplier":  //not used
+          "within_radius": 10,
+          "can_tempt_vertically": true,
+          "items": [
+            "minecraft:chest"
+          ]
+        }
+      },
+
+      "farmer_tempt_interaction": {   
+        "minecraft:interact": {
+          "interactions": [
+            {
+              "interact_text": "Lead farmer while holding a chest",
+              "on_interact": {
+                "event": "add_farmer_can_be_tempted",
+                "filters": {
+                  "none_of": [  // if (!farmer_can_be_tempted) then allow the interaction
+                    {
+                      "test": "has_component",
+                      "value": "farmer_can_be_tempted"
+                    }
+                  ],
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "has_equipment",
+                      "domain": "hand",
+                      "subject": "other",
+                      "value": "chest"
+                    }
+                  ]
+                }
+              },
+              "use_item": false
+            },
+            {
+              "interact_text": "Stop leading farming with chest",
+              "on_interact": {
+                "event": "remove_farmer_can_be_tempted",
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "has_component",
+                      "value": "farmer_can_be_tempted"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "has_equipment",
+                      "domain": "hand",
+                      "subject": "other",
+                      "value": "chest"
+                    }
+                  ]
+                }
+              },
+              "use_item": false
+            }
+          ]
+        }
+      },
 
       "work_schedule_librarian": {
         "minecraft:behavior.work": {
@@ -1492,8 +1569,8 @@
       "minecraft:can_climb": {
       },
       "minecraft:inventory": {
-        "inventory_size": 8,
-        "private": true
+        "inventory_size": 8,  // 8 by default, maybe increase this later?
+        "private": false    // false by default, true for debug purposes for now.
       },
       "minecraft:dweller": {
         "dwelling_type": "village",
@@ -1624,6 +1701,20 @@
       }
     },
     "events":{
+      "add_farmer_can_be_tempted": {
+        "add": {
+          "component_groups": [
+            "farmer_can_be_tempted"
+          ]
+        }
+      },
+      "remove_farmer_can_be_tempted": {
+        "remove": {
+          "component_groups": [
+            "farmer_can_be_tempted"
+          ]
+        }
+      },
       "become_witch": {
         "add": {
           "component_groups": [
@@ -2494,9 +2585,23 @@
         "add": { "component_groups": [ "work_schedule_villager" ] }
       },
       
+      // MRxSIR: farmer scheduler is here
       "minecraft:schedule_work_farmer": {
-        "remove": { "component_groups": [ "home_schedule_villager", "gather_schedule_villager", "wander_schedule_villager", "bed_schedule_villager", "job_specific_goals", "play_schedule_villager" ] },
-        "add": { "component_groups": [ "work_schedule_farmer" ] }
+        "remove": {
+          "component_groups": [
+            "home_schedule_villager",
+            "gather_schedule_villager",
+            "wander_schedule_villager",
+            "bed_schedule_villager",
+            "job_specific_goals",
+            "play_schedule_villager"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "work_schedule_farmer"
+          ]
+        }
       },
       
       "minecraft:schedule_work_fisher": {
