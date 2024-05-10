@@ -537,24 +537,57 @@
         }
       },
 
-      "farmer_bind_to_hopper": {
+      "look_for_lodestone": {
         "minecraft:behavior.move_to_block": {
           "start_chance": 1,
-          "search_range": 4,
+          "search_range": 32,
           "goal_radius": 1,
-          "stay_duration": 300, // 15 seconds
+          "stay_duration": 30, // 1.5 seconds
 
           "target_selection_method": "nearest",
           "target_blocks": [
-            "minecraft:hopper"
+            "minecraft:lodestone"
           ],
           "on_reach": {
-            "event": "farmer_save_hopper_position",
+            "event": "call_look_for_hopper",
             "target": "self"
           }
           
         }
       },
+
+      "look_for_hopper": {
+        "minecraft:behavior.move_to_block": {
+          "start_chance": 1,
+          "search_range": 4,
+          "goal_radius": 0.75,
+          "stay_duration": 300,  // 15 seconds
+          "target_selection_method": "nearest",
+          "target_blocks": [
+            "minecraft:hopper"
+          ],
+
+          "on_reach": {
+            "event": "drop_crops_event",
+            "target": "self"
+          }
+        }
+      },
+
+      // "drop_items_to_hopper": {
+      //   "minecraft:behavior.drop_item_for": {
+      //     "entity_types": [
+      //       {
+      //         "filters": {
+      //           "test": "is_family",
+      //           "subject": "other",
+      //           "value": "armor_stand"
+      //         }
+      //       }
+      //     ],
+      //     "loot_table": "loot_tables/"
+      //   }
+      // },
 
       "farmer_tempt_interaction": {   
         "minecraft:interact": {
@@ -1756,22 +1789,28 @@
           ]
         }
       },
-      "assign_farmer_to_hopper": {
+      "call_look_for_hopper" : {
+        "add": {
+          "component_groups": [ "look_for_hopper" ]
+        },
+        "remove": {
+          "component_groups": [ "look_for_lodestone" ]
+        }
+      },
+      "drop_crops_event": {
         "sequence": [
           {
-            "add": {
+            "queue_command": {
+              "command": "drop_crops",
+              "target": "self"        //not sure if this is allowed, or proper
+            },
+            "remove": {
               "component_groups": [
-                "farmer_bind_to_hopper"
+                "look_for_hopper"
               ]
             }
           }
         ]
-      },
-      "farmer_save_hopper_position": {
-        //function that saves the position of the hopper
-        "queue_command": {
-          "command": "save_hopper_to_scoreboard"
-        }
       },
       "become_witch": {
         "add": {

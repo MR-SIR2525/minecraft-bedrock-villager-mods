@@ -45,7 +45,7 @@ import {
     const entity = event.sourceEntity;
     const eventName = event.id;
   
-    if (entity && eventName === "minecraft:call_drop_items_to_hopper") {
+    if (entity && eventName === "minecraft:drop_crops_event") {
       dropCrops(entity);
     }
   });
