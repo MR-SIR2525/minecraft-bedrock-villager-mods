@@ -6,14 +6,21 @@ import {
   } from "@minecraft/server";
   
   // Function to drop all items from an entity
-  function dropAllItems(villager) {
+  function dropCrops(villager) {
     const inventory = villager.getComponent("minecraft:inventory");
     const inventoryContainer = inventory.container;
+
+    let items_to_drop = [
+      "minecraft:wheat",
+      "minecraft:carrot",
+      "minecraft:potato",
+      "minecraft:beetroot",
+    ];
   
     for (let i = 0; i < inventoryContainer.size; i++) {
       const itemStack = inventoryContainer.getItem(i);
   
-      if (itemStack) {
+      if (itemStack && items_to_drop.includes(itemStack.type)) {
         // Create a copy of the ItemStack to drop
         const dropStack = new ItemStack(itemStack.type, itemStack.amount);
   
@@ -39,7 +46,7 @@ import {
     const eventName = event.id;
   
     if (entity && eventName === "minecraft:call_drop_items_to_hopper") {
-      dropAllItems(entity);
+      dropCrops(entity);
     }
   });
   
