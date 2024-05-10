@@ -21,8 +21,8 @@
 		{
 			"description": "Script Module",
 			"type": "script",
-			"uuid": "0934df01-0ac8-41f8-907d-584dc344cb23", // Replace with a new UUID
-			"version": [1, 0, 0]
+			"uuid": "0934df01-0ac8-41f8-907d-584dc344cb23",
+			"version": [0, 0, 1]
 		  }
 		],
 	"capabilities": ["script_eval"],
