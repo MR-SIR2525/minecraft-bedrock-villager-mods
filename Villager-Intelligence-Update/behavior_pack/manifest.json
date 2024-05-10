@@ -17,8 +17,15 @@
 			"version": [0, 0, 1],
 			"uuid": "e517a1a3-fdf1-42ab-b10f-25a5c0e40fd7",
 			"type": "data"
-		}
-	],
+		},
+		{
+			"description": "Script Module",
+			"type": "script",
+			"uuid": "0934df01-0ac8-41f8-907d-584dc344cb23", // Replace with a new UUID
+			"version": [1, 0, 0]
+		  }
+		],
+	"capabilities": ["script_eval"],
 	"dependencies": [
 		{
 			"uuid": "cacb0330-d0a3-4d19-9661-cb1e8f53ea16",
