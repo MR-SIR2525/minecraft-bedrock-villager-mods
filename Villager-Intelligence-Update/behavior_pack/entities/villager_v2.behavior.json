@@ -554,6 +554,10 @@
           "target_blocks": [
             "minecraft:lodestone"
           ],
+          "on_reach": {
+            "event": "arrived_at_lodestone",
+            "target": "self"
+          },
           "on_stay_completed": {  //trying this instead of on_reach
             "event": "call_look_for_hopper",
             "target": "self"
@@ -1784,14 +1788,20 @@
         }
       },
       "call_look_for_hopper" : {
-        "add": {
-          "component_groups": [ "look_for_hopper" ]
-        },
-        "queue_command": {
-          "command": "say call_look_for_hopper was activated", //for debug
-          "target": "self"
-        },
-        "trigger": "event:arrived_at_lodestone"
+        "sequence": [
+          {
+            "remove": {
+              "component_groups": [ "look_for_lodestone" ]
+            },
+            "add": {
+              "component_groups": [ "look_for_hopper" ]
+            },
+            "queue_command": {
+              "command": "say call_look_for_hopper was activated", //for debug
+              "target": "self"
+            }
+          }
+        ]
       },
       "arrived_at_lodestone": {
         "queue_command": {
