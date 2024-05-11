@@ -1786,7 +1786,7 @@
           "component_groups": [ "look_for_hopper" ]
         },
         "queue_command": {
-          "command": "say call_look_for_hopper was activated",
+          "command": "say call_look_for_hopper was activated", //for debug
           "target": "self"
         }
       },
@@ -1805,7 +1805,7 @@
           }
         ],
         "queue_command": {
-          "command": "say drop_crops_event was activated",
+          "command": "say drop_crops_event was activated",  //for debug
           "target": "self"
         }
       },
