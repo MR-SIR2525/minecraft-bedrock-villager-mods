@@ -538,7 +538,7 @@
           "target_blocks": [
             "minecraft:lodestone"
           ],
-          "on_reach": {
+          "on_stay_completed": {  //trying this instead of on_reach
             "event": "call_look_for_hopper",
             "target": "self"
           }
@@ -1772,10 +1772,11 @@
       "call_look_for_hopper" : {
         "add": {
           "component_groups": [ "look_for_hopper" ]
+        },
+        "queue_command": {
+          "command": "say call_look_for_hopper was activated",
+          "target": "self"
         }
-        // "remove": {
-        //   "component_groups": [ "look_for_lodestone" ]
-        // }
       },
       "drop_crops_event": {
         "sequence": [
@@ -1790,7 +1791,11 @@
               ]
             }
           }
-        ]
+        ],
+        "queue_command": {
+          "command": "say drop_crops_event was activated",
+          "target": "self"
+        }
       },
       "become_witch": {
         "add": {
