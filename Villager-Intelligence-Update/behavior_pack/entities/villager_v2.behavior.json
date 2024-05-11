@@ -1567,7 +1567,8 @@
       },
       "minecraft:inventory": {
         "inventory_size": 8,  // 8 by default, maybe increase this later?
-        "private": false    // false by default, true for debug purposes for now.
+        "private": false,    // false by default, true for debug purposes for now.
+        "container_type": "inventory"
       },
       "minecraft:dweller": {
         "dwelling_type": "village",
