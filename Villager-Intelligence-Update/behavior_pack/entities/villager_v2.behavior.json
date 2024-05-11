@@ -1797,7 +1797,7 @@
         "queue_command": {
           "command": "say farmer arrived at lodestone.",  //for debug
           "target": "self"
-        },
+        }
       },
       "drop_crops_event": {
         "sequence": [
