@@ -844,6 +844,8 @@
                       "value": "farmer_can_be_tempted"
                     },
                     {
+                      "all_of": [
+                    {
                       "test": "is_family",
                       "subject": "other",
                       "value": "player"
@@ -853,6 +855,8 @@
                       "domain": "hand",
                       "subject": "other",
                       "value": "chest"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1760,6 +1764,10 @@
           "component_groups": [
             "farmer_can_be_tempted"
           ]
+        },
+        "queue_command": {
+          "command": "say add_farmer_can_be_tempted activated.", //for debug
+          "target": "self"
         }
       },
       "remove_farmer_can_be_tempted": {
@@ -1767,6 +1775,10 @@
           "component_groups": [
             "farmer_can_be_tempted"
           ]
+        },
+        "queue_command": {
+          "command": "say remove_farmer_can_be_tempted activated.", //for debug
+          "target": "self"
         }
       },
       "call_look_for_hopper" : {
