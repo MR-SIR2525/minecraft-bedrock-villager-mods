@@ -515,7 +515,8 @@
           "on_arrival": {
             "event": "minecraft:resupply_trades",
             "target": "self"
-          }
+          },
+          "can_empty_composter": true
         },
         "minecraft:behavior.harvest_farm_block": {
           "priority": 7
@@ -1746,7 +1747,7 @@
         "priority": 7
       },
       "minecraft:behavior.look_at_player": {
-        "priority": 9,
+        "priority": 11, //original is 9. They stop what they're doing to look at 9 so...
         "look_distance": 8,
         "probability": 0.02
       },

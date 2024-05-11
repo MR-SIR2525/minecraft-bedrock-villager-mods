@@ -40,8 +40,9 @@ import {
     }
   }
   
+
   // Subscribe to events to listen for the villager reaching the hopper
-  system.events.scriptEventReceive.subscribe((event) => {
+  world.events.scriptEventReceive.subscribe((event) => {
     const entity = event.sourceEntity;
     const eventName = event.id;
   
