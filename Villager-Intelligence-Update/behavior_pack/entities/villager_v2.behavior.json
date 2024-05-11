@@ -546,7 +546,7 @@
         
       },  // end of work_schedule_farmer
 
-      // to be called from "farmer_tempt_interaction"
+      // farmer's interaction component
       "farmer_can_be_tempted": {
         "minecraft:behavior.tempt": {
           "priority": 5,
@@ -592,8 +592,6 @@
       //     "loot_table": "loot_tables/"
       //   }
       // },
-
-      
 
       "work_schedule_librarian": {
         "minecraft:behavior.work": {
@@ -804,6 +802,64 @@
           "can_find_poi": true,
           "can_migrate": true,
           "first_founding_reward": 5
+        },
+        "minecraft:interact": { //allows farmer to be tempted with a chest in hand
+          "interactions": [
+            {
+              "interact_text": "Lead farmer while holding a chest",
+              "on_interact": {
+                "event": "add_farmer_can_be_tempted",
+                "filters": {
+                  "none_of": [  // if (!farmer_can_be_tempted) then allow the interaction
+                    {
+                      "test": "has_component",
+                      "value": "farmer_can_be_tempted"
+                    }
+                  ],
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "has_equipment",
+                      "domain": "hand",
+                      "subject": "other",
+                      "value": "chest"
+                    }
+                  ]
+                }
+              },
+              "use_item": false
+            },
+            {
+              "interact_text": "Stop leading farming with chest",
+              "on_interact": {
+                "event": "remove_farmer_can_be_tempted",
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "has_component",
+                      "value": "farmer_can_be_tempted"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "has_equipment",
+                      "domain": "hand",
+                      "subject": "other",
+                      "value": "chest"
+                    }
+                  ]
+                }
+              },
+              "use_item": false
+            }
+          ]
         }
       },
 
