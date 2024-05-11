@@ -562,6 +562,7 @@
       "look_for_hopper": {
         "minecraft:behavior.move_to_block": {
           "start_chance": 1,
+          "priority": 1, //highest priority for testing
           "search_range": 4,
           "goal_radius": 0.75,
           "stay_duration": 300,  // 15 seconds
