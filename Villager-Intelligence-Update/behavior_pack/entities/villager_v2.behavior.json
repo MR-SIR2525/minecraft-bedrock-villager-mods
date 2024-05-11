@@ -549,29 +549,26 @@
           "search_range": 32,
           "goal_radius": 1,
           "stay_duration": 30, // 1.5 seconds
-
           "target_selection_method": "nearest",
-          "target_blocks": [
-            "minecraft:lodestone"
-          ],
+          "target_blocks": [ "minecraft:lodestone" ],
           "on_reach": {
             "event": "arrived_at_lodestone",
             "target": "self"
-          },
-          "on_stay_completed": {  //trying this instead of on_reach
-            "event": "call_look_for_hopper",
-            "target": "self"
           }
+          // "on_stay_completed": {  //trying this instead of on_reach
+          //   "event": "call_look_for_hopper",
+          //   "target": "self"
+          // }
         }
       },
 
       "look_for_hopper": {
         "minecraft:behavior.move_to_block": {
-          "start_chance": 1,
-          "priority": 1, //highest priority for testing
+          // "start_chance": 1,
+          "priority": 5, //highest priority for testing
           "search_range": 4,
-          "goal_radius": 0.75,
-          "stay_duration": 300,  // 15 seconds
+          "goal_radius": 1,
+          "stay_duration": 200,  // 10 seconds
           "target_selection_method": "nearest",
           "target_blocks": [
             "minecraft:hopper"
@@ -579,6 +576,49 @@
 
           "on_reach": {
             "event": "drop_crops_event",
+            "target": "self"
+          }
+        }
+      },
+
+      "test_look_for_hopper": {   // for testing
+        "minecraft:behavior.move_to_block": {
+          "start_chance": 1,
+          "priority": 1, //highest priority for testing
+          "search_range": 32, //for testing
+          "goal_radius": 1,
+          "target_offset": [
+            0,
+            1,
+            0
+          ],
+          "stay_duration": 40,  // 2 seconds
+          "target_selection_method": "nearest",
+          "target_blocks": [
+            "minecraft:hopper"
+          ],
+          "target_block_filters": {
+            "test": "is_block",
+            "subject": "block",
+            "value": "minecraft:hopper"
+          },
+          "on_reach": {
+            "event": "arrived_at_test_hopper",
+            "target": "self"
+          }
+        }
+      },
+
+      "go_to_chest": {
+        "minecraft:behavior.move_to_block": {
+          "priority": 1, //highest priority for testing
+          "search_range": 32,
+          "goal_radius": 1,
+          "stay_duration": 40,  // 2 seconds
+          "target_selection_method": "nearest",
+          "target_blocks": [ "minecraft:chest" ],
+          "on_reach": {
+            "event": "arrived_at_chest",
             "target": "self"
           }
         }
@@ -1788,25 +1828,62 @@
         }
       },
       "call_look_for_hopper" : {
-        "sequence": [
-          {
-            "remove": {
-              "component_groups": [ "look_for_lodestone" ]
-            },
-            "add": {
-              "component_groups": [ "look_for_hopper" ]
-            },
-            "queue_command": {
-              "command": "say call_look_for_hopper was activated", //for debug
-              "target": "self"
-            }
-          }
-        ]
+        "remove": {
+          "component_groups": [ "look_for_lodestone" ]
+        },
+        "add": {
+          "component_groups": [ "look_for_hopper" ]
+        },
+        "queue_command": {
+          "command": "say call_look_for_hopper was activated", //for debug
+          "target": "self"
+        }
       },
       "arrived_at_lodestone": {
-        "queue_command": {
-          "command": "say farmer arrived at lodestone.",  //for debug
-          "target": "self"
+        "run_command": {
+          "command": "setblock -557 71.58 -208.63 lime_concrete" //for debug
+        }
+      },
+      "arrived_at_test_hopper": {
+        "run_command": {
+          "command": "setblock -558 71.58 -208.63 blue_concrete" //for debug
+        },
+        "remove": {
+          "component_groups": [
+            "test_look_for_hopper"
+          ]
+        }
+      },
+      "arrived_at_chest": {
+        "run_command": {
+          "command": "setblock -559 71.58 -208.63 cyan_concrete" //for debug
+        },
+        "remove": {
+          "component_groups": [
+            "go_to_chest"
+          ]
+        }
+      },
+      "go_to_chest": {
+        "add": {
+          "component_groups": [
+            "go_to_chest"
+          ]
+        }
+      },
+      "test_look_for_hopper": {
+        "add": {
+          "component_groups": [
+            "test_look_for_hopper"
+          ]
+        }
+      },
+      "add_look_for_lodestone": { //so I can force it with /event in game
+        "remove": {
+          "component_groups": [ "look_for_hopper" ]
+        },
+        "add": {
+          "component_groups": [ "look_for_lodestone" ]
         }
       },
       "drop_crops_event": {
