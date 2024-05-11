@@ -350,7 +350,7 @@
           "max_delay_secs": 10,
           "scheduled_events" : [
             // Because farmer is essentially managed by the farmer schedule, changes should be
-            // made in a way that is called/works with the vanillafarmer schedule.
+            // made in the scheduler. Ctrl + F it.
             {
               "filters": {
                 "all_of": [
@@ -406,7 +406,7 @@
         "minecraft:behavior.inspect_bookshelf": {},
         "minecraft:behavior.harvest_farm_block": {},
         "minecraft:behavior.fertilize_farm_block": {},  //why was this not here..? Mojang??
-        "minecraft:behavior.move_to_block": {}, //pseudo "look_for_lodestone", nested in "work_schedule_villager"
+        "look_for_lodestone": {},
         "minecraft:behavior.explore_outskirts": {},
         "minecraft:behavior.work": {},
         "minecraft:behavior.work_composter": {},
@@ -523,8 +523,24 @@
         },
         "minecraft:behavior.fertilize_farm_block": {
           "priority": 8
-        },
-        // "look_for_lodestone" pseudo goal:
+        }
+      },  // end of work_schedule_farmer
+      // refer to "schedule_work_farmer", it's the scheduler
+
+      // farmer's interaction component
+      "farmer_can_be_tempted": {
+        "minecraft:behavior.tempt": {
+          "priority": 5,
+          // "speed_multiplier":  //not used
+          "within_radius": 10,
+          "can_tempt_vertically": true,
+          "items": [
+            "minecraft:chest"
+          ]
+        }
+      },
+
+      "look_for_lodestone": {
         // This goal will activate look_for_hopper() if successful, which will
         // allow farmer to store the harvest to the hopper.
         "minecraft:behavior.move_to_block": {
@@ -542,20 +558,6 @@
             "event": "call_look_for_hopper",
             "target": "self"
           }
-        }
-        
-      },  // end of work_schedule_farmer
-
-      // farmer's interaction component
-      "farmer_can_be_tempted": {
-        "minecraft:behavior.tempt": {
-          "priority": 5,
-          // "speed_multiplier":  //not used
-          "within_radius": 10,
-          "can_tempt_vertically": true,
-          "items": [
-            "minecraft:chest"
-          ]
         }
       },
 
@@ -845,16 +847,16 @@
                     },
                     {
                       "all_of": [
-                    {
-                      "test": "is_family",
-                      "subject": "other",
-                      "value": "player"
-                    },
-                    {
-                      "test": "has_equipment",
-                      "domain": "hand",
-                      "subject": "other",
-                      "value": "chest"
+                        {
+                          "test": "is_family",
+                          "subject": "other",
+                          "value": "player"
+                        },
+                        {
+                          "test": "has_equipment",
+                          "domain": "hand",
+                          "subject": "other",
+                          "value": "chest"
                         }
                       ]
                     }
@@ -1788,7 +1790,14 @@
         "queue_command": {
           "command": "say call_look_for_hopper was activated", //for debug
           "target": "self"
-        }
+        },
+        "trigger": "event:arrived_at_lodestone"
+      },
+      "arrived_at_lodestone": {
+        "queue_command": {
+          "command": "say farmer arrived at lodestone.",  //for debug
+          "target": "self"
+        },
       },
       "drop_crops_event": {
         "sequence": [
@@ -2680,6 +2689,7 @@
       },
       
       // MRxSIR: farmer scheduler is here
+      // ** add new things to this
       "minecraft:schedule_work_farmer": {
         "remove": {
           "component_groups": [
@@ -2693,7 +2703,8 @@
         },
         "add": {
           "component_groups": [
-            "work_schedule_farmer"
+            "work_schedule_farmer",
+            "look_for_lodestone"
           ]
         }
       },
