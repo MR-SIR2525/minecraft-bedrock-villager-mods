@@ -25,13 +25,19 @@
 			"uuid": "0934df01-0ac8-41f8-907d-584dc344cb23",
 			"version": [0, 0, 12],
 			"entry": "scripts/drop_crops.js" //maybe should be "main.js" in the future?
-		  }
-		],
-	"capabilities": ["script_eval"],
+		}
+	],
+	// "capabilities": ["script_eval"],
 	"dependencies": [
 		{
 			"uuid": "cacb0330-d0a3-4d19-9661-cb1e8f53ea16",
 			"version": [0, 0, 11]
+		},
+		{
+			"module_name": "@minecraft/server",
+			"version": "1.10.0"
+			// Documentation/Reference:
+			// https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/minecraft-server?view=minecraft-bedrock-stable
 		}
 	]
 }
