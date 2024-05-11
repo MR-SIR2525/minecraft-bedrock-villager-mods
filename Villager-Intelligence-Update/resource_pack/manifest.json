@@ -4,7 +4,7 @@
 		"name": "Helpful Villagers RP by MRxSIR",
 		"description": "RP. Tasks, behaviors, and intelligence improvements for villagers",
 		"uuid": "cacb0330-d0a3-4d19-9661-cb1e8f53ea16",
-		"version": [0, 0, 1],
+		"version": [0, 0, 11],
 		"min_engine_version": [1, 16, 0]
 	},
 	"metadata": {
@@ -14,7 +14,7 @@
 	"modules": [
 		{
 			"description": "Resource Pack for Helpful Villagers addon",
-			"version": [0, 0, 1],
+			"version": [0, 0, 11],
 			"uuid": "a6595dd1-54e3-430d-bc2f-53df910f33fa",
 			"type": "resources"
 		}
@@ -22,7 +22,7 @@
 	"dependencies": [
         {
             "uuid": "62e7136e-7d10-4c7c-b4f3-f638e721eb79",
-            "version": [0, 0, 1]
+            "version": [0, 0, 11]
         }
     ]
 }
