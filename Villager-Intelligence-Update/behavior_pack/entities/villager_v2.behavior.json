@@ -528,7 +528,7 @@
         // This goal will activate look_for_hopper() if successful, which will
         // allow farmer to store the harvest to the hopper.
         "minecraft:behavior.move_to_block": {
-          "priority": 10,
+          "priority": 9,
           "start_chance": 1,
           "search_range": 32,
           "goal_radius": 1,
