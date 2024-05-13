@@ -1811,7 +1811,6 @@
         },
         "queue_command": {
           "command": "say add_farmer_can_be_tempted activated." //for debug
-          
         }
       },
       "remove_farmer_can_be_tempted": {
@@ -1834,7 +1833,6 @@
         },
         "queue_command": {
           "command": "say call_look_for_hopper was activated" //for debug
-          
         }
       },
       "arrived_at_lodestone": {
@@ -1888,8 +1886,7 @@
         "sequence": [
           {
             "queue_command": {
-              "command": "drop_crops",
-                      //not sure if this is allowed, or proper
+              "command": "drop_crops" //not sure if this is allowed, or proper
             },
             "remove": {
               "component_groups": [
@@ -1899,8 +1896,7 @@
           }
         ],
         "queue_command": {
-          "command": "say drop_crops_event was activated",  //for debug
-          
+          "command": "say drop_crops_event was activated"  //for debug
         }
       },
       "become_witch": {
