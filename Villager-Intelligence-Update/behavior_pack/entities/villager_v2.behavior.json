@@ -593,6 +593,28 @@
           "target_blocks": [
             "minecraft:hopper"
           ],
+          "target_block_filters": {
+            "any_of": [
+              {
+                "test": "has_tag",
+                "value": "id"
+              },
+              {
+                "test": "has_property",
+                "domain": "minecraft:block",
+                "value": "id"
+              },
+              {
+                "test": "has_tag",
+                "value": "Hopper"
+              },
+              {
+                "test": "has_property",
+                "domain": "minecraft:block",
+                "value": "Hopper"
+              }
+            ]
+          },
           "on_reach": {
             "event": "arrived_at_test_hopper"
             // "target": "self"
