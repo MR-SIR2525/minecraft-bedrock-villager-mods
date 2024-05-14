@@ -607,7 +607,7 @@
         }
       },
 
-      "go_to_chest": {
+      "test_look_for_chest": {
         "minecraft:behavior.move_to_block": {
           "priority": 1, //highest priority for testing
           "search_range": 32,
@@ -1813,6 +1813,7 @@
           "command": "say add_farmer_can_be_tempted activated." //for debug
         }
       },
+      
       "remove_farmer_can_be_tempted": {
         "remove": {
           "component_groups": [
@@ -1843,6 +1844,14 @@
         }
       },
 
+      "test_look_for_hopper": {
+        "add": {
+          "component_groups": [
+            "test_look_for_hopper"
+          ]
+        }
+      },
+
       "arrived_at_test_hopper": {
         "queue_command": {
           "command": "setblock -558 71.58 -208.63 blue_concrete" //for debug
@@ -1854,28 +1863,21 @@
         }
       },
 
+      "test_look_for_chest": {
+        "add": {
+          "component_groups": [
+            "test_look_for_chest"
+          ]
+        }
+      },
+
       "arrived_at_chest": {
         "queue_command": {
           "command": "setblock -559 71.58 -208.63 cyan_concrete" //for debug
         },
         "remove": {
           "component_groups": [
-            "go_to_chest"
-          ]
-        }
-      },
-
-      "go_to_chest": {
-        "add": {
-          "component_groups": [
-            "go_to_chest"
-          ]
-        }
-      },
-      "test_look_for_hopper": {
-        "add": {
-          "component_groups": [
-            "test_look_for_hopper"
+            "test_look_for_chest"
           ]
         }
       },
