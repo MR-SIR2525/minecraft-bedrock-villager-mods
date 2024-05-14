@@ -583,7 +583,7 @@
 
       "test_look_for_hopper": {   // for testing
         "minecraft:behavior.move_to_block": {
-          "start_chance": 1,
+          // "start_chance": 1,
           "priority": 1, //highest priority for testing
           "search_range": 32, //for testing
           "goal_radius": 1,
@@ -1813,7 +1813,7 @@
           "command": "say add_farmer_can_be_tempted activated." //for debug
         }
       },
-      
+
       "remove_farmer_can_be_tempted": {
         "remove": {
           "component_groups": [
@@ -1838,6 +1838,7 @@
         }
       },
 
+      // debug print
       "arrived_at_lodestone": {
         "queue_command": {
           "command": "setblock -557 71.58 -208.63 lime_concrete" //for debug
@@ -1845,6 +1846,9 @@
       },
 
       "test_look_for_hopper": {
+        "remove": {
+          "component_groups": [ "look_for_hopper", "look_for_lodestone"]
+        },
         "add": {
           "component_groups": [
             "test_look_for_hopper"
@@ -1854,7 +1858,10 @@
 
       "arrived_at_test_hopper": {
         "queue_command": {
-          "command": "setblock -558 71.58 -208.63 blue_concrete" //for debug
+          "command_array": [ 
+            "setblock -559 71.58 -208.63 lime_concrete",
+            "say removing test_look_for_hopper component group."
+         ]
         },
         "remove": {
           "component_groups": [
@@ -1887,6 +1894,12 @@
           "component_groups": [ "look_for_hopper" ]
         },
         "add": {
+          "component_groups": [ "look_for_lodestone" ]
+        }
+      },
+
+      "remove_look_for_lodestone": { //so I can force it with /event in game
+        "remove": {
           "component_groups": [ "look_for_lodestone" ]
         }
       },
