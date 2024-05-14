@@ -855,7 +855,8 @@
                   ]
                 }
               },
-              "use_item": false
+              "use_item": false,
+              "play_sounds": "block.click"
             },
             {
               "interact_text": "Stop leading farming with chest",
@@ -885,7 +886,8 @@
                   ]
                 }
               },
-              "use_item": false
+              "use_item": false,
+              "play_sounds": "block.click.fail"
             }
           ]
         }
