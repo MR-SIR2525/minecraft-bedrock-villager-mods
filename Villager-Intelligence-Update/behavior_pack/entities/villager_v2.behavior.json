@@ -545,7 +545,7 @@
         // allow farmer to store the harvest to the hopper.
         "minecraft:behavior.move_to_block": {
           "priority": 6,
-          // "start_chance": 1,
+          "start_chance": 1,
           "search_range": 32,
           "goal_radius": 1,
           "stay_duration": 30, // 1.5 seconds
@@ -583,15 +583,10 @@
 
       "test_look_for_hopper": {   // for testing
         "minecraft:behavior.move_to_block": {
-          // "start_chance": 1,
+          "start_chance": 1,
           "priority": 1, //highest priority for testing
           "search_range": 32, //for testing
           "goal_radius": 1,
-          "target_offset": [
-            0,
-            1,
-            0
-          ],
           "stay_duration": 40,  // 2 seconds
           "target_selection_method": "nearest",
           "target_blocks": [
@@ -602,21 +597,6 @@
           },
           "on_reach": {
             "event": "arrived_at_test_hopper",
-            "target": "self"
-          }
-        }
-      },
-
-      "test_look_for_chest": {
-        "minecraft:behavior.move_to_block": {
-          "priority": 1, //highest priority for testing
-          "search_range": 32,
-          "goal_radius": 1,
-          "stay_duration": 40,  // 2 seconds
-          "target_selection_method": "nearest",
-          "target_blocks": [ "minecraft:chest" ],
-          "on_reach": {
-            "event": "arrived_at_chest",
             "target": "self"
           }
         }
@@ -1771,11 +1751,12 @@
       "minecraft:behavior.look_at_trading_player": {
         "priority": 7
       },
-      "minecraft:behavior.look_at_player": {
-        "priority": 11, //original is 9. They stop what they're doing to look at 9 so...
-        "look_distance": 8,
-        "probability": 0.02
-      },
+      // "minecraft:behavior.look_at_player": {
+      //   "priority": 11, //original is 9. They stop what they're doing to look at 9 so...
+      //   "look_distance": 8,
+      //   "probability": 0.02,
+      //   "look_time": [2, 4] // vanilla doesn't have this
+      // },
       "minecraft:behavior.share_items": {
         "priority": 10,
         "max_dist": 3,
@@ -1826,6 +1807,7 @@
         }
       },
 
+      // normal one
       "call_look_for_hopper" : {
         "remove": {
           "component_groups": [ "look_for_lodestone" ]
@@ -1838,54 +1820,30 @@
         }
       },
 
-      // debug print
-      "arrived_at_lodestone": {
-        "queue_command": {
-          "command": "setblock -557 71.58 -208.63 lime_concrete" //for debug
-        }
-      },
-
-      "test_look_for_hopper": {
-        "remove": {
-          "component_groups": [ "look_for_hopper", "look_for_lodestone"]
-        },
+      "add_test_look_for_hopper": {
         "add": {
           "component_groups": [
             "test_look_for_hopper"
           ]
+        }
+      },
+
+      "remove_test_look_for_hopper": {
+        "remove": {
+          "component_groups": [ "test_look_for_hopper" ]
         }
       },
 
       "arrived_at_test_hopper": {
-        "queue_command": {
-          "command_array": [ 
+        "run_command": {
+          "command": [ 
             "setblock -559 71.58 -208.63 lime_concrete",
+            "say arrived at test hopper",
             "say removing test_look_for_hopper component group."
          ]
         },
         "remove": {
-          "component_groups": [
-            "test_look_for_hopper"
-          ]
-        }
-      },
-
-      "test_look_for_chest": {
-        "add": {
-          "component_groups": [
-            "test_look_for_chest"
-          ]
-        }
-      },
-
-      "arrived_at_chest": {
-        "queue_command": {
-          "command": "setblock -559 71.58 -208.63 cyan_concrete" //for debug
-        },
-        "remove": {
-          "component_groups": [
-            "test_look_for_chest"
-          ]
+          "component_groups": [ "test_look_for_hopper" ]
         }
       },
 
@@ -1901,6 +1859,15 @@
       "remove_look_for_lodestone": { //so I can force it with /event in game
         "remove": {
           "component_groups": [ "look_for_lodestone" ]
+        }
+      },
+
+      "arrived_at_lodestone": {
+        "run_command": {
+          "command": [
+            "say arrived at lodestone",
+            "setblock -557 71.58 -208.63 lime_concrete" //for debug
+          ]
         }
       },
 
