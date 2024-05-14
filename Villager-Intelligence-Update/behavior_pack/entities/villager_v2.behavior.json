@@ -622,13 +622,6 @@
         }
       },
 
-      "poi_look_for_hopper": {
-        "minecraft:behavior.move_to_poi": {
-          "poi_type": "hopper",
-          "priority": 1
-        }
-      },
-
       // "drop_items_to_hopper": {
       //   "minecraft:behavior.drop_item_for": {
       //     "entity_types": [
@@ -1873,18 +1866,6 @@
         },
         "remove": {
           "component_groups": [ "test_look_for_hopper" ]
-        }
-      },
-
-      "add_poi_look_for_hopper": {
-        "add": {
-          "component_groups": ["poi_look_for_hopper"]
-        }
-      },
-
-      "remove_poi_look_for_hopper": {
-        "remove": {
-          "component_groups": ["poi_look_for_hopper"]
         }
       },
 
