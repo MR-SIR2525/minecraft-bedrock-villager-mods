@@ -1824,6 +1824,7 @@
           
         }
       },
+
       "call_look_for_hopper" : {
         "remove": {
           "component_groups": [ "look_for_lodestone" ]
@@ -1835,11 +1836,13 @@
           "command": "say call_look_for_hopper was activated" //for debug
         }
       },
+
       "arrived_at_lodestone": {
         "queue_command": {
           "command": "setblock -557 71.58 -208.63 lime_concrete" //for debug
         }
       },
+
       "arrived_at_test_hopper": {
         "queue_command": {
           "command": "setblock -558 71.58 -208.63 blue_concrete" //for debug
@@ -1850,6 +1853,7 @@
           ]
         }
       },
+
       "arrived_at_chest": {
         "queue_command": {
           "command": "setblock -559 71.58 -208.63 cyan_concrete" //for debug
@@ -1860,6 +1864,7 @@
           ]
         }
       },
+
       "go_to_chest": {
         "add": {
           "component_groups": [
@@ -1874,6 +1879,7 @@
           ]
         }
       },
+
       "add_look_for_lodestone": { //so I can force it with /event in game
         "remove": {
           "component_groups": [ "look_for_hopper" ]
@@ -1882,6 +1888,7 @@
           "component_groups": [ "look_for_lodestone" ]
         }
       },
+
       "drop_crops_event": {
         "sequence": [
           {
@@ -1899,6 +1906,7 @@
           "command": "say drop_crops_event was activated"  //for debug
         }
       },
+      
       "become_witch": {
         "add": {
           "component_groups": [
