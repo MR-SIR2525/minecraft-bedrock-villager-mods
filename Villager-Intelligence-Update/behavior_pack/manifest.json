@@ -31,7 +31,7 @@
 	"dependencies": [
 		{ // resource pack
 			"uuid": "cacb0330-d0a3-4d19-9661-cb1e8f53ea16",
-			"version": [0, 0, 12]
+			"version": [0, 0, 121]
 		},
 		{
 			"module_name": "@minecraft/server",
