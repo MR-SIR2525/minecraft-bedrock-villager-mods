@@ -562,62 +562,19 @@
         }
       },
 
-      "look_for_hopper": {
+      "look_for_light_block": {
         "minecraft:behavior.move_to_block": {
-          // "start_chance": 1,
-          "priority": 5, //highest priority for testing
-          "search_range": 4,
-          "goal_radius": 1,
-          "stay_duration": 200,  // 10 seconds
+          "priority": 1,       // was 6
+          "tick_interval": 2,  // average interval (ticks) to try to run this behavior
+          "search_range": 32,
+          "goal_radius": 2,   //see if farmer standing on top
+          "stay_duration": 30, // 1.5 seconds
           "target_selection_method": "nearest",
-          "target_blocks": [
-            "minecraft:hopper"
-          ],
 
-          "on_reach": {
-            "event": "drop_crops_event",
-            "target": "self"
-          }
-        }
-      },
+          "target_blocks": [ "minecraft:light_block" ],
 
-      "test_look_for_hopper": {   // for testing
-        "minecraft:behavior.move_to_block": {
-          "start_chance": 1,
-          "tick_interval": 2,
-          "priority": 1, //highest priority for testing
-          "search_range": 32, //for testing
-          "goal_radius": 2,
-          "stay_duration": 40,  // 2 seconds
-          "target_selection_method": "nearest",
-          "target_blocks": [
-            "minecraft:hopper"
-          ],
-          "target_block_filters": {
-            "any_of": [
-              {
-                "test": "has_tag",
-                "value": "id"
-              },
-              {
-                "test": "has_property",
-                "domain": "minecraft:block",
-                "value": "id"
-              },
-              {
-                "test": "has_tag",
-                "value": "Hopper"
-              },
-              {
-                "test": "has_property",
-                "domain": "minecraft:block",
-                "value": "Hopper"
-              }
-            ]
-          },
-          "on_reach": {
-            "event": "arrived_at_test_hopper"
-            // "target": "self"
+          "on_stay_completed": {      // on_reach activates too early
+            "event": "arrived_at_light_block"
           }
         }
       },
@@ -1829,52 +1786,12 @@
         }
       },
 
-      // normal one
-      "call_look_for_hopper" : {
-        "remove": {
-          "component_groups": [ "look_for_lodestone" ]
-        },
-        "add": {
-          "component_groups": [ "look_for_hopper" ]
-        },
-        "queue_command": {
-          "command": "say call_look_for_hopper was activated" //for debug
-        }
-      },
-
-      "add_test_look_for_hopper": {
-        "add": {
-          "component_groups": [
-            "test_look_for_hopper"
-          ]
-        }
-      },
-
-      "remove_test_look_for_hopper": {
-        "remove": {
-          "component_groups": [ "test_look_for_hopper" ]
-        }
-      },
-
-      "arrived_at_test_hopper": {
-        "run_command": {
-          "command": [ 
-            "setblock -559 71.58 -208.63 lime_concrete",
-            "say arrived at test hopper",
-            "say removing test_look_for_hopper component group."
-         ]
-        },
-        "remove": {
-          "component_groups": [ "test_look_for_hopper" ]
-        }
-      },
-
       "add_look_for_lodestone": { //so I can force it with /event in game
         "remove": {
-          "component_groups": [ "look_for_hopper" ]
+          "component_groups": ["look_for_light_block"]
         },
         "add": {
-          "component_groups": [ "look_for_lodestone" ]
+          "component_groups": ["look_for_lodestone"]
         }
       },
 
@@ -1893,6 +1810,27 @@
         }
       },
 
+      "add_look_for_light_block": {
+        "add": {
+          "component_groups": ["look_for_light_block"]
+        }
+      },
+
+      "remove_look_for_light_block": {
+        "remove": {
+          "component_groups": ["look_for_light_block"]
+        }
+      },
+
+      "arrived_at_light_block": {
+        "queue_command": {
+          "command": "say arrived at light block, removed look_for_light_block behavior."
+        },
+        "remove": {
+          "component_groups": ["look_for_light_block"]
+        }
+      },
+
       "drop_crops_event": {
         "sequence": [
           {
@@ -1901,7 +1839,7 @@
             },
             "remove": {
               "component_groups": [
-                "look_for_hopper"
+                "look_for_light_block"
               ]
             }
           }
