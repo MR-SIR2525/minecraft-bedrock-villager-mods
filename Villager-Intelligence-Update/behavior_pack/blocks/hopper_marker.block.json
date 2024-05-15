@@ -9,9 +9,9 @@
 		},
 		"components": {
 			"minecraft:collision_box": false,
-			"minecraft:selection_box": false,
+			"minecraft:selection_box": true,		//so that player can select/destroy it
 			"minecraft:destructible_by_mining": {
-				"seconds_to_destroy": 0.4
+				"seconds_to_destroy": 0.25
 			},
 			"minecraft:destructible_by_explosion": {
 				"explosion_resistance": 14
@@ -29,7 +29,7 @@
 					"ambient_occlusion": true
 				}
 			},
-			"minecraft:light_emission": 4,
+			"minecraft:light_emission": 7,
 			"minecraft:map_color": "#ffffff"
 		}
 	}
