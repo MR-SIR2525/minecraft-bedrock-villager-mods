@@ -21,6 +21,10 @@
 			},
 			"minecraft:persistent": {
 			},
+			"minecraft:nameable": {
+				"allow_name_tag_renaming": true,
+				"always_show": false
+			},
 
 			"minecraft:type_family": {
 				"family": ["hopper_marker", "utility_mob"]
