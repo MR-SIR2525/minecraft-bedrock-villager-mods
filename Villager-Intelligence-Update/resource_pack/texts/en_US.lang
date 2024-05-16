@@ -1,1 +1,2 @@
-tile.mrsir:hopper_marker.name=Hopper Marker
+entity.mrsir:hopper_marker.name=Hopper Marker
+item.spawn_egg.entity.mrsir:hopper_marker.name=Spawn Hopper Marker
