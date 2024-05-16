@@ -1,5 +1,5 @@
 {
-	"format_version": "1.16.100",
+	"format_version": "1.16.10",
 	"minecraft:entity": {
 		"description": {
 			"identifier": "mrsir:hopper_marker",
@@ -9,15 +9,25 @@
 		},
 		"components": {
 			"minecraft:physics": {
-				"has_gravity": true,
-				"has_collision": true
+				"has_gravity": false,
+				"has_collision": false
 			},
 			"minecraft:pushable": {
-				"is_pushable": false
+				"is_pushable": false,
+				"is_pushable_by_piston": true
 			},
 			"minecraft:push_through": {
 				"value": 1
+			},
+			"minecraft:persistent": {
+			},
+
+			"minecraft:type_family": {
+				"family": ["hopper_marker", "utility_mob"]
 			}
+		},
+		"events": {
+			
 		}
 	}
 }
