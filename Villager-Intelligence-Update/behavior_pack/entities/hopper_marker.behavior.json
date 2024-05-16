@@ -8,8 +8,15 @@
 			"is_experimental": false
 		},
 		"components": {
+			"minecraft:type_family": {
+				"family": ["hopper_marker", "utility_mob"]
+			},
+			"minecraft:nameable": {
+				"allow_name_tag_renaming": true,
+				"always_show": false
+			},
 			"minecraft:physics": {
-				"has_gravity": false,
+				"has_gravity": true,
 				"has_collision": false
 			},
 			"minecraft:pushable": {
@@ -21,13 +28,31 @@
 			},
 			"minecraft:persistent": {
 			},
-			"minecraft:nameable": {
-				"allow_name_tag_renaming": true,
-				"always_show": false
+			"minecraft:health": {
+				"value": 7,
+				"min": 7,
+				"max": 7
 			},
-
-			"minecraft:type_family": {
-				"family": ["hopper_marker", "utility_mob"]
+			"minecraft:damage_sensor": {
+				"triggers": [
+					{
+						"cause": "entity_attack",
+						"deals_damage": true,
+						"on_damage": {
+							"filters": [
+								{
+									"test": "is_family",
+									"subject": "damager",
+									"value": "player"
+								}
+							]
+						}
+					},
+					{
+						"cause": "all",
+						"deals_damage": false
+					}
+				]
 			}
 		},
 		"events": {
