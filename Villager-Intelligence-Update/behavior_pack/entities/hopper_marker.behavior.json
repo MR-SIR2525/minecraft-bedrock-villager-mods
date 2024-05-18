@@ -68,8 +68,55 @@
 				]
 			}
 		},
+
+		"component_groups": {
+			"reapply_can_take_damage": {				// in case for some reason it's missing
+				"minecraft:health": {
+					"value": 7,
+					"min": 7,
+					"max": 7
+				},
+				"minecraft:damage_sensor": {
+					"triggers": [
+						{
+							"cause": "entity_attack",
+							"deals_damage": true,
+							"on_damage": {
+								"filters": [
+									{
+										"test": "is_family",
+										"subject": "damager",
+										"value": "player"
+									}
+								]
+							}
+						},
+						{
+							"cause": "block_explosion",
+							"deals_damage": true
+						},
+						{
+							"cause": "entity_explosion",
+							"deals_damage": true
+						},
+						{
+							"cause": "all",
+							"deals_damage": false
+						}
+					]
+				}
+			}
+				
+		},
+
 		"events": {
-			
+			"add_can_take_damage": {
+				"add": {
+					"component_groups": [
+						"reapply_can_take_damage"
+					]
+				}
+			}
 		}
 	}
 }
