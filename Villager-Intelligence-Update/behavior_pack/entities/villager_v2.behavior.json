@@ -546,19 +546,19 @@
       },
 
       "look_for_lodestone": {
-        // This goal will activate look_for_hopper() if successful, which will
-        // allow farmer to store the harvest to the hopper.
+        // farmer gets to hopper, then shares crops to hopper_marker entity
         "minecraft:behavior.move_to_block": {
           "priority": 1,          // was 6
           "tick_interval": 2,     // average interval (ticks) to try to run this behavior
           "search_range": 32,
+          "speed_multiplier": 0.6,
           "goal_radius": 2,       // allows goal completion with farmer on top of it
-          "stay_duration": 30,    // 1.5 seconds
+          "stay_duration": 20,    // 1 second
           "target_selection_method": "nearest",
           "target_blocks": [ "minecraft:lodestone" ],
-          "on_stay_completed": {      // on_reach activates too early
+
+          "on_reach": {
             "event": "arrived_at_lodestone"
-            // "target": "self"
           }
           
           // It works but seems a bit random... also stay completed
@@ -571,7 +571,7 @@
       "share_crops_to_hopper_marker": {
         "minecraft:behavior.share_items": {
           "priority": 5,          // if 4 or lower, villager won't avoid dangerous mobs.
-          "max_dist": 10,
+          "max_dist": 16,
           "goal_radius":  2.0,
           "speed_multiplier": 0.5,
           "entity_types": [
@@ -837,9 +837,10 @@
                 "filters": {
                   "all_of": [
                     {
-                      "test": "has_component",
-                      "operator": "not",
-                      "value": "farmer_can_be_tempted"
+                      "test": "has_tag",
+                      "subject": "self",
+                      "operator": "!=",
+                      "value": "can_be_tempted"
                     },
                     {
                       "test": "is_family",
@@ -865,23 +866,20 @@
                 "filters": {
                   "all_of": [
                     {
-                      "test": "has_component",
-                      "value": "farmer_can_be_tempted"
+                      "test": "has_tag",
+                      "subject": "self",
+                      "value": "can_be_tempted"
                     },
                     {
-                      "all_of": [
-                        {
-                          "test": "is_family",
-                          "subject": "other",
-                          "value": "player"
-                        },
-                        {
-                          "test": "has_equipment",
-                          "domain": "hand",
-                          "subject": "other",
-                          "value": "chest"
-                        }
-                      ]
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "has_equipment",
+                      "domain": "hand",
+                      "subject": "other",
+                      "value": "chest"
                     }
                   ]
                 }
@@ -1678,7 +1676,7 @@
       },
       "minecraft:inventory": {
         "inventory_size": 8,  // 8 by default, maybe increase this later?
-        "private": false,    // false by default, true for debug purposes for now.
+        "private": false,     // true by default, false for debug purposes for now.
         "container_type": "inventory"
       },
       "minecraft:dweller": {
@@ -1822,7 +1820,10 @@
           ]
         },
         "queue_command": {
-          "command": "say add_farmer_can_be_tempted activated." //for debug
+          "command": [
+            "say add_farmer_can_be_tempted activated.",  //for debug
+            "tag @s add can_be_tempted"
+          ] 
         }
       },
 
@@ -1833,8 +1834,10 @@
           ]
         },
         "queue_command": {
-          "command": "say remove_farmer_can_be_tempted activated." //for debug
-          
+          "command": [
+            "say removed farmer_can_be_tempted.", //for debug
+            "tag @s remove can_be_tempted"
+          ]
         }
       },
 
