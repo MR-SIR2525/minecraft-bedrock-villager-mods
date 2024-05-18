@@ -567,6 +567,7 @@
         }
       },
 
+      // ** Problem: this overwrites the normal sharing behavior, which stays gone after this times out.
       "share_crops_to_hopper_marker": {
         "minecraft:behavior.share_items": {
           "priority": 5,          // if 4 or lower, villager won't avoid dangerous mobs.
@@ -603,15 +604,13 @@
               "item": "minecraft:wheat",
               "want_amount": 45,
               "surplus_amount": 18,
-              "craft_into": "minecraft:bread",
               "stored_in_inventory": true
             }
           ]
         },
         "minecraft:timer": {
           "looping": false,
-          "time": 15,
-          // "randomInterval": true,
+          "time": 75,
           "time_down_event": {
             "event": "remove_share_crops_to_hopper_marker",
             "target": "self"
