@@ -561,6 +561,7 @@
 
       "look_for_lodestone": {
         // farmer gets to lodestone, then shares crops to nearest hopper_marker entity within 16 blocks
+        // if this runs, it can't run again until the next time the farmer's work schedule is applied
         "minecraft:behavior.move_to_block": {
           "priority": 1,          // was 6
           "tick_interval": 2,     // average interval (ticks) to try to run this behavior
@@ -618,6 +619,27 @@
               "want_amount": 45,
               "surplus_amount": 18,
               "stored_in_inventory": true
+            },
+            {
+              "item": "minecraft:wheat_seeds",
+              "want_amount": 64,
+              "surplus_amount": 64,
+              "stored_in_inventory": true,
+              "pickup_only": true
+            },
+            {
+              "item": "minecraft:beetroot_seeds",
+              "want_amount": 64,
+              "surplus_amount": 64,
+              "stored_in_inventory": true,
+              "pickup_only": true
+            },
+            {
+              "item": "minecraft:bone_meal",
+              "want_amount": 64,
+              "surplus_amount": 64,
+              "stored_in_inventory": true,
+              "pickup_only": true
             }
           ]
         },
@@ -1752,7 +1774,7 @@
         "priority": 1,
         "speed_multiplier": 0.6
       },
-      "minecraft:behavior.trade_with_player": {
+      "minecraft:behavior.trade_with_player": { // disable + remove trade components to access inventory
         "priority": 2
       },
       "minecraft:behavior.avoid_mob_type": {
@@ -1816,6 +1838,12 @@
       }
     },
     "events":{
+      "remove_trade_components": {    // for debugging
+        "remove": {
+          "component_groups": ["trade_components"]
+        },
+        "queue_command": {"command": "say removed trade_components, reapply with 'become_xxx'."}
+      },
       "add_farmer_can_be_tempted": {
         "add": {
           "component_groups": [
@@ -1871,19 +1899,19 @@
         ]
       },
 
-      "add_share_crops_to_hopper_marker": {
-        "add": {
-          "component_groups": ["share_crops_to_hopper_marker"]
-        },
-        "queue_command": {"command": "say added share_crops_to_hopper_marker."} //for debug
-      },
-
       // reapply default sharing behavior via overwrite (remove and add kills inventory?)
       "timeout_share_crops_to_hopper_marker": {
         "add": {
           "component_groups": ["farmer_default_shareables"]
         },
-        "queue_command": {"command": "say timeout share_crops_to_hopper_marker."} //for debug
+        "queue_command": {"command": "say timeout share_crops_to_hopper_marker. Reapplied 'farmer_default_shareables'."} //for debug
+      },
+
+      "add_share_crops_to_hopper_marker": {
+        "add": {
+          "component_groups": ["share_crops_to_hopper_marker"]
+        },
+        "queue_command": {"command": "say added share_crops_to_hopper_marker."} //for debug
       },
 
       "remove_share_crops_to_hopper_marker_BAD": {
