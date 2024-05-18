@@ -570,7 +570,7 @@
       "share_crops_to_hopper_marker": {
         "minecraft:behavior.share_items": {
           "priority": 5,          // if 4 or lower, villager won't avoid dangerous mobs.
-          "max_dist": 4,
+          "max_dist": 10,
           "goal_radius":  2.0,
           "speed_multiplier": 0.5,
           "entity_types": [
