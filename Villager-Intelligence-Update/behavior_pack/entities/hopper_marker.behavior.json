@@ -9,16 +9,13 @@
 		},
 		"components": {
 			"minecraft:type_family": {
-				"family": ["hopper_marker", "utility_mob"]
+				"family": ["hopper_marker", "inanimate", "utility_mob"]
 			},
 			"minecraft:nameable": {
 				"allow_name_tag_renaming": true,
 				"always_show": false
 			},
 			"minecraft:physics": {
-				"has_gravity": true,
-				"has_collision": true,
-				"push_towards_closest_space": true
 			},
 			"minecraft:collision_box": {
 				"height": 0.125, 	// 1/8th of a block
@@ -31,27 +28,40 @@
 			"minecraft:push_through": {
 				"value": 1
 			},
+			"minecraft:conditional_bandwidth_optimization": {
+			},
 			"minecraft:persistent": {
+			},
+			"minecraft:knockback_resistance": {
+				"value": 1
 			},
 			"minecraft:health": {
 				"value": 7,
-				"min": 7,
 				"max": 7
+			},
+			"minecraft:hurt_on_condition": {
+				"damage_conditions": [
+				  {
+					"filters": { "test": "in_lava", "subject": "self", "operator": "==", "value": true },
+					"cause": "lava",
+					"damage_per_tick": 1
+				  }
+				]
 			},
 			"minecraft:damage_sensor": {
 				"triggers": [
 					{
 						"cause": "entity_attack",
-						"deals_damage": true,
 						"on_damage": {
 							"filters": [
 								{
 									"test": "is_family",
-									"subject": "damager",
+									"subject": "other",
 									"value": "player"
 								}
 							]
-						}
+						},
+						"deals_damage": true
 					},
 					{
 						"cause": "block_explosion",
@@ -66,55 +76,23 @@
 						"deals_damage": false
 					}
 				]
+			},
+			"minecraft:loot": {
+				"table": "loot_tables/empty.json"
 			}
 		},
 
 		"component_groups": {
-			"reapply_can_take_damage": {				// in case for some reason it's missing
-				"minecraft:health": {
-					"value": 7,
-					"min": 7,
-					"max": 7
-				},
-				"minecraft:damage_sensor": {
-					"triggers": [
-						{
-							"cause": "entity_attack",
-							"deals_damage": true,
-							"on_damage": {
-								"filters": [
-									{
-										"test": "is_family",
-										"subject": "damager",
-										"value": "player"
-									}
-								]
-							}
-						},
-						{
-							"cause": "block_explosion",
-							"deals_damage": true
-						},
-						{
-							"cause": "entity_explosion",
-							"deals_damage": true
-						},
-						{
-							"cause": "all",
-							"deals_damage": false
-						}
-					]
+			"despawn": {
+				"minecraft:instant_despawn": {
 				}
 			}
-				
 		},
 
 		"events": {
-			"add_can_take_damage": {
+			"force_despawn": {
 				"add": {
-					"component_groups": [
-						"reapply_can_take_damage"
-					]
+					"component_groups": ["despawn"]
 				}
 			}
 		}
