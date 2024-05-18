@@ -19,7 +19,7 @@
 			},
 			"minecraft:collision_box": {
 				"height": 0.125, 	// 1/8th of a block
-				"width": 1
+				"width": 0.5
 			},
 			"minecraft:pushable": {
 				"is_pushable": false,
