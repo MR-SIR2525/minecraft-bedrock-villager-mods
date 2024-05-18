@@ -513,7 +513,7 @@
         "minecraft:behavior.work_composter": {
           "priority": 9,
           "active_time": 250,
-          "speed_multiplier": 0.5,
+          "speed_multiplier": 0.6,
           "goal_cooldown": 200,
           "can_work_in_rain": false,
           "work_in_rain_tolerance": 100,
@@ -536,7 +536,7 @@
       "farmer_can_be_tempted": {
         "minecraft:behavior.tempt": {
           "priority": 5,
-          // "speed_multiplier":  //not used
+          "speed_multiplier":  0.75,
           "within_radius": 10,
           "can_tempt_vertically": true,
           "items": [
@@ -573,7 +573,7 @@
           "priority": 5,          // if 4 or lower, villager won't avoid dangerous mobs.
           "max_dist": 16,
           "goal_radius":  2.0,
-          "speed_multiplier": 0.5,
+          "speed_multiplier": 0.55,
           "entity_types": [
             {
               "filters": { "test" : "is_family", "subject": "other", "value":  "hopper_marker" }
