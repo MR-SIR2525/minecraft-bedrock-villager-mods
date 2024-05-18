@@ -455,6 +455,41 @@
 
       // MRxSIR: tweaking farmer to do complex tasks
       "work_schedule_farmer": {
+        // default shareables taken from here to new component group
+        "minecraft:behavior.work_composter": {
+          "priority": 9,
+          "active_time": 250,
+          "speed_multiplier": 0.6,
+          "goal_cooldown": 200,
+          "can_work_in_rain": false,
+          "work_in_rain_tolerance": 100,
+          "on_arrival": {
+            "event": "minecraft:resupply_trades",
+            "target": "self"
+          },
+          "can_empty_composter": true
+        },
+        "minecraft:behavior.harvest_farm_block": {
+          "priority": 7
+        },
+        "minecraft:behavior.fertilize_farm_block": {
+          "priority": 8
+        }
+      },  // end of work_schedule_farmer
+      // refer to "schedule_work_farmer", it's the scheduler
+
+      "farmer_default_shareables": {
+        "minecraft:behavior.share_items": {
+          "priority": 10,
+          "max_dist": 3,
+          "goal_radius":  2.0,
+          "speed_multiplier": 0.5,
+          "entity_types": [
+            {
+              "filters": { "test" :  "is_family", "subject" : "other", "value" :  "villager"}
+            }
+          ]
+        },
         "minecraft:shareables": {
           "items": [
             {
@@ -509,28 +544,8 @@
               "stored_in_inventory": true
             }
           ]
-        },
-        "minecraft:behavior.work_composter": {
-          "priority": 9,
-          "active_time": 250,
-          "speed_multiplier": 0.6,
-          "goal_cooldown": 200,
-          "can_work_in_rain": false,
-          "work_in_rain_tolerance": 100,
-          "on_arrival": {
-            "event": "minecraft:resupply_trades",
-            "target": "self"
-          },
-          "can_empty_composter": true
-        },
-        "minecraft:behavior.harvest_farm_block": {
-          "priority": 7
-        },
-        "minecraft:behavior.fertilize_farm_block": {
-          "priority": 8
         }
-      },  // end of work_schedule_farmer
-      // refer to "schedule_work_farmer", it's the scheduler
+      },
 
       // farmer's interaction component
       "farmer_can_be_tempted": {
@@ -572,7 +587,7 @@
         "minecraft:behavior.share_items": {
           "priority": 5,          // if 4 or lower, villager won't avoid dangerous mobs.
           "max_dist": 16,
-          "goal_radius":  2.0,
+          "goal_radius":  2.2,
           "speed_multiplier": 0.55,
           "entity_types": [
             {
