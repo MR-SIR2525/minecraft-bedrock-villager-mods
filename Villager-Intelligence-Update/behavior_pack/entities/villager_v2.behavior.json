@@ -10,8 +10,7 @@
 
     // NOTE:
     // "minecraft:share_items" component was moved inside of "baby" and "adult" component groups
-    // to be added when those are added. This is to allow for a concurrent shareable behavior to
-    // be added in another component group ("share_crops_to_hopper_marker").
+    // to be added when those are added. This is to allow for more modular shareable behavior.
   
     "component_groups": {
       "minecraft:celebrate": {
@@ -411,7 +410,7 @@
         "minecraft:behavior.inspect_bookshelf": {},
         "minecraft:behavior.harvest_farm_block": {},
         "minecraft:behavior.fertilize_farm_block": {},  //why was this not here..? Mojang??
-        "look_for_lodestone": {},
+        "minecraft:behavior.move_to_block": {},   // ("look_for_lodestone" component group)
         "minecraft:behavior.explore_outskirts": {},
         "minecraft:behavior.work": {},
         "minecraft:behavior.work_composter": {},
@@ -561,7 +560,7 @@
       },
 
       "look_for_lodestone": {
-        // farmer gets to hopper, then shares crops to hopper_marker entity
+        // farmer gets to lodestone, then shares crops to nearest hopper_marker entity within 16 blocks
         "minecraft:behavior.move_to_block": {
           "priority": 1,          // was 6
           "tick_interval": 2,     // average interval (ticks) to try to run this behavior
@@ -582,7 +581,6 @@
         }
       },
 
-      // ** Problem: this overwrites the normal sharing behavior, which stays gone after this times out.
       "share_crops_to_hopper_marker": {
         "minecraft:behavior.share_items": {
           "priority": 5,          // if 4 or lower, villager won't avoid dangerous mobs.
@@ -627,7 +625,7 @@
           "looping": false,
           "time": 75,
           "time_down_event": {
-            "event": "remove_share_crops_to_hopper_marker",
+            "event": "timeout_share_crops_to_hopper_marker",
             "target": "self"
           }
         }
@@ -1799,19 +1797,9 @@
       // },
 
       //*************************************************************************
-      //NOTE: Moved to inside "baby" and "adult" component groups so that I can 
-      //add another, separate sharing functionality.
-      // "minecraft:behavior.share_items": {
-      //   "priority": 10,
-      //   "max_dist": 3,
-      //   "goal_radius":  2.0,
-      //   "speed_multiplier": 0.5,
-      //   "entity_types": [
-      //     {
-      //       "filters": { "test" :  "is_family", "subject" : "other", "value" :  "villager"}
-      //     }
-      //   ]
-      // },
+      //NOTE: Moved "minecraft:behavior.share_items" to inside "baby" and "adult" component 
+      // groups so that I can add another, separate sharing functionality.
+      
       "minecraft:behavior.move_towards_dwelling_restriction": {
         "priority": 11,
         "speed_multiplier": 0.6
@@ -1901,13 +1889,19 @@
         }
       },
 
+      // reapply default sharing behavior via overwrite (remove and add kills inventory?)
+      "timeout_share_crops_to_hopper_marker": {
+        "add": {
+          "component_groups": ["farmer_default_shareables"]
+        },
+        "queue_command": {"command": "say timeout share_crops_to_hopper_marker."} //for debug
+      },
+
       "remove_share_crops_to_hopper_marker": {
         "remove": {
           "component_groups": ["share_crops_to_hopper_marker"]
         },
-        "queue_command": {
-          "command": "say removed share_crops_to_hopper_marker." //for debug
-        }
+        "queue_command": {"command": "say removed share_crops_to_hopper_marker."} //for debug
       },
       
       "become_witch": {
