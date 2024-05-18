@@ -1799,7 +1799,7 @@
       //*************************************************************************
       //NOTE: Moved "minecraft:behavior.share_items" to inside "baby" and "adult" component 
       // groups so that I can add another, separate sharing functionality.
-      
+
       "minecraft:behavior.move_towards_dwelling_restriction": {
         "priority": 11,
         "speed_multiplier": 0.6
@@ -1825,44 +1825,37 @@
         "queue_command": {
           "command": [
             "say add_farmer_can_be_tempted activated.",  //for debug
-            "tag @s add can_be_tempted"
+            "tag @s add can_be_tempted"   //allows farmer to self check if tempting is enabled
           ] 
         }
       },
 
       "remove_farmer_can_be_tempted": {
         "remove": {
-          "component_groups": [
-            "farmer_can_be_tempted"
-          ]
+          "component_groups": ["farmer_can_be_tempted"]
         },
         "queue_command": {
           "command": [
             "say removed farmer_can_be_tempted.", //for debug
-            "tag @s remove can_be_tempted"
+            "tag @s remove can_be_tempted"   //allows farmer to self check if tempting is enabled
           ]
         }
       },
 
       "add_look_for_lodestone": { //so I can force it with /event in game
-        "remove": {
-          "component_groups": ["share_crops_to_hopper_marker"]
-        },
         "add": {
-          "component_groups": ["look_for_lodestone"]
+          "component_groups": ["farmer_default_shareables", "look_for_lodestone"]
         }
       },
 
       "remove_look_for_lodestone": { //so I can force it with /event in game
-        "remove": {
-          "component_groups": [ "look_for_lodestone" ]
-        }
+        "remove": {"component_groups": ["look_for_lodestone"]}
       },
 
       "arrived_at_lodestone": {
         "sequence": [
           {
-            "run_command": {
+            "queue_command": {
               "command": [
                 "say arrived at lodestone",
                 "setblock -557 71.58 -208.63 lime_concrete" //for debug
@@ -1873,9 +1866,7 @@
             "trigger": "add_share_crops_to_hopper_marker"
           },
           {
-            "remove": {
-              "component_groups": ["look_for_lodestone"]
-            }
+            "remove": {"component_groups": ["look_for_lodestone"]}
           }
         ]
       },
@@ -1884,9 +1875,7 @@
         "add": {
           "component_groups": ["share_crops_to_hopper_marker"]
         },
-        "queue_command": {
-          "command": "say added share_crops_to_hopper_marker." //for debug
-        }
+        "queue_command": {"command": "say added share_crops_to_hopper_marker."} //for debug
       },
 
       // reapply default sharing behavior via overwrite (remove and add kills inventory?)
@@ -1897,11 +1886,20 @@
         "queue_command": {"command": "say timeout share_crops_to_hopper_marker."} //for debug
       },
 
-      "remove_share_crops_to_hopper_marker": {
+      "remove_share_crops_to_hopper_marker_BAD": {
+        // here for debugging purposes
         "remove": {
           "component_groups": ["share_crops_to_hopper_marker"]
         },
-        "queue_command": {"command": "say removed share_crops_to_hopper_marker."} //for debug
+        "queue_command": {
+          "command": 
+          "say Removed 'share_crops_to_hopper_marker'. Not recommended to do this. It breaks inventory. You should add 'farmer_default_shareables' back to the villager."
+        }
+      },
+
+      "add_farmer_default_shareables": {
+        "add": {"component_groups": ["farmer_default_shareables"]},
+        "queue_command": {"command": "say added farmer_default_shareables."} //for debug
       },
       
       "become_witch": {
@@ -2790,6 +2788,7 @@
         "add": {
           "component_groups": [
             "work_schedule_farmer",
+            "farmer_default_shareables",
             "look_for_lodestone"
           ]
         }
