@@ -17,7 +17,12 @@
 			},
 			"minecraft:physics": {
 				"has_gravity": true,
-				"has_collision": false
+				"has_collision": true,
+				"push_towards_closest_space": true
+			},
+			"minecraft:collision_box": {
+				"height": 0.125, 	// 1/8th of a block
+				"width": 1
 			},
 			"minecraft:pushable": {
 				"is_pushable": false,
@@ -47,6 +52,14 @@
 								}
 							]
 						}
+					},
+					{
+						"cause": "block_explosion",
+						"deals_damage": true
+					},
+					{
+						"cause": "entity_explosion",
+						"deals_damage": true
 					},
 					{
 						"cause": "all",
