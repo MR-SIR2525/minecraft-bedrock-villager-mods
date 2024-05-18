@@ -78,7 +78,7 @@
 				]
 			},
 			"minecraft:loot": {
-				"table": "loot_tables/empty.json"
+				"table": "loot_tables/entities/hopper_marker.json"
 			}
 		},
 
