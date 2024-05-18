@@ -7,6 +7,11 @@
       "is_summonable": false,
       "is_experimental": false
     },
+
+    // NOTE:
+    // "minecraft:share_items" component was moved inside of "baby" and "adult" component groups
+    // to be added when those are added. This is to allow for a concurrent shareable behavior to
+    // be added in another component group ("share_crops_to_hopper_marker").
   
     "component_groups": {
       "minecraft:celebrate": {
@@ -544,11 +549,11 @@
         // This goal will activate look_for_hopper() if successful, which will
         // allow farmer to store the harvest to the hopper.
         "minecraft:behavior.move_to_block": {
-          "priority": 1,       // was 6
-          "tick_interval": 2,  // average interval (ticks) to try to run this behavior
+          "priority": 1,          // was 6
+          "tick_interval": 2,     // average interval (ticks) to try to run this behavior
           "search_range": 32,
-          "goal_radius": 2,   //see if farmer standing on top
-          "stay_duration": 30, // 1.5 seconds
+          "goal_radius": 2,       // allows goal completion with farmer on top of it
+          "stay_duration": 30,    // 1.5 seconds
           "target_selection_method": "nearest",
           "target_blocks": [ "minecraft:lodestone" ],
           "on_stay_completed": {      // on_reach activates too early
@@ -562,37 +567,57 @@
         }
       },
 
-      "look_for_light_block": {
-        "minecraft:behavior.move_to_block": {
-          "priority": 1,       // was 6
-          "tick_interval": 2,  // average interval (ticks) to try to run this behavior
-          "search_range": 32,
-          "goal_radius": 2,   //see if farmer standing on top
-          "stay_duration": 30, // 1.5 seconds
-          "target_selection_method": "nearest",
-
-          "target_blocks": [ "minecraft:light_block" ],
-
-          "on_stay_completed": {      // on_reach activates too early
-            "event": "arrived_at_light_block"
+      "share_crops_to_hopper_marker": {
+        "minecraft:behavior.share_items": {
+          "priority": 5,          // if 4 or lower, villager won't avoid dangerous mobs.
+          "max_dist": 4,
+          "goal_radius":  2.0,
+          "speed_multiplier": 0.5,
+          "entity_types": [
+            {
+              "filters": { "test" : "is_family", "subject": "other", "value":  "hopper_marker" }
+            }
+          ]
+        },
+        "minecraft:shareables": {
+          "items": [
+            {
+              "item": "minecraft:carrot",
+              "want_amount": 60,
+              "surplus_amount": 24,
+              "stored_in_inventory": true
+            },
+            {
+              "item": "minecraft:potato",
+              "want_amount": 60,
+              "surplus_amount": 24,
+              "stored_in_inventory": true
+            },
+            {
+              "item": "minecraft:beetroot",
+              "want_amount": 60,
+              "surplus_amount": 24,
+              "stored_in_inventory": true
+            },
+            {
+              "item": "minecraft:wheat",
+              "want_amount": 45,
+              "surplus_amount": 18,
+              "craft_into": "minecraft:bread",
+              "stored_in_inventory": true
+            }
+          ]
+        },
+        "minecraft:timer": {
+          "looping": false,
+          "time": 15,
+          // "randomInterval": true,
+          "time_down_event": {
+            "event": "remove_share_crops_to_hopper_marker",
+            "target": "self"
           }
         }
       },
-
-      // "drop_items_to_hopper": {
-      //   "minecraft:behavior.drop_item_for": {
-      //     "entity_types": [
-      //       {
-      //         "filters": {
-      //           "test": "is_family",
-      //           "subject": "other",
-      //           "value": "armor_stand"
-      //         }
-      //       }
-      //     ],
-      //     "loot_table": "loot_tables/"
-      //   }
-      // },
 
       "work_schedule_librarian": {
         "minecraft:behavior.work": {
@@ -1315,6 +1340,18 @@
           "priority": 9
         },
 
+        "minecraft:behavior.share_items": {   //same as default
+          "priority": 10,
+          "max_dist": 3,
+          "goal_radius":  2.0,
+          "speed_multiplier": 0.5,
+          "entity_types": [
+            {
+              "filters": { "test" :  "is_family", "subject" : "other", "value" :  "villager"}
+            }
+          ]
+        },
+
         "minecraft:preferred_path" : {
           "max_fall_blocks" : 1,
           "jump_cost" : 5,
@@ -1407,6 +1444,19 @@
         "minecraft:behavior.receive_love": {
           "priority": 6
         },
+
+        "minecraft:behavior.share_items": {   //same as default
+          "priority": 10,
+          "max_dist": 3,
+          "goal_radius":  2.0,
+          "speed_multiplier": 0.5,
+          "entity_types": [
+            {
+              "filters": { "test" :  "is_family", "subject" : "other", "value" :  "villager"}
+            }
+          ]
+        },
+
         "minecraft:preferred_path" : {
           "max_fall_blocks" : 1,
           "jump_cost" : 20,
@@ -1565,7 +1615,7 @@
       }
     },
 
-    "components": { //Core components of all villagers?
+    "components": { //Core components of all villagers
       "minecraft:is_hidden_when_invisible": {
       },
       "minecraft:type_family": {
@@ -1736,17 +1786,21 @@
       //   "probability": 0.02,
       //   "look_time": [2, 4] // vanilla doesn't have this
       // },
-      "minecraft:behavior.share_items": {
-        "priority": 10,
-        "max_dist": 3,
-        "goal_radius":  2.0,
-        "speed_multiplier": 0.5,
-        "entity_types": [
-          {
-            "filters": { "test" :  "is_family", "subject" : "other", "value" :  "villager"}
-          }
-        ]
-      },
+
+      //*************************************************************************
+      //NOTE: Moved to inside "baby" and "adult" component groups so that I can 
+      //add another, separate sharing functionality.
+      // "minecraft:behavior.share_items": {
+      //   "priority": 10,
+      //   "max_dist": 3,
+      //   "goal_radius":  2.0,
+      //   "speed_multiplier": 0.5,
+      //   "entity_types": [
+      //     {
+      //       "filters": { "test" :  "is_family", "subject" : "other", "value" :  "villager"}
+      //     }
+      //   ]
+      // },
       "minecraft:behavior.move_towards_dwelling_restriction": {
         "priority": 11,
         "speed_multiplier": 0.6
@@ -1788,7 +1842,7 @@
 
       "add_look_for_lodestone": { //so I can force it with /event in game
         "remove": {
-          "component_groups": ["look_for_light_block"]
+          "component_groups": ["share_crops_to_hopper_marker"]
         },
         "add": {
           "component_groups": ["look_for_lodestone"]
@@ -1802,50 +1856,41 @@
       },
 
       "arrived_at_lodestone": {
-        "run_command": {
-          "command": [
-            "say arrived at lodestone",
-            "setblock -557 71.58 -208.63 lime_concrete" //for debug
-          ]
-        }
-      },
-
-      "add_look_for_light_block": {
-        "add": {
-          "component_groups": ["look_for_light_block"]
-        }
-      },
-
-      "remove_look_for_light_block": {
-        "remove": {
-          "component_groups": ["look_for_light_block"]
-        }
-      },
-
-      "arrived_at_light_block": {
-        "queue_command": {
-          "command": "say arrived at light block, removed look_for_light_block behavior."
-        },
-        "remove": {
-          "component_groups": ["look_for_light_block"]
-        }
-      },
-
-      "drop_crops_event": {
         "sequence": [
           {
-            "queue_command": {
-              "command": "drop_crops" //not sure if this is allowed, or proper
-            },
-            "remove": {
-              "component_groups": [
-                "look_for_light_block"
+            "run_command": {
+              "command": [
+                "say arrived at lodestone",
+                "setblock -557 71.58 -208.63 lime_concrete" //for debug
               ]
             }
+          },
+          {
+            "trigger": "add_share_crops_to_hopper_marker"
+          },
+          {
+            "remove": {
+              "component_groups": ["look_for_lodestone"]
+            }
           }
-        ],
+        ]
+      },
+
+      "add_share_crops_to_hopper_marker": {
+        "add": {
+          "component_groups": ["share_crops_to_hopper_marker"]
+        },
         "queue_command": {
-          "command": "say drop_crops_event was activated"  //for debug
+          "command": "say added share_crops_to_hopper_marker." //for debug
+        }
+      },
+
+      "remove_share_crops_to_hopper_marker": {
+        "remove": {
+          "component_groups": ["share_crops_to_hopper_marker"]
+        },
+        "queue_command": {
+          "command": "say removed share_crops_to_hopper_marker." //for debug
         }
       },
       
