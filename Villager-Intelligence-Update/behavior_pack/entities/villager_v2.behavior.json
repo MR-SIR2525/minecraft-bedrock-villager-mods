@@ -592,7 +592,7 @@
         "minecraft:behavior.share_items": {
           "priority": 5,          // if 4 or lower, villager won't avoid dangerous mobs.
           "max_dist": 20,
-          "goal_radius":  2.2,
+          "goal_radius":  2.5,
           "speed_multiplier": 0.55,
           "entity_types": [
             {
