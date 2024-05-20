@@ -453,6 +453,7 @@
       },
 
       // MRxSIR: tweaking farmer to do complex tasks
+      // refer to "schedule_work_farmer"
       "work_schedule_farmer": {
         // default shareables taken from here to new component group
         "minecraft:behavior.work_composter": {
@@ -474,8 +475,7 @@
         "minecraft:behavior.fertilize_farm_block": {
           "priority": 8
         }
-      },  // end of work_schedule_farmer
-      // refer to "schedule_work_farmer", it's the scheduler
+      },
 
       "farmer_default_shareables": {
         "minecraft:behavior.share_items": {
@@ -563,18 +563,19 @@
         // farmer gets to lodestone, then shares crops to nearest hopper_marker entity within 16 blocks
         // if this runs, it can't run again until the next time the farmer's work schedule is applied
         "minecraft:behavior.move_to_block": {
-          "priority": 1,          // was 6
+          "priority": 5,          // was 6
           "tick_interval": 2,     // average interval (ticks) to try to run this behavior
           "search_range": 32,
           "speed_multiplier": 0.6,
           "goal_radius": 2,       // allows goal completion with farmer on top of it
-          "stay_duration": 20,    // 1 second
+          "stay_duration": 30,    // 1.5 seconds
           "target_selection_method": "nearest",
           "target_blocks": [ "minecraft:lodestone" ],
 
           "on_reach": {
             "event": "arrived_at_lodestone"
-          }
+          },
+          "goal_cooldown": 80   // ticks before the goal can be used again
           
           // It works but seems a bit random... also stay completed
           // takes longer than the actual timer but it eventually works.
@@ -585,7 +586,7 @@
       "share_crops_to_hopper_marker": {
         "minecraft:behavior.share_items": {
           "priority": 5,          // if 4 or lower, villager won't avoid dangerous mobs.
-          "max_dist": 16,
+          "max_dist": 20,
           "goal_radius":  2.2,
           "speed_multiplier": 0.55,
           "entity_types": [
@@ -638,6 +639,13 @@
               "item": "minecraft:bone_meal",
               "want_amount": 64,
               "surplus_amount": 64,
+              "stored_in_inventory": true,
+              "pickup_only": true
+            },
+            {
+              "item": "minecraft:bread",
+              "want_amount": 3,
+              "surplus_amount": 6,
               "stored_in_inventory": true,
               "pickup_only": true
             }
@@ -1798,7 +1806,7 @@
       },
       "minecraft:behavior.pickup_items": {
         "priority": 4,
-        "max_dist": 3,
+        "max_dist": 4,      // default is 3
         "goal_radius": 2,
         "speed_multiplier": 0.5,
         "can_pickup_to_hand_or_equipment": false

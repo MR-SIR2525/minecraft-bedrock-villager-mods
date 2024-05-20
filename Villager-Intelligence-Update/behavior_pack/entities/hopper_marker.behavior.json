@@ -85,25 +85,25 @@
 					{
 					  "item": "minecraft:carrot",
 					  "want_amount": 64,
-					  "surplus_amount": 1,
+					  "surplus_amount": 64,
 					  "stored_in_inventory": true
 					},
 					{
 					  "item": "minecraft:potato",
 					  "want_amount": 64,
-					  "surplus_amount": 1,
+					  "surplus_amount": 64,
 					  "stored_in_inventory": true
 					},
 					{
 					  "item": "minecraft:beetroot",
 					  "want_amount": 64,
-					  "surplus_amount": 1,
+					  "surplus_amount": 64,
 					  "stored_in_inventory": true
 					},
 					{
 					  "item": "minecraft:wheat",
 					  "want_amount": 64,
-					  "surplus_amount": 1,
+					  "surplus_amount": 64,
 					  "stored_in_inventory": true
 					}
 				  ]
@@ -111,7 +111,7 @@
 			"minecraft:inventory": {
 				"additional_slots_per_strength": 0,
 				"can_be_siphoned_from": true,
-				"container_type": "minecart_hopper",
+				"container_type": "container",
 				"inventory_size": 8,
 				"private": false
 			}
