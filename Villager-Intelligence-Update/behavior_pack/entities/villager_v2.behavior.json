@@ -51,6 +51,21 @@
           "keep_level": true
         }
       },
+
+      // here so that it can be re-added if needed via event.
+      "default_share_items": {
+        "minecraft:behavior.share_items": {
+          "priority": 10,
+          "max_dist": 3,
+          "goal_radius":  2.0,
+          "speed_multiplier": 0.5,
+          "entity_types": [
+            {
+              "filters": { "test" :  "is_family", "subject" : "other", "value" :  "villager"}
+            }
+          ]
+        }
+      },
       
       "work_schedule": {
         "minecraft:scheduler": {
@@ -479,17 +494,6 @@
       },
 
       "farmer_default_shareables": {
-        "minecraft:behavior.share_items": {
-          "priority": 10,
-          "max_dist": 3,
-          "goal_radius":  2.0,
-          "speed_multiplier": 0.5,
-          "entity_types": [
-            {
-              "filters": { "test" :  "is_family", "subject" : "other", "value" :  "villager"}
-            }
-          ]
-        },
         "minecraft:shareables": {
           "items": [
             {
@@ -659,6 +663,30 @@
             "event": "timeout_share_crops_to_hopper_marker",
             "target": "self"
           }
+        }
+      },
+
+      "force_share_with_hopper_marker": {
+        "minecraft:behavior.share_items": {
+          "priority": 1,
+          "max_dist": 32,
+          "goal_radius":  2.5,
+          "speed_multiplier": 0.5,
+          "entity_types": [
+            {
+              "filters": { "test" : "is_family", "subject": "self", "value": "hopper_marker" }
+            }
+          ]
+        },
+        "minecraft:shareables": {
+          "items": [
+            {
+              "item": "minecraft:chest",
+              "want_amount": 0,
+              "surplus_amount": 1,
+              "stored_in_inventory": true
+            }
+          ]
         }
       },
 
@@ -1846,6 +1874,7 @@
         "is_pushable_by_piston": true
       }
     },
+
     "events": {
       "remove_trade_components": {    // for debugging
         "remove": {
@@ -1879,9 +1908,7 @@
       },
 
       "add_look_for_lodestone": {
-        "add": {
-          "component_groups": ["look_for_lodestone"]
-        }
+        "add": {"component_groups": ["look_for_lodestone"]}
       },
 
       "remove_look_for_lodestone": {
@@ -1902,12 +1929,30 @@
         ]
       },
 
-      // reapply default sharing behavior via overwrite (remove and add kills inventory?)
       "timeout_share_crops_to_hopper_marker": {
-        "add": {
-          "component_groups": ["farmer_default_shareables"]
-        },
-        "queue_command": {"command": "say timeout share_crops_to_hopper_marker. Reapplied 'farmer_default_shareables'."} //for debug
+        //reapply default sharing behavior
+        "sequence": [
+          {
+            //regardless of occupation, reapply default share items behavior
+            "add": {"component_groups": ["default_share_items"]},
+            "queue_command": {
+              "command": [
+                "say timeout share_crops_to_hopper_marker.",  //for debug
+                "say applied default share_items behavior."   //for debug
+              ]
+            }
+          },
+          {
+            //Verify farmer status to prevent adding farmer shareables to a in case of changed occupation.
+            "filters": {
+              "test": "is_family",
+              "subject": "self",
+              "value": "farmer"
+            },
+            "add": {"component_groups": ["farmer_default_shareables"]},
+            "queue_command": {"command": "say applied farmer_default_shareables."} //for debug
+          }
+        ]
       },
 
       "add_share_crops_to_hopper_marker": {
@@ -1917,20 +1962,50 @@
         "queue_command": {"command": "say added share_crops_to_hopper_marker."} //for debug
       },
 
-      "remove_share_crops_to_hopper_marker_BAD": {
-        // here for debugging purposes
-        "remove": {
-          "component_groups": ["share_crops_to_hopper_marker"]
-        },
-        "queue_command": {
-          "command": 
-          "say Removed 'share_crops_to_hopper_marker'. Not recommended to do this. It breaks inventory. You should add 'farmer_default_shareables' back to the villager."
-        }
-      },
-
       "add_farmer_default_shareables": {
         "add": {"component_groups": ["farmer_default_shareables"]},
         "queue_command": {"command": "say added farmer_default_shareables."} //for debug
+      },
+
+      "add_default_share_items": {
+        "add": {"component_groups": ["default_share_items"]},
+        "queue_command": {"command": "say added default_share_items."} //for debug
+      },
+
+      "test_is_farmer": {
+        "sequence": [
+          {
+            "filters": {
+              "test": "is_family",
+              "subject": "self",
+              "value": "farmer"
+            },
+            "queue_command": {"command": "say is farmer."} //for debug
+          },
+          {
+            "filters": {
+              "test": "is_family",
+              "subject": "self",
+              "value": "farmer",
+              "operator": "!="
+            },
+            "queue_command": {"command": "say not a farmer."} //for debug
+          }
+        ]
+      },
+
+      "force_share_with_hopper_marker": {
+        "add": {
+          "component_groups": ["force_share_with_hopper_marker"]
+        },
+        "queue_command": {"command": "say added force_share_with_hopper_marker."}
+      },
+
+      "remove_force_share_with_hopper_marker": {
+        "remove": {
+          "component_groups": ["force_share_with_hopper_marker"]
+        },
+        "queue_command": {"command": "say removed force_share_with_hopper_marker."}
       },
       
       "become_witch": {
