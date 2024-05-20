@@ -458,7 +458,7 @@
         "minecraft:behavior.work_composter": {
           "priority": 9,
           "active_time": 250,
-          "speed_multiplier": 0.6,
+          "speed_multiplier": 0.5,
           "goal_cooldown": 200,
           "can_work_in_rain": false,
           "work_in_rain_tolerance": 100,
