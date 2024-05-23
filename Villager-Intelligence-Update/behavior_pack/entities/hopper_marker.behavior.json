@@ -18,8 +18,8 @@
 			"minecraft:physics": {
 			},
 			"minecraft:collision_box": {
-				// "height": 0.0625, 	// 1/8th of a block
-				"height": 0.25,
+				// "height": 0.0625, 	// 1/16th of a block
+				"height": 0.0,
 				"width": 0.975
 			},
 			"minecraft:pushable": {
@@ -115,6 +115,33 @@
 				"container_type": "container",
 				"inventory_size": 8,
 				"private": false
+			},
+			"minecraft:interact": {
+				"interactions": [
+					{
+						"interact_text": "Fix orientation",
+						"on_interact": {
+						  "event": "fix_orientation",
+						  "filters": {
+							"all_of": [
+							  {
+								"test": "is_family",
+								"subject": "other",
+								"value": "player"
+							  },
+							  {
+								"test": "has_equipment",
+								"subject": "other",
+								"domain": "hand",
+								"value": "stick"
+							  }
+							]
+						  }
+						},
+						"use_item": false,
+						"play_sounds": "ui.stonecutter.take_result"
+					}
+				]
 			}
 		},
 
@@ -129,6 +156,18 @@
 			"force_despawn": {
 				"add": {
 					"component_groups": ["despawn"]
+				}
+			},
+
+			"minecraft:entity_spawned": {
+				"trigger": "fix_orientation"
+			},
+
+			"fix_orientation": {
+				"queue_command": {
+					"command": [
+						"tp @s ~ ~0.25 ~ facing ~ ~ 1"
+					]
 				}
 			}
 		}
