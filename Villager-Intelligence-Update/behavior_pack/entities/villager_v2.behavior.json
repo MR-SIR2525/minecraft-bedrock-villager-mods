@@ -565,11 +565,11 @@
       },
 
       "look_for_lodestone": {
-        // farmer gets to lodestone, then shares crops to nearest hopper_marker entity within 16 blocks
-        // if this runs, it can't run again until the next time the farmer's work schedule is applied
+        // farmer gets to lodestone then shares crops to nearest hopper_marker entity within 20 blocks
+        // Cooldown is 6 min, or until a schedule change reapplies it.
         "minecraft:behavior.move_to_block": {
-          "priority": 5,          // was 6
-          "tick_interval": 2,     // average interval (ticks) to try to run this behavior
+          "priority": 5,          //
+          // "tick_interval": 2,     // average interval (ticks) to try to run this behavior
           "search_range": 32,
           "speed_multiplier": 0.6,
           "goal_radius": 2,       // allows goal completion with farmer on top of it
@@ -580,7 +580,7 @@
           "on_reach": {
             "event": "arrived_at_lodestone"
           },
-          "goal_cooldown": 80   // ticks before the goal can be used again
+          "goal_cooldown": 6000  // (6 min) ticks before the goal can be used again
           
           // It works but seems a bit random... also stay completed
           // takes longer than the actual timer but it eventually works.
@@ -663,30 +663,6 @@
             "event": "timeout_share_crops_to_hopper_marker",
             "target": "self"
           }
-        }
-      },
-
-      "force_share_with_hopper_marker": {
-        "minecraft:behavior.share_items": {
-          "priority": 1,
-          "max_dist": 32,
-          "goal_radius":  2.5,
-          "speed_multiplier": 0.5,
-          "entity_types": [
-            {
-              "filters": { "test" : "is_family", "subject": "self", "value": "hopper_marker" }
-            }
-          ]
-        },
-        "minecraft:shareables": {
-          "items": [
-            {
-              "item": "minecraft:chest",
-              "want_amount": 0,
-              "surplus_amount": 1,
-              "stored_in_inventory": true
-            }
-          ]
         }
       },
 
@@ -1922,10 +1898,10 @@
           },
           {
             "trigger": "add_share_crops_to_hopper_marker"
-          },
-          {
-            "remove": {"component_groups": ["look_for_lodestone"]}
           }
+          // {  instead of removing it, it now has a 7.25 min cooldown
+          //   "remove": {"component_groups": ["look_for_lodestone"]}
+          // }
         ]
       },
 
@@ -1943,7 +1919,7 @@
             }
           },
           {
-            //Verify farmer status to prevent adding farmer shareables to a in case of changed occupation.
+            //Verify farmer status to prevent adding farmer shareables in case of changed occupation.
             "filters": {
               "test": "is_family",
               "subject": "self",
@@ -1992,20 +1968,6 @@
             "queue_command": {"command": "say not a farmer."} //for debug
           }
         ]
-      },
-
-      "force_share_with_hopper_marker": {
-        "add": {
-          "component_groups": ["force_share_with_hopper_marker"]
-        },
-        "queue_command": {"command": "say added force_share_with_hopper_marker."}
-      },
-
-      "remove_force_share_with_hopper_marker": {
-        "remove": {
-          "component_groups": ["force_share_with_hopper_marker"]
-        },
-        "queue_command": {"command": "say removed force_share_with_hopper_marker."}
       },
       
       "become_witch": {
