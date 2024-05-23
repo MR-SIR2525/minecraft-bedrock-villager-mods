@@ -1,23 +1,23 @@
 # MR SIR's Villager Mods
-## Packs:
-- Lumberjack villager
-- Villager Intelligence Update
 
-
-## Pack Descriptions
-- ### Lumberjack Villager
+## Lumberjack Villager
   - New lumberjack villager trade, complete with workstation and trade table.
   - in progress
-- ### Villager Intelligence Update 
-  - various improvements to villager intelligence and behavior.
-  - nametags work on villagers
-  - not really started yet.
+## Villager Intelligence Update (Helpful Villagers) 
+- Renaming with nametags enabled
+- Inventory size increased to 10
+
+### Farmer
+- Make a farmer follow you while holding a chest. Toggle on/off by clicking farmer with chest.
+- Farmer can drop crops to hopper:
+  1. During work time, farmer has the chance to look for a lodestone...
+  2. If a lodestone is found, farmer will go to it then share to a nearby "hopper marker" entity that should be places on top of a hopper and within sight of the lodestone.
+  3. Farmer will share **excess crops** from his inventory to it and go back to normal activities.
 
 
 
 
-
-## Development Notes
+# Notes for development
 ### 1. Namespace
 - Use `mrsir` namespace
   - e.g. `mrsir:lumberjack` or `mrsir:thing`
@@ -31,4 +31,4 @@
 - keep it kosher/vanilla for the most part.
 
 ### 4. Version History
-- Each pack will have an accompanying folder for older versions containing folders named `[pack_name]_vX.X.X`.
+- Notable versions/changes will have an accompanying version in the "Releases" section.

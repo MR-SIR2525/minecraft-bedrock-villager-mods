@@ -1,0 +1,136 @@
+{
+	"format_version": "1.16.10",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "mrsir:hopper_marker",
+			"is_spawnable": true,
+			"is_summonable": true,
+			"is_experimental": false
+		},
+		"components": {
+			"minecraft:type_family": {
+				"family": ["hopper_marker", "inanimate", "utility_mob"]
+			},
+			"minecraft:nameable": {
+				"allow_name_tag_renaming": true,
+				"always_show": false
+			},
+			"minecraft:physics": {
+			},
+			"minecraft:collision_box": {
+				// "height": 0.0625, 	// 1/8th of a block
+				"height": 0.25,
+				"width": 0.975
+			},
+			"minecraft:pushable": {
+				"is_pushable": false,
+				"is_pushable_by_piston": true
+			},
+			"minecraft:push_through": {
+				"value": 1
+			},
+			"minecraft:conditional_bandwidth_optimization": {
+			},
+			"minecraft:persistent": {
+			},
+			"minecraft:knockback_resistance": {
+				"value": 1
+			},
+			"minecraft:health": {
+				"value": 7,
+				"max": 7
+			},
+			"minecraft:hurt_on_condition": {
+				"damage_conditions": [
+				  {
+					"filters": { "test": "in_lava", "subject": "self", "operator": "==", "value": true },
+					"cause": "lava",
+					"damage_per_tick": 1
+				  }
+				]
+			},
+			"minecraft:damage_sensor": {
+				"triggers": [
+					{
+						"cause": "entity_attack",
+						"on_damage": {
+							"filters": [
+								{
+									"test": "is_family",
+									"subject": "other",
+									"value": "player"
+								}
+							]
+						},
+						"deals_damage": true
+					},
+					{
+						"cause": "block_explosion",
+						"deals_damage": true
+					},
+					{
+						"cause": "entity_explosion",
+						"deals_damage": true
+					},
+					{
+						"cause": "all",
+						"deals_damage": false
+					}
+				]
+			},
+			"minecraft:loot": {
+				"table": "loot_tables/entities/hopper_marker.json"
+			},
+			"minecraft:shareables": {
+				"items": [
+					{
+					  "item": "minecraft:carrot",
+					  "want_amount": 64,
+					  "surplus_amount": 64,
+					  "stored_in_inventory": true
+					},
+					{
+					  "item": "minecraft:potato",
+					  "want_amount": 64,
+					  "surplus_amount": 64,
+					  "stored_in_inventory": true
+					},
+					{
+					  "item": "minecraft:beetroot",
+					  "want_amount": 64,
+					  "surplus_amount": 64,
+					  "stored_in_inventory": true
+					},
+					{
+					  "item": "minecraft:wheat",
+					  "want_amount": 64,
+					  "surplus_amount": 64,
+					  "stored_in_inventory": true
+					}
+				  ]
+			},
+			"minecraft:inventory": {
+				"additional_slots_per_strength": 0,
+				"can_be_siphoned_from": true,
+				"container_type": "container",
+				"inventory_size": 8,
+				"private": false
+			}
+		},
+
+		"component_groups": {
+			"despawn": {
+				"minecraft:instant_despawn": {
+				}
+			}
+		},
+
+		"events": {
+			"force_despawn": {
+				"add": {
+					"component_groups": ["despawn"]
+				}
+			}
+		}
+	}
+}

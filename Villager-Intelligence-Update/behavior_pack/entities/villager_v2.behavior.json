@@ -7,6 +7,11 @@
       "is_summonable": false,
       "is_experimental": false
     },
+
+    // NOTE:
+    // "minecraft:share_items" component was moved inside of "baby" and "adult" component groups
+    // to be added when those are added. This is to allow for more modular shareable behavior.
+    //  - for shareables, "want_amount" and "surplus_amount" are additive.
   
     "component_groups": {
       "minecraft:celebrate": {
@@ -44,6 +49,21 @@
         "minecraft:transformation": {
           "into": "minecraft:zombie_villager_v2",
           "keep_level": true
+        }
+      },
+
+      // here so that it can be re-added if needed via event.
+      "default_share_items": {
+        "minecraft:behavior.share_items": {
+          "priority": 10,
+          "max_dist": 3,
+          "goal_radius":  2.0,
+          "speed_multiplier": 0.5,
+          "entity_types": [
+            {
+              "filters": { "test" :  "is_family", "subject" : "other", "value" :  "villager"}
+            }
+          ]
         }
       },
       
@@ -406,7 +426,7 @@
         "minecraft:behavior.inspect_bookshelf": {},
         "minecraft:behavior.harvest_farm_block": {},
         "minecraft:behavior.fertilize_farm_block": {},  //why was this not here..? Mojang??
-        "look_for_lodestone": {},
+        "minecraft:behavior.move_to_block": {},   // ("look_for_lodestone" component group)
         "minecraft:behavior.explore_outskirts": {},
         "minecraft:behavior.work": {},
         "minecraft:behavior.work_composter": {},
@@ -449,7 +469,31 @@
       },
 
       // MRxSIR: tweaking farmer to do complex tasks
+      // refer to "schedule_work_farmer"
       "work_schedule_farmer": {
+        // default shareables taken from here to new component group
+        "minecraft:behavior.work_composter": {
+          "priority": 9,
+          "active_time": 250,
+          "speed_multiplier": 0.5,
+          "goal_cooldown": 200,
+          "can_work_in_rain": false,
+          "work_in_rain_tolerance": 100,
+          "on_arrival": {
+            "event": "minecraft:resupply_trades",
+            "target": "self"
+          },
+          "can_empty_composter": true
+        },
+        "minecraft:behavior.harvest_farm_block": {
+          "priority": 7
+        },
+        "minecraft:behavior.fertilize_farm_block": {
+          "priority": 8
+        }
+      },
+
+      "farmer_default_shareables": {
         "minecraft:shareables": {
           "items": [
             {
@@ -504,34 +548,14 @@
               "stored_in_inventory": true
             }
           ]
-        },
-        "minecraft:behavior.work_composter": {
-          "priority": 9,
-          "active_time": 250,
-          "speed_multiplier": 0.5,
-          "goal_cooldown": 200,
-          "can_work_in_rain": false,
-          "work_in_rain_tolerance": 100,
-          "on_arrival": {
-            "event": "minecraft:resupply_trades",
-            "target": "self"
-          },
-          "can_empty_composter": true
-        },
-        "minecraft:behavior.harvest_farm_block": {
-          "priority": 7
-        },
-        "minecraft:behavior.fertilize_farm_block": {
-          "priority": 8
         }
-      },  // end of work_schedule_farmer
-      // refer to "schedule_work_farmer", it's the scheduler
+      },
 
       // farmer's interaction component
       "farmer_can_be_tempted": {
         "minecraft:behavior.tempt": {
           "priority": 5,
-          // "speed_multiplier":  //not used
+          "speed_multiplier":  0.75,
           "within_radius": 10,
           "can_tempt_vertically": true,
           "items": [
@@ -541,101 +565,106 @@
       },
 
       "look_for_lodestone": {
-        // This goal will activate look_for_hopper() if successful, which will
-        // allow farmer to store the harvest to the hopper.
+        // farmer gets to lodestone then shares crops to nearest hopper_marker entity within 20 blocks
+        // Cooldown is 6 min, or until a schedule change reapplies it.
         "minecraft:behavior.move_to_block": {
-          "priority": 6,
-          // "start_chance": 1,
+          "priority": 5,          //
+          // "tick_interval": 2,     // average interval (ticks) to try to run this behavior
           "search_range": 32,
-          "goal_radius": 1,
-          "stay_duration": 30, // 1.5 seconds
+          "speed_multiplier": 0.6,
+          "goal_radius": 2,       // allows goal completion with farmer on top of it
+          "stay_duration": 30,    // 1.5 seconds
           "target_selection_method": "nearest",
           "target_blocks": [ "minecraft:lodestone" ],
-          "on_reach": {
-            "event": "arrived_at_lodestone",
-            "target": "self"
-          }
-          // "on_stay_completed": {  //trying this instead of on_reach
-          //   "event": "call_look_for_hopper",
-          //   "target": "self"
-          // }
-        }
-      },
-
-      "look_for_hopper": {
-        "minecraft:behavior.move_to_block": {
-          // "start_chance": 1,
-          "priority": 5, //highest priority for testing
-          "search_range": 4,
-          "goal_radius": 1,
-          "stay_duration": 200,  // 10 seconds
-          "target_selection_method": "nearest",
-          "target_blocks": [
-            "minecraft:hopper"
-          ],
 
           "on_reach": {
-            "event": "drop_crops_event",
-            "target": "self"
-          }
-        }
-      },
-
-      "test_look_for_hopper": {   // for testing
-        "minecraft:behavior.move_to_block": {
-          "start_chance": 1,
-          "priority": 1, //highest priority for testing
-          "search_range": 32, //for testing
-          "goal_radius": 1,
-          "target_offset": [
-            0,
-            1,
-            0
-          ],
-          "stay_duration": 40,  // 2 seconds
-          "target_selection_method": "nearest",
-          "target_blocks": [
-            "minecraft:hopper"
-          ],
-          "target_block_filters": {
-            
+            "event": "arrived_at_lodestone"
           },
-          "on_reach": {
-            "event": "arrived_at_test_hopper",
+          "goal_cooldown": 6000  // (6 min) ticks before the goal can be used again
+          
+          // It works but seems a bit random... also stay completed
+          // takes longer than the actual timer but it eventually works.
+          // "on_reach" fires prematurely.
+        }
+      },
+
+      "share_crops_to_hopper_marker": {
+        "minecraft:behavior.share_items": {
+          "priority": 5,          // if 4 or lower, villager won't avoid dangerous mobs.
+          "max_dist": 20,
+          "goal_radius":  2.5,
+          "speed_multiplier": 0.55,
+          "entity_types": [
+            {
+              "filters": { "test" : "is_family", "subject": "other", "value":  "hopper_marker" }
+            }
+          ]
+        },
+        "minecraft:shareables": {
+          "items": [
+            {
+              "item": "minecraft:carrot",
+              "want_amount": 60,
+              "surplus_amount": 24,
+              "stored_in_inventory": true
+            },
+            {
+              "item": "minecraft:potato",
+              "want_amount": 60,
+              "surplus_amount": 24,
+              "stored_in_inventory": true
+            },
+            {
+              "item": "minecraft:beetroot",
+              "want_amount": 60,
+              "surplus_amount": 24,
+              "stored_in_inventory": true
+            },
+            {
+              "item": "minecraft:wheat",
+              "want_amount": 45,
+              "surplus_amount": 18,
+              "stored_in_inventory": true
+            },
+            {
+              "item": "minecraft:wheat_seeds",
+              "want_amount": 64,
+              "surplus_amount": 64,
+              "stored_in_inventory": true,
+              "pickup_only": true
+            },
+            {
+              "item": "minecraft:beetroot_seeds",
+              "want_amount": 64,
+              "surplus_amount": 64,
+              "stored_in_inventory": true,
+              "pickup_only": true
+            },
+            {
+              "item": "minecraft:bone_meal",
+              "want_amount": 64,
+              "surplus_amount": 64,
+              "stored_in_inventory": true,
+              "pickup_only": true
+            },
+            {
+              "item": "minecraft:bread",
+              "want_amount": 3,
+              "surplus_amount": 6,
+              "stored_in_inventory": true,
+              "pickup_only": true
+            }
+          ]
+        },
+        "minecraft:timer": {
+          "looping": false,
+          "time": 75,
+          "time_down_event": {
+            "event": "timeout_share_crops_to_hopper_marker",
             "target": "self"
           }
         }
       },
-
-      "go_to_chest": {
-        "minecraft:behavior.move_to_block": {
-          "priority": 1, //highest priority for testing
-          "search_range": 32,
-          "goal_radius": 1,
-          "stay_duration": 40,  // 2 seconds
-          "target_selection_method": "nearest",
-          "target_blocks": [ "minecraft:chest" ],
-          "on_reach": {
-            "event": "arrived_at_chest",
-            "target": "self"
-          }
-        }
-      },
-
-      // "drop_items_to_hopper": {
-      //   "minecraft:behavior.drop_item_for": {
-      //     "entity_types": [
-      //       {
-      //         "filters": {
-      //           "test": "is_family",
-      //           "subject": "other",
-      //           "value": "armor_stand"
-      //         }
-      //       }
-      //     ],
-      //     "loot_table": "loot_tables/"
-      //   }
-      // },
 
       "work_schedule_librarian": {
         "minecraft:behavior.work": {
@@ -854,13 +883,13 @@
               "on_interact": {
                 "event": "add_farmer_can_be_tempted",
                 "filters": {
-                  "none_of": [  // if (!farmer_can_be_tempted) then allow the interaction
-                    {
-                      "test": "has_component",
-                      "value": "farmer_can_be_tempted"
-                    }
-                  ],
                   "all_of": [
+                    {
+                      "test": "has_tag",
+                      "subject": "self",
+                      "operator": "!=",
+                      "value": "can_be_tempted"
+                    },
                     {
                       "test": "is_family",
                       "subject": "other",
@@ -875,7 +904,8 @@
                   ]
                 }
               },
-              "use_item": false
+              "use_item": false,
+              "play_sounds": "block.click"
             },
             {
               "interact_text": "Stop leading farming with chest",
@@ -884,28 +914,26 @@
                 "filters": {
                   "all_of": [
                     {
-                      "test": "has_component",
-                      "value": "farmer_can_be_tempted"
+                      "test": "has_tag",
+                      "subject": "self",
+                      "value": "can_be_tempted"
                     },
                     {
-                      "all_of": [
-                        {
-                          "test": "is_family",
-                          "subject": "other",
-                          "value": "player"
-                        },
-                        {
-                          "test": "has_equipment",
-                          "domain": "hand",
-                          "subject": "other",
-                          "value": "chest"
-                        }
-                      ]
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "has_equipment",
+                      "domain": "hand",
+                      "subject": "other",
+                      "value": "chest"
                     }
                   ]
                 }
               },
-              "use_item": false
+              "use_item": false,
+              "play_sounds": "block.click.fail"
             }
           ]
         }
@@ -1356,6 +1384,18 @@
           "priority": 9
         },
 
+        "minecraft:behavior.share_items": {   //same as default
+          "priority": 10,
+          "max_dist": 3,
+          "goal_radius":  2.0,
+          "speed_multiplier": 0.5,
+          "entity_types": [
+            {
+              "filters": { "test" :  "is_family", "subject" : "other", "value" :  "villager"}
+            }
+          ]
+        },
+
         "minecraft:preferred_path" : {
           "max_fall_blocks" : 1,
           "jump_cost" : 5,
@@ -1448,6 +1488,19 @@
         "minecraft:behavior.receive_love": {
           "priority": 6
         },
+
+        "minecraft:behavior.share_items": {   //same as default
+          "priority": 10,
+          "max_dist": 3,
+          "goal_radius":  2.0,
+          "speed_multiplier": 0.5,
+          "entity_types": [
+            {
+              "filters": { "test" :  "is_family", "subject" : "other", "value" :  "villager"}
+            }
+          ]
+        },
+
         "minecraft:preferred_path" : {
           "max_fall_blocks" : 1,
           "jump_cost" : 20,
@@ -1606,7 +1659,7 @@
       }
     },
 
-    "components": { //Core components of all villagers?
+    "components": { //Core components of all villagers
       "minecraft:is_hidden_when_invisible": {
       },
       "minecraft:type_family": {
@@ -1670,8 +1723,8 @@
       "minecraft:can_climb": {
       },
       "minecraft:inventory": {
-        "inventory_size": 8,  // 8 by default, maybe increase this later?
-        "private": false,    // false by default, true for debug purposes for now.
+        "inventory_size": 10,  // 8 by default
+        "private": false,     // true by default, false for debug purposes for now.
         "container_type": "inventory"
       },
       "minecraft:dweller": {
@@ -1734,7 +1787,7 @@
         "priority": 1,
         "speed_multiplier": 0.6
       },
-      "minecraft:behavior.trade_with_player": {
+      "minecraft:behavior.trade_with_player": { // disable + remove trade components to access inventory
         "priority": 2
       },
       "minecraft:behavior.avoid_mob_type": {
@@ -1758,7 +1811,7 @@
       },
       "minecraft:behavior.pickup_items": {
         "priority": 4,
-        "max_dist": 3,
+        "max_dist": 4,      // default is 3
         "goal_radius": 2,
         "speed_multiplier": 0.5,
         "can_pickup_to_hand_or_equipment": false
@@ -1771,22 +1824,17 @@
       "minecraft:behavior.look_at_trading_player": {
         "priority": 7
       },
-      "minecraft:behavior.look_at_player": {
-        "priority": 11, //original is 9. They stop what they're doing to look at 9 so...
-        "look_distance": 8,
-        "probability": 0.02
-      },
-      "minecraft:behavior.share_items": {
-        "priority": 10,
-        "max_dist": 3,
-        "goal_radius":  2.0,
-        "speed_multiplier": 0.5,
-        "entity_types": [
-          {
-            "filters": { "test" :  "is_family", "subject" : "other", "value" :  "villager"}
-          }
-        ]
-      },
+      // "minecraft:behavior.look_at_player": {
+      //   "priority": 11, //original is 9. They stop what they're doing to look at 9 so...
+      //   "look_distance": 8,
+      //   "probability": 0.02,
+      //   "look_time": [2, 4] // vanilla doesn't have this
+      // },
+
+      //*************************************************************************
+      //NOTE: Moved "minecraft:behavior.share_items" to inside "baby" and "adult" component 
+      // groups so that I can add another, separate sharing functionality.
+
       "minecraft:behavior.move_towards_dwelling_restriction": {
         "priority": 11,
         "speed_multiplier": 0.6
@@ -1802,103 +1850,126 @@
         "is_pushable_by_piston": true
       }
     },
-    "events":{
+
+    "events": {
+      "remove_trade_components": {    // for debugging
+        "remove": {
+          "component_groups": ["trade_components"]
+        },
+        "queue_command": {"command": "say removed trade_components, reapply with 'become_xxx'."}
+      },
+      
       "add_farmer_can_be_tempted": {
         "add": {
-          "component_groups": [
-            "farmer_can_be_tempted"
-          ]
+          "component_groups": ["farmer_can_be_tempted"]
         },
         "queue_command": {
-          "command": "say add_farmer_can_be_tempted activated." //for debug
+          "command": [
+            "say add_farmer_can_be_tempted activated.",  //for debug
+            "tag @s add can_be_tempted"   //allows farmer to self check if tempting is enabled
+          ] 
         }
       },
+
       "remove_farmer_can_be_tempted": {
         "remove": {
-          "component_groups": [
-            "farmer_can_be_tempted"
+          "component_groups": ["farmer_can_be_tempted"]
+        },
+        "queue_command": {
+          "command": [
+            "say removed farmer_can_be_tempted.", //for debug
+            "tag @s remove can_be_tempted"   //allows farmer to self check if tempting is enabled
           ]
-        },
-        "queue_command": {
-          "command": "say remove_farmer_can_be_tempted activated." //for debug
-          
         }
       },
-      "call_look_for_hopper" : {
-        "remove": {
-          "component_groups": [ "look_for_lodestone" ]
-        },
-        "add": {
-          "component_groups": [ "look_for_hopper" ]
-        },
-        "queue_command": {
-          "command": "say call_look_for_hopper was activated" //for debug
-        }
+
+      "add_look_for_lodestone": {
+        "add": {"component_groups": ["look_for_lodestone"]}
       },
+
+      "remove_look_for_lodestone": {
+        "remove": {"component_groups": ["look_for_lodestone"]}
+      },
+
       "arrived_at_lodestone": {
-        "queue_command": {
-          "command": "setblock -557 71.58 -208.63 lime_concrete" //for debug
-        }
-      },
-      "arrived_at_test_hopper": {
-        "queue_command": {
-          "command": "setblock -558 71.58 -208.63 blue_concrete" //for debug
-        },
-        "remove": {
-          "component_groups": [
-            "test_look_for_hopper"
-          ]
-        }
-      },
-      "arrived_at_chest": {
-        "queue_command": {
-          "command": "setblock -559 71.58 -208.63 cyan_concrete" //for debug
-        },
-        "remove": {
-          "component_groups": [
-            "go_to_chest"
-          ]
-        }
-      },
-      "go_to_chest": {
-        "add": {
-          "component_groups": [
-            "go_to_chest"
-          ]
-        }
-      },
-      "test_look_for_hopper": {
-        "add": {
-          "component_groups": [
-            "test_look_for_hopper"
-          ]
-        }
-      },
-      "add_look_for_lodestone": { //so I can force it with /event in game
-        "remove": {
-          "component_groups": [ "look_for_hopper" ]
-        },
-        "add": {
-          "component_groups": [ "look_for_lodestone" ]
-        }
-      },
-      "drop_crops_event": {
         "sequence": [
           {
+            "queue_command": {"command": "say arrived at lodestone"}
+          },
+          {
+            "trigger": "add_share_crops_to_hopper_marker"
+          }
+          // {  instead of removing it, it now has a 7.25 min cooldown
+          //   "remove": {"component_groups": ["look_for_lodestone"]}
+          // }
+        ]
+      },
+
+      "timeout_share_crops_to_hopper_marker": {
+        //reapply default sharing behavior
+        "sequence": [
+          {
+            //regardless of occupation, reapply default share items behavior
+            "add": {"component_groups": ["default_share_items"]},
             "queue_command": {
-              "command": "drop_crops" //not sure if this is allowed, or proper
-            },
-            "remove": {
-              "component_groups": [
-                "look_for_hopper"
+              "command": [
+                "say timeout share_crops_to_hopper_marker.",  //for debug
+                "say applied default share_items behavior."   //for debug
               ]
             }
+          },
+          {
+            //Verify farmer status to prevent adding farmer shareables in case of changed occupation.
+            "filters": {
+              "test": "is_family",
+              "subject": "self",
+              "value": "farmer"
+            },
+            "add": {"component_groups": ["farmer_default_shareables"]},
+            "queue_command": {"command": "say applied farmer_default_shareables."} //for debug
           }
-        ],
-        "queue_command": {
-          "command": "say drop_crops_event was activated"  //for debug
-        }
+        ]
       },
+
+      "add_share_crops_to_hopper_marker": {
+        "add": {
+          "component_groups": ["share_crops_to_hopper_marker"]
+        },
+        "queue_command": {"command": "say added share_crops_to_hopper_marker."} //for debug
+      },
+
+      "add_farmer_default_shareables": {
+        "add": {"component_groups": ["farmer_default_shareables"]},
+        "queue_command": {"command": "say added farmer_default_shareables."} //for debug
+      },
+
+      "add_default_share_items": {
+        "add": {"component_groups": ["default_share_items"]},
+        "queue_command": {"command": "say added default_share_items."} //for debug
+      },
+
+      "test_is_farmer": {
+        "sequence": [
+          {
+            "filters": {
+              "test": "is_family",
+              "subject": "self",
+              "value": "farmer"
+            },
+            "queue_command": {"command": "say is farmer."} //for debug
+          },
+          {
+            "filters": {
+              "test": "is_family",
+              "subject": "self",
+              "value": "farmer",
+              "operator": "!="
+            },
+            "queue_command": {"command": "say not a farmer."} //for debug
+          }
+        ]
+      },
+      
       "become_witch": {
         "add": {
           "component_groups": [
@@ -2785,6 +2856,7 @@
         "add": {
           "component_groups": [
             "work_schedule_farmer",
+            "farmer_default_shareables",
             "look_for_lodestone"
           ]
         }
