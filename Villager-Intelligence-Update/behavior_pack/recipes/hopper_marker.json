@@ -1,0 +1,24 @@
+{
+    "format_version": "1.17",
+    "minecraft:recipe_shaped": {
+      "description": {
+        "identifier": "minecraft:hopper_marker_spawn_egg"
+      },
+      "tags": ["crafting_table"],
+      "pattern": [
+        "iii",
+        "i i",
+        "iii"
+      ],
+      "key": {
+        "i": {
+          "item": "minecraft:iron_nugget"
+        }
+      },
+      "result": {
+        "item": "mrsir:hopper_marker_spawn_egg"
+      }
+    }
+  }
+  // for reference
+  // https://learn.microsoft.com/en-us/minecraft/creator/reference/content/recipereference/examples/recipedefinitions/minecraftrecipe_shaped?view=minecraft-bedrock-stable
