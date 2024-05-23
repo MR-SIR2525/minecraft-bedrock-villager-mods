@@ -1,0 +1,26 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "minecraft:lodestone"
+        },
+        "tags": ["crafting_table"],
+        "pattern": [
+            "SSS",
+            "S#S",
+            "SSS"
+        ],
+        "key": {
+            "S": {
+                "item": "minecraft:stonebrick:3"
+            },
+            "#": {
+                "item": "minecraft:diamond" //nerfed from netherite ingot bc farmer usage
+            }
+        },
+        "result": {
+            "item": "minecraft:lodestone",
+            "count": 1
+        }
+    }
+}
