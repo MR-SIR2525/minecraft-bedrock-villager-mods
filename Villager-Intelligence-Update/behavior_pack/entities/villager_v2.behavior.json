@@ -572,7 +572,7 @@
           // "tick_interval": 2,     // average interval (ticks) to try to run this behavior
           "search_range": 32,
           "speed_multiplier": 0.6,
-          "goal_radius": 2,       // allows goal completion with farmer on top of it
+          "goal_radius": 2.5,
           "stay_duration": 30,    // 1.5 seconds
           "target_selection_method": "nearest",
           "target_blocks": [ "minecraft:lodestone" ],
