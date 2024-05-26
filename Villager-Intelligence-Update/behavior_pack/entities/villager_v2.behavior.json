@@ -1904,8 +1904,7 @@
         ]
       },
 
-      "timeout_share_crops_to_hopper_marker": {
-        //reapply default sharing behavior
+      "timeout_share_crops_to_hopper_marker": {           //reapply default sharing behavior
         "sequence": [
           {
             //regardless of occupation, reapply default share items behavior
@@ -1931,9 +1930,7 @@
       },
 
       "add_share_crops_to_hopper_marker": {
-        "add": {
-          "component_groups": ["share_crops_to_hopper_marker"]
-        },
+        "add": {"component_groups": ["share_crops_to_hopper_marker"]},
         "queue_command": {"command": "say added share_crops_to_hopper_marker."} //for debug
       },
 
