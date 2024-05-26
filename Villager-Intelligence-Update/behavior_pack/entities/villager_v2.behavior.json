@@ -568,7 +568,9 @@
         // farmer gets to lodestone then shares crops to nearest hopper_marker entity within 20 blocks
         // Cooldown is 6 min, or until a schedule change reapplies it.
         "minecraft:behavior.move_to_block": {
-          "priority": 9,          //5 too high. 9 seems better in line with other work tasks.
+          // When it's raining, "move_indoors" has priority of 6 and this goal won't run at 9. So,
+          // trying 6, an equal priority.
+          "priority": 6,
           // "tick_interval": 2,     // average interval (ticks) to try to run this behavior
           "search_range": 32,
           "speed_multiplier": 0.6,
