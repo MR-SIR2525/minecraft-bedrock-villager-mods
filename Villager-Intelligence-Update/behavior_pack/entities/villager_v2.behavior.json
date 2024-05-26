@@ -568,7 +568,7 @@
         // farmer gets to lodestone then shares crops to nearest hopper_marker entity within 20 blocks
         // Cooldown is 6 min, or until a schedule change reapplies it.
         "minecraft:behavior.move_to_block": {
-          "priority": 5,          //
+          "priority": 9,          //5 too high. 9 seems better in line with other work tasks.
           // "tick_interval": 2,     // average interval (ticks) to try to run this behavior
           "search_range": 32,
           "speed_multiplier": 0.6,
@@ -579,9 +579,7 @@
 
           "on_reach": {
             "event": "arrived_at_lodestone"
-          },
-          "goal_cooldown": 6000  // (6 min) ticks before the goal can be used again
-          
+          }
           // It works but seems a bit random... also stay completed
           // takes longer than the actual timer but it eventually works.
           // "on_reach" fires prematurely.
@@ -1852,6 +1850,7 @@
     },
 
     "events": {
+      // for say commands, after debugging is done, change to "say @e[type=player,r=32] <message>"
       "remove_trade_components": {    // for debugging
         "remove": {
           "component_groups": ["trade_components"]
@@ -1898,10 +1897,10 @@
           },
           {
             "trigger": "add_share_crops_to_hopper_marker"
+          },
+          {
+            "remove": {"component_groups": ["look_for_lodestone"]}
           }
-          // {  instead of removing it, it now has a 7.25 min cooldown
-          //   "remove": {"component_groups": ["look_for_lodestone"]}
-          // }
         ]
       },
 
