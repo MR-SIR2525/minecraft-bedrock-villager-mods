@@ -580,9 +580,20 @@
           "on_reach": {
             "event": "arrived_at_lodestone"
           }
-          // It works but seems a bit random... also stay completed
-          // takes longer than the actual timer but it eventually works.
-          // "on_reach" fires prematurely.
+          // lodestone must be reasonably close/in sight of farmer for it to fire.
+          // "on_reach" fires somewhat prematurely sometimes.
+          // "on_arrival" sometimes takes forever.
+        }
+      },
+
+      "look_for_lodestone_cooldown": {
+        "minecraft:timer": {
+          "looping": false,
+          "time": 360,  //6 min
+          "time_down_event": {
+            "event": "add_look_for_lodestone",
+            "target": "self"
+          }
         }
       },
 
@@ -1893,13 +1904,14 @@
       "arrived_at_lodestone": {
         "sequence": [
           {
-            "queue_command": {"command": "say arrived at lodestone"}
+            "queue_command": {"command": "say arrived at lodestone"}  //for debug
           },
           {
             "trigger": "add_share_crops_to_hopper_marker"
           },
           {
-            "remove": {"component_groups": ["look_for_lodestone"]}
+            "remove": {"component_groups": ["look_for_lodestone"]},
+            "add": {"component_groups": ["look_for_lodestone_cooldown"]}
           }
         ]
       },
