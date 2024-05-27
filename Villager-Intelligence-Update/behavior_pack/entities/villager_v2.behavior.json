@@ -1877,7 +1877,7 @@
         },
         "queue_command": {
           "command": [
-            "say add_farmer_can_be_tempted activated.",  //for debug
+            "say can be tempted.",  //for debug
             "tag @s add can_be_tempted"   //allows farmer to self check if tempting is enabled
           ] 
         }
@@ -1889,7 +1889,7 @@
         },
         "queue_command": {
           "command": [
-            "say removed farmer_can_be_tempted.", //for debug
+            "say can no longer be tempted.", //for debug
             "tag @s remove can_be_tempted"   //allows farmer to self check if tempting is enabled
           ]
         }
@@ -1925,8 +1925,7 @@
             "add": {"component_groups": ["default_share_items"]},
             "queue_command": {
               "command": [
-                "say timeout share_crops_to_hopper_marker.",  //for debug
-                "say applied default share_items behavior."   //for debug
+                "say timeout share_crops_to_hopper_marker."  //for debug
               ]
             }
           },
@@ -1937,8 +1936,7 @@
               "subject": "self",
               "value": "farmer"
             },
-            "add": {"component_groups": ["farmer_default_shareables"]},
-            "queue_command": {"command": "say applied farmer_default_shareables."} //for debug
+            "add": {"component_groups": ["farmer_default_shareables"]}
           }
         ]
       },
