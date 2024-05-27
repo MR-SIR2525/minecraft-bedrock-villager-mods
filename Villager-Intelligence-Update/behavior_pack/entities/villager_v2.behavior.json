@@ -1514,11 +1514,11 @@
 
         "minecraft:preferred_path" : {
           "max_fall_blocks" : 1,
-          "jump_cost" : 20,
+          "jump_cost" : 12,     //default is 20, but causes pathing issues with grass_paths
           "default_block_cost" : 3,
           "preferred_path_blocks" : [
             { 
-              "cost" : 0,
+              "cost" : 0.5,     //to help reduce pathing issues with doorwars + paths (was 0)
               "blocks" : [ 
                 "grass_path"
               ]
