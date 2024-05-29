@@ -4,7 +4,7 @@
 		"name": "Helpful Villagers BP by MRxSIR",
 		"description": "BP. Tasks, behaviors, and intelligence improvements for villagers",
 		"uuid": "62e7137e-7d10-4c7c-b4f3-f638e721eb79",
-		"version": [0, 0, 154],
+		"version": [0, 0, 155],
 		"min_engine_version": [1, 16, 0]
 	},
 	"metadata": {
@@ -14,7 +14,7 @@
 	"modules": [
 		{
 			"description": "Behavior Pack for Helpful Villagers addon",
-			"version": [0, 0, 154],
+			"version": [0, 0, 155],
 			"uuid": "e517a1a3-fdf1-42ab-b10f-25a5c0e40fd7",
 			"type": "data"
 		}
@@ -31,7 +31,7 @@
 	"dependencies": [
 		{ // resource pack
 			"uuid": "cacb0330-d0a3-4d19-9661-cb1e8f53ea16",
-			"version": [0, 0, 125]
+			"version": [0, 0, 126]
 		}
 		// {
 			// "module_name": "@minecraft/server",
