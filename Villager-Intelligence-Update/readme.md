@@ -8,7 +8,7 @@
 - Make a farmer follow you while holding a chest. Toggle on/off by clicking farmer with chest.
 - Farmer can drop crops to hopper:
   1. During work time, farmer has the chance to look for a "farmer guide stone"...
-  2. If a Guide Stone is found, farmer will go to it then share to a nearby "hopper marker" entity that should be placed on top of a hopper and within sight of the lodestone.
+  2. If a Guide Stone is found, farmer will go to it then share to a nearby "hopper marker" entity that should be placed on top of a hopper and within sight of the Farmer Guide Stone.
   3. Farmer will share **excess crops** from his inventory to it and go back to normal activities.
    
 #### Hopper Marker
@@ -26,7 +26,7 @@
       - where "S" is stone
       - where "i" is an iron nugget
 
-(idk if we should still use this for farmers...)
+(no longer used for farmer)
 - Lodestone crafting recipe (normal except use diamond instead of netherite):
    - S&nbsp;S&nbsp;S
   - S&nbsp;D&nbsp;S

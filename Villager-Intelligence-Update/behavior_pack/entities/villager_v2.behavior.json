@@ -565,7 +565,7 @@
       },
 
       "look_for_guide_stone": {
-        // farmer gets to lodestone then shares crops to nearest hopper_marker entity within 20 blocks
+        // farmer gets to guide_stone then shares crops to nearest hopper_marker entity within 20 blocks
         // Cooldown is 6 min, or until a schedule change reapplies it.
         "minecraft:behavior.move_to_block": {
           // When it's raining, "move_indoors" has priority of 6 and this goal won't run at 9. So,
@@ -577,12 +577,12 @@
           "goal_radius": 2.5,
           "stay_duration": 30,    // 1.5 seconds
           "target_selection_method": "nearest",
-          "target_blocks": [ "minecraft:lodestone", "mrsir:farmer_guide_stone" ],
+          "target_blocks": [ "mrsir:farmer_guide_stone" ],
 
           "on_reach": {
-            "event": "arrived_at_lodestone"
+            "event": "arrived_at_guide_stone"
           }
-          // lodestone must be reasonably close/in sight of farmer for it to fire.
+          // guide stone must be reasonably close/in sight of farmer for it to fire.
           // "on_reach" fires somewhat prematurely sometimes.
           // "on_arrival" sometimes takes forever.
         }
@@ -1903,10 +1903,10 @@
         "remove": {"component_groups": ["look_for_guide_stone"]}
       },
 
-      "arrived_at_lodestone": {
+      "arrived_at_guide_stone": {
         "sequence": [
           {
-            "queue_command": {"command": "say arrived at lodestone"}  //for debug
+            "queue_command": {"command": "say arrived at guide stone"}  //for debug
           },
           {
             "trigger": "add_share_crops_to_hopper_marker"
