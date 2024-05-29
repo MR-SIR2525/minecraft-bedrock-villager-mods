@@ -426,7 +426,7 @@
         "minecraft:behavior.inspect_bookshelf": {},
         "minecraft:behavior.harvest_farm_block": {},
         "minecraft:behavior.fertilize_farm_block": {},  //why was this not here..? Mojang??
-        "minecraft:behavior.move_to_block": {},   // ("look_for_lodestone" component group)
+        "minecraft:behavior.move_to_block": {},   // ("look_for_guide_stone" component group)
         "minecraft:behavior.explore_outskirts": {},
         "minecraft:behavior.work": {},
         "minecraft:behavior.work_composter": {},
@@ -564,7 +564,7 @@
         }
       },
 
-      "look_for_lodestone": {
+      "look_for_guide_stone": {
         // farmer gets to lodestone then shares crops to nearest hopper_marker entity within 20 blocks
         // Cooldown is 6 min, or until a schedule change reapplies it.
         "minecraft:behavior.move_to_block": {
@@ -577,7 +577,7 @@
           "goal_radius": 2.5,
           "stay_duration": 30,    // 1.5 seconds
           "target_selection_method": "nearest",
-          "target_blocks": [ "minecraft:lodestone" ],
+          "target_blocks": [ "minecraft:lodestone", "mrsir:farmer_guide_stone" ],
 
           "on_reach": {
             "event": "arrived_at_lodestone"
@@ -588,12 +588,12 @@
         }
       },
 
-      "look_for_lodestone_cooldown": {
+      "look_for_guide_stone_cooldown": {
         "minecraft:timer": {
           "looping": false,
           "time": 360,  //6 min
           "time_down_event": {
-            "event": "add_look_for_lodestone",
+            "event": "add_look_for_guide_stone",
             "target": "self"
           }
         }
@@ -1895,12 +1895,12 @@
         }
       },
 
-      "add_look_for_lodestone": {
-        "add": {"component_groups": ["look_for_lodestone"]}
+      "add_look_for_guide_stone": {
+        "add": {"component_groups": ["look_for_guide_stone"]}
       },
 
-      "remove_look_for_lodestone": {
-        "remove": {"component_groups": ["look_for_lodestone"]}
+      "remove_look_for_guide_stone": {
+        "remove": {"component_groups": ["look_for_guide_stone"]}
       },
 
       "arrived_at_lodestone": {
@@ -1912,8 +1912,8 @@
             "trigger": "add_share_crops_to_hopper_marker"
           },
           {
-            "remove": {"component_groups": ["look_for_lodestone"]},
-            "add": {"component_groups": ["look_for_lodestone_cooldown"]}
+            "remove": {"component_groups": ["look_for_guide_stone"]},
+            "add": {"component_groups": ["look_for_guide_stone_cooldown"]}
           }
         ]
       },
@@ -2865,7 +2865,7 @@
           "component_groups": [
             "work_schedule_farmer",
             "farmer_default_shareables",
-            "look_for_lodestone"
+            "look_for_guide_stone"
           ]
         }
       },
