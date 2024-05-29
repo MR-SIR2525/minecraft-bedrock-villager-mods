@@ -1,2 +1,8 @@
+# Entities
 entity.mrsir:hopper_marker.name=Hopper Marker
+
+# Items
 item.spawn_egg.entity.mrsir:hopper_marker.name=Spawn Hopper Marker
+
+# Blocks
+tile.mrsir:farmer_guide_stone.name=Farmer Guide Stone
