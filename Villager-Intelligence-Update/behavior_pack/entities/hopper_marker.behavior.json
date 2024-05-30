@@ -112,8 +112,8 @@
 			"minecraft:inventory": {
 				"additional_slots_per_strength": 0,
 				"can_be_siphoned_from": true,
-				"container_type": "container",
-				"inventory_size": 8,
+				"container_type": "hopper",
+				"inventory_size": 5,
 				"private": false
 			},
 			"minecraft:interact": {
