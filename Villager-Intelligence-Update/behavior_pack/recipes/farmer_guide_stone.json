@@ -1,0 +1,26 @@
+{
+  "format_version": "1.17",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "minecraft:farmer_guide_stone"
+    },
+    "tags": ["crafting_table"],
+    "pattern": [
+      " i ",
+      "iSi",
+      " i "
+    ],
+    "key": {
+      "S": {
+        "item": "minecraft:stone"
+      },
+      "i": {
+        "item": "minecraft:iron_nugget"
+      }
+    },
+    "result": {
+      "item": "mrsir:farmer_guide_stone",
+      "count": 1
+    }
+  }
+}

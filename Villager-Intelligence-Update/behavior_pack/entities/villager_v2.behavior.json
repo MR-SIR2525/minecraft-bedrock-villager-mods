@@ -426,7 +426,7 @@
         "minecraft:behavior.inspect_bookshelf": {},
         "minecraft:behavior.harvest_farm_block": {},
         "minecraft:behavior.fertilize_farm_block": {},  //why was this not here..? Mojang??
-        "minecraft:behavior.move_to_block": {},   // ("look_for_lodestone" component group)
+        "minecraft:behavior.move_to_block": {},   // ("look_for_guide_stone" component group)
         "minecraft:behavior.explore_outskirts": {},
         "minecraft:behavior.work": {},
         "minecraft:behavior.work_composter": {},
@@ -564,27 +564,38 @@
         }
       },
 
-      "look_for_lodestone": {
-        // farmer gets to lodestone then shares crops to nearest hopper_marker entity within 20 blocks
+      "look_for_guide_stone": {
+        // farmer gets to guide_stone then shares crops to nearest hopper_marker entity within 20 blocks
         // Cooldown is 6 min, or until a schedule change reapplies it.
         "minecraft:behavior.move_to_block": {
-          "priority": 5,          //
+          // When it's raining, "move_indoors" has priority of 6 and this goal won't run at 9. So,
+          // trying 6, an equal priority.
+          "priority": 6,
           // "tick_interval": 2,     // average interval (ticks) to try to run this behavior
           "search_range": 32,
           "speed_multiplier": 0.6,
-          "goal_radius": 2,       // allows goal completion with farmer on top of it
+          "goal_radius": 2.5,
           "stay_duration": 30,    // 1.5 seconds
           "target_selection_method": "nearest",
-          "target_blocks": [ "minecraft:lodestone" ],
+          "target_blocks": [ "mrsir:farmer_guide_stone" ],
 
           "on_reach": {
-            "event": "arrived_at_lodestone"
-          },
-          "goal_cooldown": 6000  // (6 min) ticks before the goal can be used again
-          
-          // It works but seems a bit random... also stay completed
-          // takes longer than the actual timer but it eventually works.
-          // "on_reach" fires prematurely.
+            "event": "arrived_at_guide_stone"
+          }
+          // guide stone must be reasonably close/in sight of farmer for it to fire.
+          // "on_reach" fires somewhat prematurely sometimes.
+          // "on_arrival" sometimes takes forever.
+        }
+      },
+
+      "look_for_guide_stone_cooldown": {
+        "minecraft:timer": {
+          "looping": false,
+          "time": 360,  //6 min
+          "time_down_event": {
+            "event": "add_look_for_guide_stone",
+            "target": "self"
+          }
         }
       },
 
@@ -1503,11 +1514,11 @@
 
         "minecraft:preferred_path" : {
           "max_fall_blocks" : 1,
-          "jump_cost" : 20,
+          "jump_cost" : 12,     //default is 20, but causes pathing issues with grass_paths
           "default_block_cost" : 3,
           "preferred_path_blocks" : [
             { 
-              "cost" : 0,
+              "cost" : 0.5,     //to help reduce pathing issues with doorwars + paths (was 0)
               "blocks" : [ 
                 "grass_path"
               ]
@@ -1852,6 +1863,7 @@
     },
 
     "events": {
+      // for say commands, after debugging is done, change to "say @e[type=player,r=32] <message>"
       "remove_trade_components": {    // for debugging
         "remove": {
           "component_groups": ["trade_components"]
@@ -1865,7 +1877,7 @@
         },
         "queue_command": {
           "command": [
-            "say add_farmer_can_be_tempted activated.",  //for debug
+            "say can be tempted.",  //for debug
             "tag @s add can_be_tempted"   //allows farmer to self check if tempting is enabled
           ] 
         }
@@ -1877,44 +1889,43 @@
         },
         "queue_command": {
           "command": [
-            "say removed farmer_can_be_tempted.", //for debug
+            "say can no longer be tempted.", //for debug
             "tag @s remove can_be_tempted"   //allows farmer to self check if tempting is enabled
           ]
         }
       },
 
-      "add_look_for_lodestone": {
-        "add": {"component_groups": ["look_for_lodestone"]}
+      "add_look_for_guide_stone": {
+        "add": {"component_groups": ["look_for_guide_stone"]}
       },
 
-      "remove_look_for_lodestone": {
-        "remove": {"component_groups": ["look_for_lodestone"]}
+      "remove_look_for_guide_stone": {
+        "remove": {"component_groups": ["look_for_guide_stone"]}
       },
 
-      "arrived_at_lodestone": {
+      "arrived_at_guide_stone": {
         "sequence": [
           {
-            "queue_command": {"command": "say arrived at lodestone"}
+            "queue_command": {"command": "say arrived at guide stone"}  //for debug
           },
           {
             "trigger": "add_share_crops_to_hopper_marker"
+          },
+          {
+            "remove": {"component_groups": ["look_for_guide_stone"]},
+            "add": {"component_groups": ["look_for_guide_stone_cooldown"]}
           }
-          // {  instead of removing it, it now has a 7.25 min cooldown
-          //   "remove": {"component_groups": ["look_for_lodestone"]}
-          // }
         ]
       },
 
-      "timeout_share_crops_to_hopper_marker": {
-        //reapply default sharing behavior
+      "timeout_share_crops_to_hopper_marker": {           //reapply default sharing behavior
         "sequence": [
           {
             //regardless of occupation, reapply default share items behavior
             "add": {"component_groups": ["default_share_items"]},
             "queue_command": {
               "command": [
-                "say timeout share_crops_to_hopper_marker.",  //for debug
-                "say applied default share_items behavior."   //for debug
+                "say timeout share_crops_to_hopper_marker."  //for debug
               ]
             }
           },
@@ -1925,16 +1936,13 @@
               "subject": "self",
               "value": "farmer"
             },
-            "add": {"component_groups": ["farmer_default_shareables"]},
-            "queue_command": {"command": "say applied farmer_default_shareables."} //for debug
+            "add": {"component_groups": ["farmer_default_shareables"]}
           }
         ]
       },
 
       "add_share_crops_to_hopper_marker": {
-        "add": {
-          "component_groups": ["share_crops_to_hopper_marker"]
-        },
+        "add": {"component_groups": ["share_crops_to_hopper_marker"]},
         "queue_command": {"command": "say added share_crops_to_hopper_marker."} //for debug
       },
 
@@ -2857,7 +2865,7 @@
           "component_groups": [
             "work_schedule_farmer",
             "farmer_default_shareables",
-            "look_for_lodestone"
+            "look_for_guide_stone"
           ]
         }
       },
