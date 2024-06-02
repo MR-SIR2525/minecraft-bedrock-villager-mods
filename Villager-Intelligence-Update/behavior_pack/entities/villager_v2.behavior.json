@@ -551,7 +551,27 @@
         }
       },
 
-      // farmer's interaction component
+      // here so it can be re-added after inventory interaction
+      "farmer_trade_components": {
+        "minecraft:behavior.trade_interest": {
+          "priority": 5,
+          "within_radius": 6.0,
+          "interest_time": 45.0,
+          "remove_item_time": 1.0,
+          "carried_item_switch_time": 2.0,
+          "cooldown": 2.0
+        },
+        "minecraft:economy_trade_table": {
+          "display_name": "entity.villager.farmer",
+          "table": "trading/economy_trades/farmer_trades.json",
+          "new_screen": true,
+          "persist_trades": true,
+          "cured_discount": [-100, -100],
+          "max_cured_discount": [-500, -500]
+        }
+      },
+
+      // farmer's tempt interaction component
       "farmer_can_be_tempted": {
         "minecraft:behavior.tempt": {
           "priority": 5,
@@ -861,6 +881,8 @@
         "minecraft:variant": {
           "value": 1
         },
+        // trade interest and economy trade table also have a separate component group for re-adding.
+        // if you change something here, change it there too
         "minecraft:behavior.trade_interest": {
           "priority": 5,
           "within_radius": 6.0,
@@ -1859,18 +1881,73 @@
       "minecraft:pushable": {
         "is_pushable": true,
         "is_pushable_by_piston": true
+      },
+
+      "minecraft:interact": {
+        "interactions": [
+          {
+            "interact_text": "Enable access to villager's inventory",
+            "on_interact": {
+              "event": "remove_trade_components",
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "has_tag",
+                    "subject": "self",
+                    "operator": "!=",
+                    "value": "trade_components_off"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "player"
+                  },
+                  {
+                    "test": "has_equipment",
+                    "domain": "hand",
+                    "subject": "other",
+                    "value": "chest"
+                  }
+                ]
+              }
+            },
+            "use_item": false,
+            "play_sounds": "block.click"
+          },
+          {
+            "interact_text": "Disable access to villager's inventory",
+            "on_interact": {
+              "event": "restore_trade_components",
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "has_tag",
+                    "subject": "self",
+                    "value": "trade_components_off"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "player"
+                  },
+                  {
+                    "test": "has_equipment",
+                    "domain": "hand",
+                    "subject": "other",
+                    "value": "chest"
+                  }
+                ]
+              }
+            },
+            "use_item": false,
+            "play_sounds": "block.click.fail"
+          }
+        ]
       }
     },
 
     "events": {
-      // for say commands, after debugging is done, change to "say @e[type=player,r=32] <message>"
-      "remove_trade_components": {    // for debugging
-        "remove": {
-          "component_groups": ["trade_components"]
-        },
-        "queue_command": {"command": "say removed trade_components, reapply with 'become_xxx'."}
-      },
-      
+      // for say commands, after debugging is done, change to "msg @a[r=10] <message>"      
       "add_farmer_can_be_tempted": {
         "add": {
           "component_groups": ["farmer_can_be_tempted"]
@@ -1879,7 +1956,7 @@
           "command": [
             "msg @a[r=8] can be tempted with a hay bale",  //for debug
             "tag @s add can_be_tempted"   //allows farmer to self check if tempting is enabled
-          ] 
+          ]
         }
       },
 
@@ -1974,6 +2051,69 @@
               "operator": "!="
             },
             "queue_command": {"command": "say not a farmer."} //for debug
+          }
+        ]
+      },
+
+      "remove_trade_components": {
+        "remove": {
+          "component_groups": ["trade_components"]
+        }
+      },
+
+      "restore_trade_components": {
+        "sequence": [
+          {
+            "trigger": "minecraft:become_cleric",
+            "filters": {"test": "is_family", "subject": "self", "value": "cleric" }
+          },
+          {
+            "trigger": "minecraft:become_farmer",
+            "filters": {"test": "is_family", "subject": "self", "value": "farmer" }
+          },
+          {
+            "trigger": "minecraft:become_fisherman",
+            "filters": {"test": "is_family", "subject": "self", "value": "fisherman" }
+          },
+          {
+            "trigger": "minecraft:become_fletcher",
+            "filters": {"test": "is_family", "subject": "self", "value": "fletcher" }
+          },
+          {
+            "trigger": "minecraft:become_librarian",
+            "filters": {"test": "is_family", "subject": "self", "value": "librarian" }
+          },
+          {
+            "trigger": "minecraft:become_cartographer",
+            "filters": {"test": "is_family", "subject": "self", "value": "cartographer" }
+          },
+          {
+            "trigger": "minecraft:become_armorer",
+            "filters": {"test": "is_family", "subject": "self", "value": "armorer" }
+          },
+          {
+            "trigger": "minecraft:become_weaponsmith",
+            "filters": {"test": "is_family", "subject": "self", "value": "weaponsmith" }
+          },
+          {
+            "trigger": "minecraft:become_toolsmith",
+            "filters": {"test": "is_family", "subject": "self", "value": "toolsmith" }
+          },
+          {
+            "trigger": "minecraft:become_butcher",
+            "filters": {"test": "is_family", "subject": "self", "value": "butcher" }
+          },
+          {
+            "trigger": "minecraft:become_leatherworker",
+            "filters": {"test": "is_family", "subject": "self", "value": "leatherworker" }
+          },
+          {
+            "trigger": "minecraft:become_shepherd",
+            "filters": {"test": "is_family", "subject": "self", "value": "shepherd" }
+          },
+          {
+            "trigger": "minecraft:become_mason",
+            "filters": {"test": "is_family", "subject": "self", "value": "mason" }
           }
         ]
       },
@@ -2807,7 +2947,7 @@
         "add": { "component_groups": [ "leatherworker", "adult", "behavior_non_peasant", "work_schedule" ] }
       },
       
-      "minecraft:become_sheperd": {
+      "minecraft:become_shepherd": {
         "remove": { "component_groups": [ "baby", "child_schedule", "job_specific_goals", "trade_components" ] },
         "add": { "component_groups": [ "shepherd", "adult", "behavior_non_peasant", "work_schedule" ] }
       },
