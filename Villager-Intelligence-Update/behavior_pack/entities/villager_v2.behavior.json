@@ -559,7 +559,7 @@
           "within_radius": 10,
           "can_tempt_vertically": true,
           "items": [
-            "minecraft:chest"
+            "minecraft:hay_block"
           ]
         }
       },
@@ -568,8 +568,8 @@
         // farmer gets to guide_stone then shares crops to nearest hopper_marker entity within 20 blocks
         // Cooldown is 6 min, or until a schedule change reapplies it.
         "minecraft:behavior.move_to_block": {
-          // When it's raining, "move_indoors" has priority of 6 and this goal won't run at 9. So,
-          // trying 6, an equal priority.
+          // When it's raining, "move_indoors" has priority of 6 and this goal won't run at 9.
+          // At 6, it does run (good).
           "priority": 6,
           // "tick_interval": 2,     // average interval (ticks) to try to run this behavior
           "search_range": 32,
@@ -887,10 +887,10 @@
           "can_migrate": true,
           "first_founding_reward": 5
         },
-        "minecraft:interact": { //allows farmer to be tempted with a chest in hand
+        "minecraft:interact": {
           "interactions": [
             {
-              "interact_text": "Lead farmer while holding a chest",
+              "interact_text": "Lead farmer while holding a hay bale",
               "on_interact": {
                 "event": "add_farmer_can_be_tempted",
                 "filters": {
@@ -910,7 +910,7 @@
                       "test": "has_equipment",
                       "domain": "hand",
                       "subject": "other",
-                      "value": "chest"
+                      "value": "hay_block"
                     }
                   ]
                 }
@@ -919,7 +919,7 @@
               "play_sounds": "block.click"
             },
             {
-              "interact_text": "Stop leading farming with chest",
+              "interact_text": "Stop leading farmer with hay bale",
               "on_interact": {
                 "event": "remove_farmer_can_be_tempted",
                 "filters": {
@@ -938,7 +938,7 @@
                       "test": "has_equipment",
                       "domain": "hand",
                       "subject": "other",
-                      "value": "chest"
+                      "value": "hay_block"
                     }
                   ]
                 }
@@ -1835,12 +1835,12 @@
       "minecraft:behavior.look_at_trading_player": {
         "priority": 7
       },
-      // "minecraft:behavior.look_at_player": {
-      //   "priority": 11, //original is 9. They stop what they're doing to look at 9 so...
-      //   "look_distance": 8,
-      //   "probability": 0.02,
-      //   "look_time": [2, 4] // vanilla doesn't have this
-      // },
+      "minecraft:behavior.look_at_player": {
+        "priority": 11,     //original is 9. They stop what they're doing to look at 9 so...
+        "look_distance": 8,
+        "probability": 0.02,
+        "look_time": [2, 5] //vanilla doesn't have this
+      },
 
       //*************************************************************************
       //NOTE: Moved "minecraft:behavior.share_items" to inside "baby" and "adult" component 
