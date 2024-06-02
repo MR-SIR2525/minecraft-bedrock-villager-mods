@@ -4,7 +4,7 @@
 		"name": "Helpful Villagers BP by MRxSIR",
 		"description": "BP. Tasks, behaviors, and intelligence improvements for villagers",
 		"uuid": "62e7137e-7d10-4c7c-b4f3-f638e721eb79",
-		"version": [0, 0, 156],
+		"version": [0, 0, 157],
 		"min_engine_version": [1, 16, 0]
 	},
 	"metadata": {
@@ -14,24 +14,15 @@
 	"modules": [
 		{
 			"description": "Behavior Pack for Helpful Villagers addon",
-			"version": [0, 0, 156],
+			"version": [0, 0, 157],
 			"uuid": "e517a1a3-fdf1-42ab-b10f-25a5c0e40fd7",
 			"type": "data"
 		}
-		// {
-		// 	"description": "To help with the behavior pack",
-		// 	"type": "script",
-      	// 	"language": "javascript",
-		// 	"uuid": "0934df01-0ac8-41f8-907d-584dc344cb23",
-		// 	"version": [0, 0, 140],
-		// 	"entry": "scripts/drop_crops.js" //maybe should be "main.js" in the future?
-		// }
 	],
-	// "capabilities": ["script_eval"],
 	"dependencies": [
 		{ // resource pack
 			"uuid": "cacb0330-d0a3-4d19-9661-cb1e8f53ea16",
-			"version": [0, 0, 127]
+			"version": [0, 0, 157]
 		}
 		// {
 			// "module_name": "@minecraft/server",
