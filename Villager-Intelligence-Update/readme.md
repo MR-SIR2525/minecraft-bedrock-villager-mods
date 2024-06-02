@@ -1,6 +1,7 @@
 ## Villager Intelligence Update (Helpful Villagers)
 - Renaming with nametags enabled
 - Inventory size increased to 10
+- Using a chest, click on a villager to enable/disable inventory access.
 - Reduced likelihood of pathfinding issues related to grass path blocks.
 
 
