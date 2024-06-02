@@ -2033,28 +2033,6 @@
         "queue_command": {"command": "say added default_share_items."} //for debug
       },
 
-      "test_is_farmer": {
-        "sequence": [
-          {
-            "filters": {
-              "test": "is_family",
-              "subject": "self",
-              "value": "farmer"
-            },
-            "queue_command": {"command": "say is farmer."} //for debug
-          },
-          {
-            "filters": {
-              "test": "is_family",
-              "subject": "self",
-              "value": "farmer",
-              "operator": "!="
-            },
-            "queue_command": {"command": "say not a farmer."} //for debug
-          }
-        ]
-      },
-
       "remove_trade_components": {
         "remove": {
           "component_groups": ["trade_components"]
