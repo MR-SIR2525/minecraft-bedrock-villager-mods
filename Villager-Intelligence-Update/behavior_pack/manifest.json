@@ -2,7 +2,7 @@
 	"format_version": 2,
 	"header": {
 		"name": "Helpful Villagers BP by MRxSIR",
-		"description": "BP. Tasks, behaviors, and intelligence improvements for villagers",
+		"description": "BP. Tasks, behaviors, and intelligence improvements for villagers. By MRxSIR.",
 		"uuid": "62e7137e-7d10-4c7c-b4f3-f638e721eb79",
 		"version": [0, 0, 157],
 		"min_engine_version": [1, 16, 0]
