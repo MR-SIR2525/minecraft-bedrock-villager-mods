@@ -1,4 +1,4 @@
-## Villagers
+## Villager Intelligence Update (Helpful Villagers)
 - Renaming with nametags enabled
 - Inventory size increased to 10
 - Reduced likelihood of pathfinding issues related to grass path blocks.
