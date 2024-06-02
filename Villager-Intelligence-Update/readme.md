@@ -32,3 +32,5 @@
   - S&nbsp;D&nbsp;S
   - S&nbsp;S&nbsp;S
       - where S = chiseled stonebrick and D = diamond
+
+**Created by MRxSIR**
