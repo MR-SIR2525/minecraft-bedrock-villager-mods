@@ -1,4 +1,4 @@
-## Villagers
+## Villager Intelligence Update (Helpful Villagers)
 - Renaming with nametags enabled
 - Inventory size increased to 10
 - Reduced likelihood of pathfinding issues related to grass path blocks.
@@ -32,3 +32,5 @@
   - S&nbsp;D&nbsp;S
   - S&nbsp;S&nbsp;S
       - where S = chiseled stonebrick and D = diamond
+
+**Created by MRxSIR**

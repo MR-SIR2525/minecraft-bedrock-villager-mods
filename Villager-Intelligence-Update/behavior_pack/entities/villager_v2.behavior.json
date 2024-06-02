@@ -551,7 +551,27 @@
         }
       },
 
-      // farmer's interaction component
+      // here so it can be re-added after inventory interaction
+      "farmer_trade_components": {
+        "minecraft:behavior.trade_interest": {
+          "priority": 5,
+          "within_radius": 6.0,
+          "interest_time": 45.0,
+          "remove_item_time": 1.0,
+          "carried_item_switch_time": 2.0,
+          "cooldown": 2.0
+        },
+        "minecraft:economy_trade_table": {
+          "display_name": "entity.villager.farmer",
+          "table": "trading/economy_trades/farmer_trades.json",
+          "new_screen": true,
+          "persist_trades": true,
+          "cured_discount": [-100, -100],
+          "max_cured_discount": [-500, -500]
+        }
+      },
+
+      // farmer's tempt interaction component
       "farmer_can_be_tempted": {
         "minecraft:behavior.tempt": {
           "priority": 5,
@@ -559,7 +579,7 @@
           "within_radius": 10,
           "can_tempt_vertically": true,
           "items": [
-            "minecraft:chest"
+            "minecraft:hay_block"
           ]
         }
       },
@@ -568,8 +588,8 @@
         // farmer gets to guide_stone then shares crops to nearest hopper_marker entity within 20 blocks
         // Cooldown is 6 min, or until a schedule change reapplies it.
         "minecraft:behavior.move_to_block": {
-          // When it's raining, "move_indoors" has priority of 6 and this goal won't run at 9. So,
-          // trying 6, an equal priority.
+          // When it's raining, "move_indoors" has priority of 6 and this goal won't run at 9.
+          // At 6, it does run (good).
           "priority": 6,
           // "tick_interval": 2,     // average interval (ticks) to try to run this behavior
           "search_range": 32,
@@ -861,6 +881,8 @@
         "minecraft:variant": {
           "value": 1
         },
+        // trade interest and economy trade table also have a separate component group for re-adding.
+        // if you change something here, change it there too
         "minecraft:behavior.trade_interest": {
           "priority": 5,
           "within_radius": 6.0,
@@ -887,10 +909,10 @@
           "can_migrate": true,
           "first_founding_reward": 5
         },
-        "minecraft:interact": { //allows farmer to be tempted with a chest in hand
+        "minecraft:interact": {
           "interactions": [
             {
-              "interact_text": "Lead farmer while holding a chest",
+              "interact_text": "Lead farmer while holding a hay bale",
               "on_interact": {
                 "event": "add_farmer_can_be_tempted",
                 "filters": {
@@ -910,7 +932,7 @@
                       "test": "has_equipment",
                       "domain": "hand",
                       "subject": "other",
-                      "value": "chest"
+                      "value": "hay_block"
                     }
                   ]
                 }
@@ -919,7 +941,7 @@
               "play_sounds": "block.click"
             },
             {
-              "interact_text": "Stop leading farming with chest",
+              "interact_text": "Stop leading farmer with hay bale",
               "on_interact": {
                 "event": "remove_farmer_can_be_tempted",
                 "filters": {
@@ -938,7 +960,7 @@
                       "test": "has_equipment",
                       "domain": "hand",
                       "subject": "other",
-                      "value": "chest"
+                      "value": "hay_block"
                     }
                   ]
                 }
@@ -1835,12 +1857,12 @@
       "minecraft:behavior.look_at_trading_player": {
         "priority": 7
       },
-      // "minecraft:behavior.look_at_player": {
-      //   "priority": 11, //original is 9. They stop what they're doing to look at 9 so...
-      //   "look_distance": 8,
-      //   "probability": 0.02,
-      //   "look_time": [2, 4] // vanilla doesn't have this
-      // },
+      "minecraft:behavior.look_at_player": {
+        "priority": 11,     //original is 9. They stop what they're doing to look at 9 so...
+        "look_distance": 8,
+        "probability": 0.02,
+        "look_time": [2, 5] //vanilla doesn't have this
+      },
 
       //*************************************************************************
       //NOTE: Moved "minecraft:behavior.share_items" to inside "baby" and "adult" component 
@@ -1859,27 +1881,82 @@
       "minecraft:pushable": {
         "is_pushable": true,
         "is_pushable_by_piston": true
+      },
+
+      "minecraft:interact": {
+        "interactions": [
+          {
+            "interact_text": "Enable access to villager's inventory",
+            "on_interact": {
+              "event": "remove_trade_components",
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "has_tag",
+                    "subject": "self",
+                    "operator": "!=",
+                    "value": "trade_components_off"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "player"
+                  },
+                  {
+                    "test": "has_equipment",
+                    "domain": "hand",
+                    "subject": "other",
+                    "value": "chest"
+                  }
+                ]
+              }
+            },
+            "use_item": false,
+            "play_sounds": "block.click"
+          },
+          {
+            "interact_text": "Disable access to villager's inventory",
+            "on_interact": {
+              "event": "restore_trade_components",
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "has_tag",
+                    "subject": "self",
+                    "value": "trade_components_off"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "player"
+                  },
+                  {
+                    "test": "has_equipment",
+                    "domain": "hand",
+                    "subject": "other",
+                    "value": "chest"
+                  }
+                ]
+              }
+            },
+            "use_item": false,
+            "play_sounds": "block.click.fail"
+          }
+        ]
       }
     },
 
     "events": {
-      // for say commands, after debugging is done, change to "say @e[type=player,r=32] <message>"
-      "remove_trade_components": {    // for debugging
-        "remove": {
-          "component_groups": ["trade_components"]
-        },
-        "queue_command": {"command": "say removed trade_components, reapply with 'become_xxx'."}
-      },
-      
+      // for say commands, after debugging is done, change to "msg @a[r=10] <message>"      
       "add_farmer_can_be_tempted": {
         "add": {
           "component_groups": ["farmer_can_be_tempted"]
         },
         "queue_command": {
           "command": [
-            "say can be tempted.",  //for debug
+            "msg @a[r=8] can be tempted with a hay bale",  //for debug
             "tag @s add can_be_tempted"   //allows farmer to self check if tempting is enabled
-          ] 
+          ]
         }
       },
 
@@ -1889,7 +1966,7 @@
         },
         "queue_command": {
           "command": [
-            "say can no longer be tempted.", //for debug
+            "msg @a[r=10] can no longer be tempted.", //for debug
             "tag @s remove can_be_tempted"   //allows farmer to self check if tempting is enabled
           ]
         }
@@ -1906,7 +1983,7 @@
       "arrived_at_guide_stone": {
         "sequence": [
           {
-            "queue_command": {"command": "say arrived at guide stone"}  //for debug
+            "queue_command": {"command": "msg @a[r=8] arrived at guide stone, looking for hopper marker."}  //for debug
           },
           {
             "trigger": "add_share_crops_to_hopper_marker"
@@ -1925,7 +2002,7 @@
             "add": {"component_groups": ["default_share_items"]},
             "queue_command": {
               "command": [
-                "say timeout share_crops_to_hopper_marker."  //for debug
+                "msg @a[r=8] no longer trying to stow crops to hopper marker."  //for debug
               ]
             }
           },
@@ -1956,24 +2033,65 @@
         "queue_command": {"command": "say added default_share_items."} //for debug
       },
 
-      "test_is_farmer": {
+      "remove_trade_components": {
+        "remove": {
+          "component_groups": ["trade_components"]
+        }
+      },
+
+      "restore_trade_components": {
         "sequence": [
           {
-            "filters": {
-              "test": "is_family",
-              "subject": "self",
-              "value": "farmer"
-            },
-            "queue_command": {"command": "say is farmer."} //for debug
+            "trigger": "minecraft:become_cleric",
+            "filters": {"test": "is_family", "subject": "self", "value": "cleric" }
           },
           {
-            "filters": {
-              "test": "is_family",
-              "subject": "self",
-              "value": "farmer",
-              "operator": "!="
-            },
-            "queue_command": {"command": "say not a farmer."} //for debug
+            "trigger": "minecraft:become_farmer",
+            "filters": {"test": "is_family", "subject": "self", "value": "farmer" }
+          },
+          {
+            "trigger": "minecraft:become_fisherman",
+            "filters": {"test": "is_family", "subject": "self", "value": "fisherman" }
+          },
+          {
+            "trigger": "minecraft:become_fletcher",
+            "filters": {"test": "is_family", "subject": "self", "value": "fletcher" }
+          },
+          {
+            "trigger": "minecraft:become_librarian",
+            "filters": {"test": "is_family", "subject": "self", "value": "librarian" }
+          },
+          {
+            "trigger": "minecraft:become_cartographer",
+            "filters": {"test": "is_family", "subject": "self", "value": "cartographer" }
+          },
+          {
+            "trigger": "minecraft:become_armorer",
+            "filters": {"test": "is_family", "subject": "self", "value": "armorer" }
+          },
+          {
+            "trigger": "minecraft:become_weaponsmith",
+            "filters": {"test": "is_family", "subject": "self", "value": "weaponsmith" }
+          },
+          {
+            "trigger": "minecraft:become_toolsmith",
+            "filters": {"test": "is_family", "subject": "self", "value": "toolsmith" }
+          },
+          {
+            "trigger": "minecraft:become_butcher",
+            "filters": {"test": "is_family", "subject": "self", "value": "butcher" }
+          },
+          {
+            "trigger": "minecraft:become_leatherworker",
+            "filters": {"test": "is_family", "subject": "self", "value": "leatherworker" }
+          },
+          {
+            "trigger": "minecraft:become_shepherd",
+            "filters": {"test": "is_family", "subject": "self", "value": "shepherd" }
+          },
+          {
+            "trigger": "minecraft:become_mason",
+            "filters": {"test": "is_family", "subject": "self", "value": "mason" }
           }
         ]
       },
@@ -2807,7 +2925,7 @@
         "add": { "component_groups": [ "leatherworker", "adult", "behavior_non_peasant", "work_schedule" ] }
       },
       
-      "minecraft:become_sheperd": {
+      "minecraft:become_shepherd": {
         "remove": { "component_groups": [ "baby", "child_schedule", "job_specific_goals", "trade_components" ] },
         "add": { "component_groups": [ "shepherd", "adult", "behavior_non_peasant", "work_schedule" ] }
       },

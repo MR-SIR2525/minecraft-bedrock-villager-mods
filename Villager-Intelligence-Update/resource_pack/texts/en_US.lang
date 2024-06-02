@@ -1,8 +1,16 @@
-# Entities
+## Comments can be added anywhere on a valid line by starting with '##'
+##
+## Note, trailing spaces will NOT be trimmed. If you want room between the end of the string and the start of a
+## comment on the same line, use TABs.
+
+## Entities
 entity.mrsir:hopper_marker.name=Hopper Marker
 
-# Items
+## Containers
+container.hopper_marker.name=Hopper Markers
+
+## Items
 item.spawn_egg.entity.mrsir:hopper_marker.name=Spawn Hopper Marker
 
-# Blocks
+## Blocks
 tile.mrsir:farmer_guide_stone.name=Farmer Guide Stone
