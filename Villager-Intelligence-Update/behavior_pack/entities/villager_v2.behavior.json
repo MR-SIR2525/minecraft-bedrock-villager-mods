@@ -2051,17 +2051,17 @@
 
       "add_share_crops_to_hopper_marker": {
         "add": {"component_groups": ["share_crops_to_hopper_marker"]},
-        "queue_command": {"command": "say added share_crops_to_hopper_marker."} //for debug
+        "queue_command": {"command": "msg @a[r=8] added share_crops_to_hopper_marker."} //for debug
       },
 
       "add_farmer_default_shareables": {
         "add": {"component_groups": ["farmer_default_shareables"]},
-        "queue_command": {"command": "say added farmer_default_shareables."} //for debug
+        "queue_command": {"command": "msg @a[r=8] added farmer_default_shareables."} //for debug
       },
 
       "add_default_share_items": {
         "add": {"component_groups": ["default_share_items"]},
-        "queue_command": {"command": "say added default_share_items."} //for debug
+        "queue_command": {"command": "msg @a[r=8] added default_share_items."} //for debug
       },
 
       "remove_trade_components": {
