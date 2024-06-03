@@ -552,7 +552,7 @@
       },
 
       // farmer's tempt interaction component
-      "farmer_can_be_tempted": {
+      "can_be_tempted": {
         "minecraft:behavior.tempt": {
           "priority": 5,
           "speed_multiplier":  0.75,
@@ -887,129 +887,9 @@
           "can_find_poi": true,
           "can_migrate": true,
           "first_founding_reward": 5
-        },
-        // Villagers all have some default interactions. However, they need to be copied into
-        // here (below) because this section overrides the default ones.
-        "minecraft:interact": {
-          "interactions": [
-            {
-              "interact_text": "Lead farmer while holding a hay bale",
-              "on_interact": {
-                "event": "add_farmer_can_be_tempted",
-                "filters": {
-                  "all_of": [
-                    {
-                      "test": "has_tag",
-                      "subject": "self",
-                      "operator": "!=",
-                      "value": "can_be_tempted"
-                    },
-                    {
-                      "test": "is_family",
-                      "subject": "other",
-                      "value": "player"
-                    },
-                    {
-                      "test": "has_equipment",
-                      "domain": "hand",
-                      "subject": "other",
-                      "value": "hay_block"
-                    }
-                  ]
-                }
-              },
-              "use_item": false,
-              "play_sounds": "block.click"
-            },
-            {
-              "interact_text": "Stop leading farmer with hay bale",
-              "on_interact": {
-                "event": "remove_farmer_can_be_tempted",
-                "filters": {
-                  "all_of": [
-                    {
-                      "test": "has_tag",
-                      "subject": "self",
-                      "value": "can_be_tempted"
-                    },
-                    {
-                      "test": "is_family",
-                      "subject": "other",
-                      "value": "player"
-                    },
-                    {
-                      "test": "has_equipment",
-                      "domain": "hand",
-                      "subject": "other",
-                      "value": "hay_block"
-                    }
-                  ]
-                }
-              },
-              "use_item": false,
-              "play_sounds": "block.click.fail"
-            },
-            // default ones:
-            {
-              "interact_text": "Enable access to villager's inventory",
-              "on_interact": {
-                "event": "remove_trade_components",
-                "filters": {
-                  "all_of": [
-                    {
-                      "test": "has_tag",
-                      "subject": "self",
-                      "operator": "!=",
-                      "value": "trade_components_off"
-                    },
-                    {
-                      "test": "is_family",
-                      "subject": "other",
-                      "value": "player"
-                    },
-                    {
-                      "test": "has_equipment",
-                      "domain": "hand",
-                      "subject": "other",
-                      "value": "chest"
-                    }
-                  ]
-                }
-              },
-              "use_item": false,
-              "play_sounds": "attach"
-            },
-            {
-              "interact_text": "Disable access to villager's inventory",
-              "on_interact": {
-                "event": "restore_trade_components",
-                "filters": {
-                  "all_of": [
-                    {
-                      "test": "has_tag",
-                      "subject": "self",
-                      "value": "trade_components_off"
-                    },
-                    {
-                      "test": "is_family",
-                      "subject": "other",
-                      "value": "player"
-                    },
-                    {
-                      "test": "has_equipment",
-                      "domain": "hand",
-                      "subject": "other",
-                      "value": "chest"
-                    }
-                  ]
-                }
-              },
-              "use_item": false,
-              "play_sounds": "item.book.put"
-            }
-          ]
         }
       },
+        
 
       "fisherman": {
         "minecraft:type_family": {
@@ -1914,8 +1794,65 @@
       },
 
       "minecraft:interact": {
-        //remember to copy new ones here to the profession-specific ones (farmer)
         "interactions": [
+          {
+            "interact_text": "Lead villager while holding a hay bale",
+            "on_interact": {
+              "event": "add_can_be_tempted",
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "has_tag",
+                    "subject": "self",
+                    "operator": "!=",
+                    "value": "can_be_tempted"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "player"
+                  },
+                  {
+                    "test": "has_equipment",
+                    "domain": "hand",
+                    "subject": "other",
+                    "value": "hay_block"
+                  }
+                ]
+              }
+            },
+            "use_item": false,
+            "play_sounds": "block.click"
+          },
+          {
+            "interact_text": "Stop leading villager with hay bale",
+            "on_interact": {
+              "event": "remove_can_be_tempted",
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "has_tag",
+                    "subject": "self",
+                    "value": "can_be_tempted"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "player"
+                  },
+                  {
+                    "test": "has_equipment",
+                    "domain": "hand",
+                    "subject": "other",
+                    "value": "hay_block"
+                  }
+                ]
+              }
+            },
+            "use_item": false,
+            "play_sounds": "block.click.fail"
+          },
+          
           {
             "interact_text": "Enable access to villager's inventory",
             "on_interact": {
@@ -1979,9 +1916,9 @@
 
     "events": {
       // for say commands, after debugging is done, change to "msg @a[r=10] <message>"      
-      "add_farmer_can_be_tempted": {
+      "add_can_be_tempted": {
         "add": {
-          "component_groups": ["farmer_can_be_tempted"]
+          "component_groups": ["can_be_tempted"]
         },
         "queue_command": {
           "command": [
@@ -1991,9 +1928,9 @@
         }
       },
 
-      "remove_farmer_can_be_tempted": {
+      "remove_can_be_tempted": {
         "remove": {
-          "component_groups": ["farmer_can_be_tempted"]
+          "component_groups": ["can_be_tempted"]
         },
         "queue_command": {
           "command": [
