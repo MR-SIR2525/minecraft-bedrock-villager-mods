@@ -483,13 +483,25 @@
             "event": "minecraft:resupply_trades",
             "target": "self"
           },
-          "can_empty_composter": true
+          "can_empty_composter": true,
+          "can_fill_composter": true,
+          "block_interaction_max": 5  //default is 1
+          //https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitygoals/minecraftbehavior_work_composter?view=minecraft-bedrock-stable
         },
         "minecraft:behavior.harvest_farm_block": {
-          "priority": 7
+          // "priority": 7    //default
+          "priority": 8,
+          "goal_radius": 1.5,
+          "max_seconds_before_search": 0.25
         },
         "minecraft:behavior.fertilize_farm_block": {
-          "priority": 8
+          // "priority": 8    //default
+          "priority": 7,
+          "search_count": 0,   //searches all blocks in the radius
+          "search_range": 8,
+          "search_height": 2,
+          "search_cooldown_max_seconds": 0.25,
+          "goal_radius": 1.5
         }
       },
 
