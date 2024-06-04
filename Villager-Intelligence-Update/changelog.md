@@ -1,0 +1,7 @@
+- 6/4/24: optimized the "restore_trade_components" function.
+- 6/4/24: farmer behavior composter: can empty = true, can fill = true, block interact max = 5.
+- 6/4/24: farmer behavior harvest: priority 8, goal radius 1.5, max seconds before search = 0.25.
+- 6/4/24: farmer behavior fertilze: priority 7, search c 0, search r 6, search h 3, search cooldown 0.25, goal radius 1.5.
+- 6/3/24: added a check that will make a trade resupply event wait until trade components are restored, in the case that the villager's inventory is accessible and trade components are disabled.
+- 6/2/24: potential bug - farmers not able to use composters, they seem to try and fail immediately while standing there.
+- 6/2/24: changed interactions. Now, instead of just farmers, all villagers can be tempted with a hay bale and all villagers can have enabled/disabled inventory access (which works by way of removing their trade components). 
