@@ -494,6 +494,11 @@
           "goal_radius": 1.5,
           "max_seconds_before_search": 0.25
         },
+        // I feel like when the farmer works the composter, he should have a timer that restarts
+        // its countdown each time he interacts with the composter, then the possibility of working
+        // the composter is temporarily removed while fertilizing farm blocks is temporarily given
+        // priority over harvesting. After some time, restore to defaults though. This would prevent
+        // bugginess and increase productivity of the farm as a whole.
         "minecraft:behavior.fertilize_farm_block": {
           // "priority": 8    //default
           "priority": 7,
