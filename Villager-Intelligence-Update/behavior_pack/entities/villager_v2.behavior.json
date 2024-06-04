@@ -568,7 +568,6 @@
         }
       },
 
-      // farmer's tempt interaction component
       "can_be_tempted": {
         "minecraft:behavior.tempt": {
           "priority": 5,
@@ -588,7 +587,7 @@
           // When it's raining, "move_indoors" has priority of 6 and this goal won't run at 9.
           // At 6, it does run (good).
           "priority": 6,
-          // "tick_interval": 2,     // average interval (ticks) to try to run this behavior
+          "tick_interval": 30,    // Average ticks to try to run this behavior (default 20)
           "search_range": 32,
           "speed_multiplier": 0.6,
           "goal_radius": 2.5,
@@ -2032,59 +2031,71 @@
 
       // Includes all default professions. If you create a new one, add it here too.
       // This is to restore a villager's behaviors (components) to the correct state.
+      // - last block checks for and applies pending trade resupply if necessary.
       "reapply_profession": {
         "sequence": [
+          // professions in the order of which variant they are
           {
-            "trigger": "minecraft:become_cleric",
-            "filters": {"test": "is_family", "subject": "self", "value": "cleric" }
+            "filters": {"test": "is_family", "subject": "self", "value": "farmer" },
+            "add": { "component_groups": ["farmer"] }
           },
           {
-            "trigger": "minecraft:become_farmer",
-            "filters": {"test": "is_family", "subject": "self", "value": "farmer" }
+            "filters": {"test": "is_family", "subject": "self", "value": "fisherman" },
+            "add": { "component_groups": ["fisherman"] }
           },
           {
-            "trigger": "minecraft:become_fisherman",
-            "filters": {"test": "is_family", "subject": "self", "value": "fisherman" }
+            "filters": {"test": "is_family", "subject": "self", "value": "shepherd" },
+            "add": { "component_groups": ["shepherd"] }
           },
           {
-            "trigger": "minecraft:become_fletcher",
-            "filters": {"test": "is_family", "subject": "self", "value": "fletcher" }
+            "filters": {"test": "is_family", "subject": "self", "value": "fletcher" },
+            "add": { "component_groups": ["fletcher"] }
           },
           {
-            "trigger": "minecraft:become_librarian",
-            "filters": {"test": "is_family", "subject": "self", "value": "librarian" }
+            "filters": {"test": "is_family", "subject": "self", "value": "librarian" },
+            "add": { "component_groups": ["librarian"] }
           },
           {
-            "trigger": "minecraft:become_cartographer",
-            "filters": {"test": "is_family", "subject": "self", "value": "cartographer" }
+            "filters": {"test": "is_family", "subject": "self", "value": "cartographer" },
+            "add": { "component_groups": ["cartographer"] }
           },
           {
-            "trigger": "minecraft:become_armorer",
-            "filters": {"test": "is_family", "subject": "self", "value": "armorer" }
+            "filters": {"test": "is_family", "subject": "self", "value": "cleric" },
+            "add": { "component_groups": ["cleric"] }
           },
           {
-            "trigger": "minecraft:become_weaponsmith",
-            "filters": {"test": "is_family", "subject": "self", "value": "weaponsmith" }
+            "filters": {"test": "is_family", "subject": "self", "value": "armorer" },
+            "add": { "component_groups": ["armorer"] }
           },
           {
-            "trigger": "minecraft:become_toolsmith",
-            "filters": {"test": "is_family", "subject": "self", "value": "toolsmith" }
+            "filters": {"test": "is_family", "subject": "self", "value": "weaponsmith" },
+            "add": { "component_groups": ["weaponsmith"] }
           },
           {
-            "trigger": "minecraft:become_butcher",
-            "filters": {"test": "is_family", "subject": "self", "value": "butcher" }
+            "filters": {"test": "is_family", "subject": "self", "value": "toolsmith" },
+            "add": { "component_groups": ["toolsmith"] }
           },
           {
-            "trigger": "minecraft:become_leatherworker",
-            "filters": {"test": "is_family", "subject": "self", "value": "leatherworker" }
+            "filters": {"test": "is_family", "subject": "self", "value": "butcher" },
+            "add": { "component_groups": ["butcher"] }
           },
           {
-            "trigger": "minecraft:become_shepherd",
-            "filters": {"test": "is_family", "subject": "self", "value": "shepherd" }
+            "filters": {"test": "is_family", "subject": "self", "value": "leatherworker" },
+            "add": { "component_groups": ["leatherworker"] }
           },
           {
-            "trigger": "minecraft:become_mason",
-            "filters": {"test": "is_family", "subject": "self", "value": "mason" }
+            "filters": {"test": "is_family", "subject": "self", "value": "stone_mason" },
+            "add": { "component_groups": ["mason"] }  //yes, the names are correct. I checked.
+          },
+          
+          // resupply if one was pending
+          {
+            "filters": {"subject": "self", "test": "has_tag", "value": "resupply_trades_pending"},
+            "add": { "component_groups": [ "trade_resupply_component_group" ] },
+            "queue_command": {"command": [
+              "tag @s remove resupply_trades_pending",
+              "msg @a[r=8] Pending resupply was executed."  //for debug
+            ]}
           }
         ]
       },
@@ -2990,8 +3001,27 @@
         "remove": { "component_groups": [ "home_schedule_villager", "gather_schedule_villager", "wander_schedule_villager", "bed_schedule_villager", "job_specific_goals", "play_schedule_villager" ] },
         "add": { "component_groups": [ "work_schedule_librarian" ] }
       },
+
       "minecraft:resupply_trades": {
-        "add": { "component_groups": [ "trade_resupply_component_group" ] }
+        "sequence": [
+          // added this to prevent resupply when trade components are disabled
+          {
+            "filters": {
+              "subject": "self", "test": "has_tag", "value": "trade_components_off"
+            },
+            "queue_command": {"command": [
+              "tag @s add resupply_trades_pending",
+              // for debug (below)
+              "msg @a[r=8] resupply trades queued, will apply when trade components re-enabled."
+            ]}
+          },
+          {
+            "filters": {
+              "subject": "self", "test": "has_tag", "operator": "not", "value": "trade_components_off"
+            },
+            "add": { "component_groups": [ "trade_resupply_component_group" ] }
+          }
+        ]
       },
 
       "minecraft:start_celebrating": { // Event must be called exactly this for village to fire it when a raid is won
