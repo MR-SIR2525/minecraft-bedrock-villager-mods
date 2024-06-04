@@ -483,13 +483,30 @@
             "event": "minecraft:resupply_trades",
             "target": "self"
           },
-          "can_empty_composter": true
+          "can_empty_composter": true,
+          "can_fill_composter": true,
+          "block_interaction_max": 5  //default is 1
+          //https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitygoals/minecraftbehavior_work_composter?view=minecraft-bedrock-stable
         },
         "minecraft:behavior.harvest_farm_block": {
-          "priority": 7
+          // "priority": 7    //default
+          "priority": 8,
+          "goal_radius": 1.5,
+          "max_seconds_before_search": 0.25
         },
+        // I feel like when the farmer works the composter, he should have a timer that restarts
+        // its countdown each time he interacts with the composter, then the possibility of working
+        // the composter is temporarily removed while fertilizing farm blocks is temporarily given
+        // priority over harvesting. After some time, restore to defaults though. This would prevent
+        // bugginess and increase productivity of the farm as a whole.
         "minecraft:behavior.fertilize_farm_block": {
-          "priority": 8
+          // "priority": 8    //default
+          "priority": 7,
+          "search_count": 0,   //searches all blocks in the radius
+          "search_range": 8,
+          "search_height": 2,
+          "search_cooldown_max_seconds": 0.25,
+          "goal_radius": 1.5
         }
       },
 
@@ -551,28 +568,7 @@
         }
       },
 
-      // here so it can be re-added after inventory interaction
-      "farmer_trade_components": {
-        "minecraft:behavior.trade_interest": {
-          "priority": 5,
-          "within_radius": 6.0,
-          "interest_time": 45.0,
-          "remove_item_time": 1.0,
-          "carried_item_switch_time": 2.0,
-          "cooldown": 2.0
-        },
-        "minecraft:economy_trade_table": {
-          "display_name": "entity.villager.farmer",
-          "table": "trading/economy_trades/farmer_trades.json",
-          "new_screen": true,
-          "persist_trades": true,
-          "cured_discount": [-100, -100],
-          "max_cured_discount": [-500, -500]
-        }
-      },
-
-      // farmer's tempt interaction component
-      "farmer_can_be_tempted": {
+      "can_be_tempted": {
         "minecraft:behavior.tempt": {
           "priority": 5,
           "speed_multiplier":  0.75,
@@ -591,7 +587,7 @@
           // When it's raining, "move_indoors" has priority of 6 and this goal won't run at 9.
           // At 6, it does run (good).
           "priority": 6,
-          // "tick_interval": 2,     // average interval (ticks) to try to run this behavior
+          "tick_interval": 30,    // Average ticks to try to run this behavior (default 20)
           "search_range": 32,
           "speed_multiplier": 0.6,
           "goal_radius": 2.5,
@@ -860,6 +856,7 @@
       // A grouping of components that should never be added
       // however, they are here to flush out any artifact component groups
       // that might linger between villager job switches
+      // MRxSIR: also used as a way to remove trading from villager on demand
       "trade_components": {
         "minecraft:behavior.trade_interest": {},
         "minecraft:economy_trade_table": {}
@@ -881,8 +878,6 @@
         "minecraft:variant": {
           "value": 1
         },
-        // trade interest and economy trade table also have a separate component group for re-adding.
-        // if you change something here, change it there too
         "minecraft:behavior.trade_interest": {
           "priority": 5,
           "within_radius": 6.0,
@@ -908,69 +903,9 @@
           "can_find_poi": true,
           "can_migrate": true,
           "first_founding_reward": 5
-        },
-        "minecraft:interact": {
-          "interactions": [
-            {
-              "interact_text": "Lead farmer while holding a hay bale",
-              "on_interact": {
-                "event": "add_farmer_can_be_tempted",
-                "filters": {
-                  "all_of": [
-                    {
-                      "test": "has_tag",
-                      "subject": "self",
-                      "operator": "!=",
-                      "value": "can_be_tempted"
-                    },
-                    {
-                      "test": "is_family",
-                      "subject": "other",
-                      "value": "player"
-                    },
-                    {
-                      "test": "has_equipment",
-                      "domain": "hand",
-                      "subject": "other",
-                      "value": "hay_block"
-                    }
-                  ]
-                }
-              },
-              "use_item": false,
-              "play_sounds": "block.click"
-            },
-            {
-              "interact_text": "Stop leading farmer with hay bale",
-              "on_interact": {
-                "event": "remove_farmer_can_be_tempted",
-                "filters": {
-                  "all_of": [
-                    {
-                      "test": "has_tag",
-                      "subject": "self",
-                      "value": "can_be_tempted"
-                    },
-                    {
-                      "test": "is_family",
-                      "subject": "other",
-                      "value": "player"
-                    },
-                    {
-                      "test": "has_equipment",
-                      "domain": "hand",
-                      "subject": "other",
-                      "value": "hay_block"
-                    }
-                  ]
-                }
-              },
-              "use_item": false,
-              "play_sounds": "block.click.fail"
-            }
-          ]
         }
       },
+        
 
       "fisherman": {
         "minecraft:type_family": {
@@ -1416,7 +1351,6 @@
         "minecraft:behavior.take_flower":{
           "priority": 9
         },
-
         "minecraft:behavior.share_items": {   //same as default
           "priority": 10,
           "max_dist": 3,
@@ -1428,7 +1362,6 @@
             }
           ]
         },
-
         "minecraft:preferred_path" : {
           "max_fall_blocks" : 1,
           "jump_cost" : 5,
@@ -1521,7 +1454,6 @@
         "minecraft:behavior.receive_love": {
           "priority": 6
         },
-
         "minecraft:behavior.share_items": {   //same as default
           "priority": 10,
           "max_dist": 3,
@@ -1533,7 +1465,6 @@
             }
           ]
         },
-
         "minecraft:preferred_path" : {
           "max_fall_blocks" : 1,
           "jump_cost" : 12,     //default is 20, but causes pathing issues with grass_paths
@@ -1728,12 +1659,7 @@
       },
       "minecraft:nameable": { //altered by MR SIR to allow villager renaming
         "allow_name_tag_renaming": true,
-        "always_show": false,
-        "default_trigger": 
-        {
-          "event": "minecraft:celebrate",
-          "target": "self"
-        }
+        "always_show": false
       },
       "minecraft:movement": {
         "value": 0.5
@@ -1757,7 +1683,7 @@
       },
       "minecraft:inventory": {
         "inventory_size": 10,  // 8 by default
-        "private": false,     // true by default, false for debug purposes for now.
+        "private": false,      // true by default, false as a feature now
         "container_type": "inventory"
       },
       "minecraft:dweller": {
@@ -1820,7 +1746,7 @@
         "priority": 1,
         "speed_multiplier": 0.6
       },
-      "minecraft:behavior.trade_with_player": { // disable + remove trade components to access inventory
+      "minecraft:behavior.trade_with_player": {
         "priority": 2
       },
       "minecraft:behavior.avoid_mob_type": {
@@ -1886,6 +1812,64 @@
       "minecraft:interact": {
         "interactions": [
           {
+            "interact_text": "Lead villager while holding a hay bale",
+            "on_interact": {
+              "event": "add_can_be_tempted",
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "has_tag",
+                    "subject": "self",
+                    "operator": "!=",
+                    "value": "can_be_tempted"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "player"
+                  },
+                  {
+                    "test": "has_equipment",
+                    "domain": "hand",
+                    "subject": "other",
+                    "value": "hay_block"
+                  }
+                ]
+              }
+            },
+            "use_item": false,
+            "play_sounds": "block.click"
+          },
+          {
+            "interact_text": "Stop leading villager with hay bale",
+            "on_interact": {
+              "event": "remove_can_be_tempted",
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "has_tag",
+                    "subject": "self",
+                    "value": "can_be_tempted"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "player"
+                  },
+                  {
+                    "test": "has_equipment",
+                    "domain": "hand",
+                    "subject": "other",
+                    "value": "hay_block"
+                  }
+                ]
+              }
+            },
+            "use_item": false,
+            "play_sounds": "block.click.fail"
+          },
+          
+          {
             "interact_text": "Enable access to villager's inventory",
             "on_interact": {
               "event": "remove_trade_components",
@@ -1912,7 +1896,7 @@
               }
             },
             "use_item": false,
-            "play_sounds": "block.click"
+            "play_sounds": "attach"
           },
           {
             "interact_text": "Disable access to villager's inventory",
@@ -1940,7 +1924,7 @@
               }
             },
             "use_item": false,
-            "play_sounds": "block.click.fail"
+            "play_sounds": "item.book.put"
           }
         ]
       }
@@ -1948,9 +1932,9 @@
 
     "events": {
       // for say commands, after debugging is done, change to "msg @a[r=10] <message>"      
-      "add_farmer_can_be_tempted": {
+      "add_can_be_tempted": {
         "add": {
-          "component_groups": ["farmer_can_be_tempted"]
+          "component_groups": ["can_be_tempted"]
         },
         "queue_command": {
           "command": [
@@ -1960,9 +1944,9 @@
         }
       },
 
-      "remove_farmer_can_be_tempted": {
+      "remove_can_be_tempted": {
         "remove": {
-          "component_groups": ["farmer_can_be_tempted"]
+          "component_groups": ["can_be_tempted"]
         },
         "queue_command": {
           "command": [
@@ -2020,78 +2004,98 @@
 
       "add_share_crops_to_hopper_marker": {
         "add": {"component_groups": ["share_crops_to_hopper_marker"]},
-        "queue_command": {"command": "say added share_crops_to_hopper_marker."} //for debug
+        "queue_command": {"command": "msg @a[r=8] added share_crops_to_hopper_marker."} //for debug
       },
 
       "add_farmer_default_shareables": {
         "add": {"component_groups": ["farmer_default_shareables"]},
-        "queue_command": {"command": "say added farmer_default_shareables."} //for debug
+        "queue_command": {"command": "msg @a[r=8] added farmer_default_shareables."} //for debug
       },
 
       "add_default_share_items": {
         "add": {"component_groups": ["default_share_items"]},
-        "queue_command": {"command": "say added default_share_items."} //for debug
+        "queue_command": {"command": "msg @a[r=8] added default_share_items."} //for debug
       },
 
       "remove_trade_components": {
         "remove": {
           "component_groups": ["trade_components"]
-        }
+        },
+        "queue_command": {"command": "tag @s add trade_components_off"}
       },
 
-      "restore_trade_components": {
+      "restore_trade_components":{
+        "queue_command": {"command": "tag @s remove trade_components_off"},
+        "trigger": "reapply_profession"
+      },
+
+      // Includes all default professions. If you create a new one, add it here too.
+      // This is to restore a villager's behaviors (components) to the correct state.
+      // - last block checks for and applies pending trade resupply if necessary.
+      "reapply_profession": {
         "sequence": [
+          // professions in the order of which variant they are
           {
-            "trigger": "minecraft:become_cleric",
-            "filters": {"test": "is_family", "subject": "self", "value": "cleric" }
+            "filters": {"test": "is_family", "subject": "self", "value": "farmer" },
+            "add": { "component_groups": ["farmer"] }
           },
           {
-            "trigger": "minecraft:become_farmer",
-            "filters": {"test": "is_family", "subject": "self", "value": "farmer" }
+            "filters": {"test": "is_family", "subject": "self", "value": "fisherman" },
+            "add": { "component_groups": ["fisherman"] }
           },
           {
-            "trigger": "minecraft:become_fisherman",
-            "filters": {"test": "is_family", "subject": "self", "value": "fisherman" }
+            "filters": {"test": "is_family", "subject": "self", "value": "shepherd" },
+            "add": { "component_groups": ["shepherd"] }
           },
           {
-            "trigger": "minecraft:become_fletcher",
-            "filters": {"test": "is_family", "subject": "self", "value": "fletcher" }
+            "filters": {"test": "is_family", "subject": "self", "value": "fletcher" },
+            "add": { "component_groups": ["fletcher"] }
           },
           {
-            "trigger": "minecraft:become_librarian",
-            "filters": {"test": "is_family", "subject": "self", "value": "librarian" }
+            "filters": {"test": "is_family", "subject": "self", "value": "librarian" },
+            "add": { "component_groups": ["librarian"] }
           },
           {
-            "trigger": "minecraft:become_cartographer",
-            "filters": {"test": "is_family", "subject": "self", "value": "cartographer" }
+            "filters": {"test": "is_family", "subject": "self", "value": "cartographer" },
+            "add": { "component_groups": ["cartographer"] }
           },
           {
-            "trigger": "minecraft:become_armorer",
-            "filters": {"test": "is_family", "subject": "self", "value": "armorer" }
+            "filters": {"test": "is_family", "subject": "self", "value": "cleric" },
+            "add": { "component_groups": ["cleric"] }
           },
           {
-            "trigger": "minecraft:become_weaponsmith",
-            "filters": {"test": "is_family", "subject": "self", "value": "weaponsmith" }
+            "filters": {"test": "is_family", "subject": "self", "value": "armorer" },
+            "add": { "component_groups": ["armorer"] }
           },
           {
-            "trigger": "minecraft:become_toolsmith",
-            "filters": {"test": "is_family", "subject": "self", "value": "toolsmith" }
+            "filters": {"test": "is_family", "subject": "self", "value": "weaponsmith" },
+            "add": { "component_groups": ["weaponsmith"] }
           },
           {
-            "trigger": "minecraft:become_butcher",
-            "filters": {"test": "is_family", "subject": "self", "value": "butcher" }
+            "filters": {"test": "is_family", "subject": "self", "value": "toolsmith" },
+            "add": { "component_groups": ["toolsmith"] }
           },
           {
-            "trigger": "minecraft:become_leatherworker",
-            "filters": {"test": "is_family", "subject": "self", "value": "leatherworker" }
+            "filters": {"test": "is_family", "subject": "self", "value": "butcher" },
+            "add": { "component_groups": ["butcher"] }
           },
           {
-            "trigger": "minecraft:become_shepherd",
-            "filters": {"test": "is_family", "subject": "self", "value": "shepherd" }
+            "filters": {"test": "is_family", "subject": "self", "value": "leatherworker" },
+            "add": { "component_groups": ["leatherworker"] }
           },
           {
-            "trigger": "minecraft:become_mason",
-            "filters": {"test": "is_family", "subject": "self", "value": "mason" }
+            "filters": {"test": "is_family", "subject": "self", "value": "stone_mason" },
+            "add": { "component_groups": ["mason"] }  //yes, the names are correct. I checked.
+          },
+          
+          // resupply if one was pending
+          {
+            "filters": {"subject": "self", "test": "has_tag", "value": "resupply_trades_pending"},
+            "add": { "component_groups": [ "trade_resupply_component_group" ] },
+            "queue_command": {"command": [
+              "tag @s remove resupply_trades_pending",
+              "msg @a[r=8] Pending resupply was executed."  //for debug
+            ]}
           }
         ]
       },
@@ -2997,8 +3001,27 @@
         "remove": { "component_groups": [ "home_schedule_villager", "gather_schedule_villager", "wander_schedule_villager", "bed_schedule_villager", "job_specific_goals", "play_schedule_villager" ] },
         "add": { "component_groups": [ "work_schedule_librarian" ] }
       },
+
       "minecraft:resupply_trades": {
-        "add": { "component_groups": [ "trade_resupply_component_group" ] }
+        "sequence": [
+          // added this to prevent resupply when trade components are disabled
+          {
+            "filters": {
+              "subject": "self", "test": "has_tag", "value": "trade_components_off"
+            },
+            "queue_command": {"command": [
+              "tag @s add resupply_trades_pending",
+              // for debug (below)
+              "msg @a[r=8] resupply trades queued, will apply when trade components re-enabled."
+            ]}
+          },
+          {
+            "filters": {
+              "subject": "self", "test": "has_tag", "operator": "not", "value": "trade_components_off"
+            },
+            "add": { "component_groups": [ "trade_resupply_component_group" ] }
+          }
+        ]
       },
 
       "minecraft:start_celebrating": { // Event must be called exactly this for village to fire it when a raid is won
