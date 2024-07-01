@@ -489,10 +489,9 @@
           //https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitygoals/minecraftbehavior_work_composter?view=minecraft-bedrock-stable
         },
         "minecraft:behavior.harvest_farm_block": {
-          // "priority": 7    //default
-          "priority": 8,
-          "goal_radius": 1.5,
-          "max_seconds_before_search": 0.25
+          "priority": 8,        //default is 7
+          "goal_radius": 1.4,   //default is 1.5
+          "max_seconds_before_search": 0.25 //default is 1.0
         },
         // I feel like when the farmer works the composter, he should have a timer that restarts
         // its countdown each time he interacts with the composter, then the possibility of working
@@ -500,8 +499,7 @@
         // priority over harvesting. After some time, restore to defaults though. This would prevent
         // bugginess and increase productivity of the farm as a whole.
         "minecraft:behavior.fertilize_farm_block": {
-          // "priority": 8    //default
-          "priority": 7,
+          "priority": 7,       //default is 8
           "search_count": 0,   //searches all blocks in the radius
           "search_range": 8,
           "search_height": 2,
