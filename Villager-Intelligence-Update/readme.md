@@ -34,4 +34,8 @@
   - S&nbsp;S&nbsp;S
       - where S = chiseled stonebrick and D = diamond
 
+
+## Known Issues
+- Enabling inventory access with the chest causes the villager to forget their trade table, but not experience. Removing inventory access restores a new, random trade table at their same level.
+
 **Created by MRxSIR**
