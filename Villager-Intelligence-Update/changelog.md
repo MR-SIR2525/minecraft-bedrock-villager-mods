@@ -1,3 +1,4 @@
+- 7/1/24: tightend farmer harvest goal radius to 1.4 from 1.5. (v0.0.162)
 - 6/4/24: optimized the "restore_trade_components" function.
 - 6/4/24: farmer behavior composter: can empty = true, can fill = true, block interact max = 5.
 - 6/4/24: farmer behavior harvest: priority 8, goal radius 1.5, max seconds before search = 0.25.
