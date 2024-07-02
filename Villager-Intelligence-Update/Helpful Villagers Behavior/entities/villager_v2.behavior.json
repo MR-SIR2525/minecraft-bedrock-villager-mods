@@ -3163,25 +3163,23 @@
       },
 
       "found_valid_singing_conditions": {
-        "remove": { "component_groups": [ "check_for_singing_conditions" ] },
+        "remove": { "component_groups": ["check_for_singing_conditions"] },
         "trigger": "start_albert_whitefish_song"
       },
 
       "start_albert_whitefish_song": {
+        "add": { 
+          "component_groups": ["albert_whitefish_song_timer"] //resumes normal behavior after
+        },
         "queue_command": {
           "command": [
-            "playsound villager.albert_whitefish_song @a[r=70] ~~~",
-            "gamerule dodaylightcycle false"
+            "execute as @s at @s run playsound villager.albert_whitefish_song @a[r=70] ~ ~ ~"
           ]
         }
       },
 
       "ended_albert_whitefish_song": {
-        "queue_command": {
-          "command": [
-            "gamerule dodaylightcycle true"
-          ]
-        }
+        "remove": { "component_groups": ["albert_whitefish_song_timer"] }
       },
 
       "add_gather_for_albert_whitefish_song": {
