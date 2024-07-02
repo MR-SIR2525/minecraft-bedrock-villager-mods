@@ -1986,7 +1986,7 @@
         },
         "queue_command": {
           "command": [
-            "msg @a[r=10] can no longer be tempted.", //for debug
+            "msg @a[r=8] can no longer be tempted.", //for debug
             "tag @s remove can_be_tempted"   //allows farmer to self check if tempting is enabled
           ]
         }
