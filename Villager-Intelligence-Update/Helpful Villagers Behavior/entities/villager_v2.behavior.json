@@ -1618,6 +1618,36 @@
         "minecraft:mark_variant": {
           "value": 6
         }
+      },
+
+      //things for Albert Whitefish song easter egg
+      "gather_for_albert_whitefish_song": {
+        "minecraft:behavior.follow_mob": {
+          "search_range": 20,
+          "stop_distance": 2.5,
+          "priority": 5,
+          "speed_multiplier": 0.5
+        }
+      },
+
+      "check_for_singing_conditions": {
+        "minecraft:timer": {
+          "time": 4,
+          "looping": true,
+          "time_down_event": {
+            "event": "check_for_enough_nearby_villagers"
+          }
+        }
+      },
+
+      "albert_whitefish_song_timer": {
+        "minecraft:timer": {
+          "time": 52,   //the song is ~45 seconds long
+          "looping": false,
+          "time_down_event": {
+            "event": "ended_albert_whitefish_song"
+          }
+        }
       }
     },
 
@@ -1925,10 +1955,10 @@
             "play_sounds": "item.book.put"
           },
 
-          {
-            // "interact_text": "no text",
+          {//for Albert Whitefish song
+            "interact_text": "Tag as song leader",
             "on_interact": {
-              "event": "interaction_API_alpha",
+              "event": "tag_as_song_leader",
               "filters": {
                 "all_of": [
                   {
@@ -2984,11 +3014,12 @@
         "remove": { "component_groups": [ "home_schedule_villager", "bed_schedule_villager", "wander_schedule_villager", "job_specific_goals", "play_schedule_villager", "trade_resupply_component_group" ] },
         "add": { "component_groups": [ "wander_schedule_villager" ] }
       },
-      
-      "minecraft:schedule_gather_villager": {
-        "remove": { "component_groups": [ "bed_schedule_villager", "wander_schedule_villager", "home_schedule_villager", "job_specific_goals", "play_schedule_villager", "trade_resupply_component_group" ] },
-        "add": { "component_groups": [ "gather_schedule_villager" ] }
-      },
+
+      //---overridden below for the Albert Whitefish song easter egg
+      // "minecraft:schedule_gather_villager": {
+      //   "remove": { "component_groups": [ "bed_schedule_villager", "wander_schedule_villager", "home_schedule_villager", "job_specific_goals", "play_schedule_villager", "trade_resupply_component_group" ] },
+      //   "add": { "component_groups": [ "gather_schedule_villager" ] }
+      // },
       
       "minecraft:schedule_home_villager": {
         "remove": { "component_groups": [ "bed_schedule_villager", "wander_schedule_villager", "gather_schedule_villager", "job_specific_goals", "play_schedule_villager", "trade_resupply_component_group" ] },
@@ -3070,6 +3101,94 @@
 
       "minecraft:stop_celebrating": {
         "remove": { "component_groups": [ "minecraft:celebrate" ] }
+      },
+
+      //-------events for Albert Whitefish song
+      "minecraft:schedule_gather_villager": {
+        "sequence": [
+          {
+            "remove": { "component_groups": [ "bed_schedule_villager", "wander_schedule_villager", "home_schedule_villager", "job_specific_goals", "play_schedule_villager", "trade_resupply_component_group" ] },
+            "add": { "component_groups": [ "gather_schedule_villager" ] }
+          },
+          //added this below to allow for Albert Whitefish song
+          {
+            "filters": {
+              "test": "has_tag",
+              "value": "albert_whitefish_song_leader"
+            },
+            "add": { "component_groups": [ "check_for_singing_conditions" ] }
+          }
+        ]
+      },
+
+      "tag_as_song_leader": {
+        "sequence": [
+          {
+            "filters": [
+              {
+                "operator": "not",
+                "test": "has_tag",
+                "value": "albert_whitefish_song_leader"
+              }
+            ],
+            "queue_command": {
+              "command": [
+                "tag @s add albert_whitefish_song_leader",
+                "msg @a[r=9] now song leader for Albert Whitefish song."   //debug
+              ]
+            }
+          },
+          {
+            "filters": [
+              {
+                "test": "has_tag",
+                "value": "albert_whitefish_song_leader"
+              }
+            ],
+            "queue_command": {
+              "command": [
+                "tag @s remove albert_whitefish_song_leader",
+                "msg @a[r=9] no longer song leader for Albert Whitefish song." //debug
+              ]
+            }
+          }
+        ]
+      },
+
+      "check_for_enough_nearby_villagers": {
+        "queue_command": {
+          "command": "execute as @s at @s if entity @e[type=villager,r=15,c=7] run event entity @s found_valid_singing_conditions"
+        }
+      },
+
+      "found_valid_singing_conditions": {
+        "remove": { "component_groups": [ "check_for_singing_conditions" ] },
+        "trigger": "start_albert_whitefish_song"
+      },
+
+      "start_albert_whitefish_song": {
+        "queue_command": {
+          "command": [
+            "playsound villager.albert_whitefish_song @a[r=75] ~~~",
+            "gamerule dodaylightcycle false"
+          ]
+        }
+      },
+
+      "ended_albert_whitefish_song": {
+        "queue_command": {
+          "command": [
+            "gamerule dodaylightcycle true"
+          ]
+        }
+      },
+
+      "add_gather_for_albert_whitefish_song": {
+        "add": { "component_groups": [ "gather_for_albert_whitefish_song" ] }
+      },
+
+      "remove_gather_for_albert_whitefish_song": {
+        "remove": { "component_groups": [ "gather_for_albert_whitefish_song" ] }
       }
     }
   }

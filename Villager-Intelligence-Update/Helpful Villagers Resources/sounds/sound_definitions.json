@@ -1,0 +1,16 @@
+{
+  "format_version": "1.14.0",
+  "sound_definitions": {
+    "villager.albert_whitefish_song": {
+      "min_distance": 20.0,
+      "__use_legacy_max_distance": true,
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/albert_whitefish_song",
+          "volume": 0.3
+        }
+      ]
+    }
+  }
+}
