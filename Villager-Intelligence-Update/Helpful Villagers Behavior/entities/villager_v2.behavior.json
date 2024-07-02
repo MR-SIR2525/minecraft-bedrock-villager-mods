@@ -3170,7 +3170,7 @@
       "start_albert_whitefish_song": {
         "queue_command": {
           "command": [
-            "playsound villager.albert_whitefish_song @a[r=75] ~~~",
+            "playsound villager.albert_whitefish_song @a[r=70] ~~~",
             "gamerule dodaylightcycle false"
           ]
         }
