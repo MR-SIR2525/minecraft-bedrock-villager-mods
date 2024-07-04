@@ -508,72 +508,6 @@
         }
       },
 
-      // temporary debugging harvest goal radiuses
-      "harvest_2.0": {
-        "minecraft:behavior.harvest_farm_block": {
-          "priority": 8,          //default is 7
-          "goal_radius": 2.0,     //default 1.5 (problems with potatoes)
-          "max_seconds_before_search": 0.5 //default is 1.0
-        }
-      },
-      "harvest_1.9": {
-        "minecraft:behavior.harvest_farm_block": {
-          "priority": 8,          //default is 7
-          "goal_radius": 1.9,     //default 1.5 (problems with potatoes)
-          "max_seconds_before_search": 0.5 //default is 1.0
-        }
-      },
-      "harvest_1.75": {
-        "minecraft:behavior.harvest_farm_block": {
-          "priority": 8,          //default is 7
-          "goal_radius": 1.75,     //default 1.5 (problems with potatoes)
-          "max_seconds_before_search": 0.5 //default is 1.0
-        }
-      },
-      "harvest_1.7": {
-        "minecraft:behavior.harvest_farm_block": {
-          "priority": 8,          //default is 7
-          "goal_radius": 1.7,     //default 1.5 (problems with potatoes)
-          "max_seconds_before_search": 0.5 //default is 1.0
-        }
-      },
-      "harvest_1.68": {
-        "minecraft:behavior.harvest_farm_block": {
-          "priority": 8,          //default is 7
-          "goal_radius": 1.68,     //default 1.5 (problems with potatoes)
-          "max_seconds_before_search": 0.5 //default is 1.0
-        }
-      },
-      "harvest_1.6": {
-        "minecraft:behavior.harvest_farm_block": {
-          "priority": 8,          //default is 7
-          "goal_radius": 1.6,     //default 1.5 (problems with potatoes)
-          "max_seconds_before_search": 0.5 //default is 1.0
-        }
-      },
-      "harvest_1.55": {
-        "minecraft:behavior.harvest_farm_block": {
-          "priority": 8,          //default is 7
-          "goal_radius": 1.55,     //default 1.5 (problems with potatoes)
-          "max_seconds_before_search": 0.5 //default is 1.0
-        }
-      },
-      "harvest_1.5": {
-        "minecraft:behavior.harvest_farm_block": {
-          "priority": 8,          //default is 7
-          "goal_radius": 1.5,     //default 1.5 (problems with potatoes)
-          "max_seconds_before_search": 0.5 //default is 1.0
-        }
-      },
-      "harvest_1.25": {
-        "minecraft:behavior.harvest_farm_block": {
-          "priority": 8,          //default is 7
-          "goal_radius": 1.25,     //default 1.5 (problems with potatoes)
-          "max_seconds_before_search": 0.5 //default is 1.0
-        }
-      },
-      // temporary debugging things ^^
-
       "farmer_default_shareables": {
         "minecraft:shareables": {
           "items": [
@@ -3254,50 +3188,7 @@
 
       "remove_gather_for_albert_whitefish_song": {
         "remove": { "component_groups": [ "gather_for_albert_whitefish_song" ] }
-      },
-
-      // debugging events for harvest goal radiuses
-      // for debug components above
-      "harvest_2.0": {
-        "add": { "component_groups": [ "harvest_2.0" ] }
-      },
-
-      "harvest_1.9": {
-        "add": { "component_groups": [ "harvest_1.9" ] }
-      },
-
-      "harvest_1.75": {
-        "add": { "component_groups": [ "harvest_1.75" ] }
-      },
-
-      "harvest_1.7": {
-        "add": { "component_groups": [ "harvest_1.7" ] }
-      },
-
-      "harvest_1.68": {
-        "add": { "component_groups": [ "harvest_1.68" ] }
-      },
-
-      "harvest_1.6": {
-        "add": { "component_groups": [ "harvest_1.6" ] }
-      },
-
-      "harvest_1.55": {
-        "add": { "component_groups": [ "harvest_1.55" ] }
-      },
-
-      "harvest_1.5": {
-        "add": { "component_groups": [ "harvest_1.5" ] }
-      },
-
-      "harvest_1.25": {
-        "add": { "component_groups": [ "harvest_1.25" ] }
-      },
-
-      "restore_work_schedule_farmer": {
-        "add": { "component_groups": [ "work_schedule_farmer" ] }
       }
-      // end debugging events
     }
   }
 }
