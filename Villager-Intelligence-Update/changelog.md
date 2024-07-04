@@ -1,3 +1,4 @@
+- 7/4/24: farmer harvest goal radius changed to 1.55.
 - 7/2/24: parity for tempt info messages range and minor things.
 - 7/1/24: tightend farmer harvest goal radius to 1.4 from 1.5. (v0.0.162)
 - 6/4/24: optimized the "restore_trade_components" function.
