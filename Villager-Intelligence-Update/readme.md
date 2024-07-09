@@ -7,6 +7,8 @@
 
 
 ### Farmer
+- Delay between consecutive harvests/replants reduced from vanilla 1 second to 0.5 seconds.
+- Farmer will now fertilize crops without fail if the farmer has bonemeal.
 - Farmer can drop crops to hopper:
   1. During work time, farmer has the chance to look for a "farmer guide stone"...
   2. If a Guide Stone is found, farmer will go to it then share to a nearby "hopper marker" entity that should be placed on top of a hopper and within sight of the Farmer Guide Stone.
