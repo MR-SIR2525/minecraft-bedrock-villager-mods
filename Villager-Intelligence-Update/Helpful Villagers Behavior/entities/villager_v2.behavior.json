@@ -490,7 +490,7 @@
         },
         "minecraft:behavior.harvest_farm_block": {
           "priority": 8,          //default is 7
-          "goal_radius": 1.55,     //default 1.5 (problems with potatoes)
+          "goal_radius": 1.55,     //default 1.5 (problems with crops south-east of blocks sometimes)
           "max_seconds_before_search": 0.5 //default is 1.0
         },
         // I feel like when the farmer works the composter, he should have a timer that restarts
@@ -749,7 +749,6 @@
           "timeout_cooldown": 10.0
         }
       },
-
 
       "wander_schedule_villager": {
         "minecraft:behavior.explore_outskirts": {
@@ -3018,11 +3017,7 @@
         "add": { "component_groups": [ "wander_schedule_villager" ] }
       },
 
-      //---overridden below for the Albert Whitefish song easter egg
-      // "minecraft:schedule_gather_villager": {
-      //   "remove": { "component_groups": [ "bed_schedule_villager", "wander_schedule_villager", "home_schedule_villager", "job_specific_goals", "play_schedule_villager", "trade_resupply_component_group" ] },
-      //   "add": { "component_groups": [ "gather_schedule_villager" ] }
-      // },
+      // "minecraft:schedule_gather_villager" -> overridden for the Albert Whitefish song easter egg
       
       "minecraft:schedule_home_villager": {
         "remove": { "component_groups": [ "bed_schedule_villager", "wander_schedule_villager", "gather_schedule_villager", "job_specific_goals", "play_schedule_villager", "trade_resupply_component_group" ] },
@@ -3086,7 +3081,7 @@
             "queue_command": {"command": [
               "tag @s add resupply_trades_pending",
               // for debug (below)
-              "msg @a[r=8] resupply trades queued, will apply when trade components re-enabled."
+              "msg @a[r=4] resupply trades queued, will apply when trade components re-enabled."
             ]}
           },
           {
