@@ -419,6 +419,8 @@
           ]
         }
       },
+
+      //----------> builder schedule?
       
       //every goal that has to do with villagers working should go here (work goals, secondary goals)
       //so they can be successfuly removed on schedule change
@@ -445,6 +447,27 @@
           "can_work_in_rain": false,
           "work_in_rain_tolerance": 100,
           "on_arrival": {
+            "event": "minecraft:resupply_trades",
+            "target": "self"
+          }
+        }
+      },
+
+      "work_schedule_builder": {
+        "minecraft:behavior.move_to_block": {   //mimic 'minecraft:behavior.work'
+          "priority": 7,
+          "stay_duration": 180,
+          "speed_multiplier": 0.5,
+          "start_chance": 1,
+          "search_range": 32,
+          "goal_radius": 1.5,
+          "target_blocks": [          //in the future, a new "workstation" block
+            "minecraft:planks",
+            "minecraft:cobblestone",
+            "minecraft:dirt_path",
+            "minecraft:stone_stairs"  //(cobblestone stairs)
+          ],
+          "on_reach": {
             "event": "minecraft:resupply_trades",
             "target": "self"
           }
@@ -1330,6 +1353,42 @@
         },
         "minecraft:variant": {
           "value": 14
+        }
+      },
+
+      // new profession by MRxSIR, variant #50 to avoid conflicts with potential new professions
+      "builder": {
+        "minecraft:type_family": {
+          "family": [ "villager", "artisan", "builder", "builder_villager", "mob" ]
+        },
+        "minecraft:variant": {
+          "value": 50
+        },
+        "minecraft:behavior.trade_interest": {
+          "priority": 5,
+          "within_radius": 6.0,
+          "interest_time": 45.0,
+          "remove_item_time": 1.0,
+          "carried_item_switch_time": 2.0,
+          "cooldown": 2.0
+        },
+        "minecraft:economy_trade_table": {
+          "display_name": "entity.villager.builder",
+          "table": "trading/economy_trades/builder_trades.json",
+          "new_screen": true,
+          "persist_trades": true,
+          "cured_discount": [-100, -100],
+          "max_cured_discount": [-500, -500]
+        },
+        "minecraft:dweller": {
+          "dwelling_type": "village",
+          "dweller_role": "inhabitant",
+          "preferred_profession": "builder",
+          "update_interval_base": 60,
+          "update_interval_variant": 40,
+          "can_find_poi": true,
+          "can_migrate": true,
+          "first_founding_reward": 5
         }
       },
 
@@ -2255,6 +2314,10 @@
                     "randomize": [
                       {
                         "weight": 1,
+                        "add": { "component_groups": [ "builder", "behavior_non_peasant", "basic_schedule" ] }
+                      },
+                      {
+                        "weight": 1,
                         "add": { "component_groups": [ "farmer", "behavior_peasant", "basic_schedule" ] }
                       },
                       {
@@ -2545,6 +2608,11 @@
               // Transform to adult villager
               {
                 "add": { "component_groups": [ "adult" ] }
+              },
+              // new:  Transform to builder villager
+              {
+                "filters": { "test": "is_family", "subject": "other", "value": "builder" },
+                "add": { "component_groups": [ "builder", "behavior_non_peasant", "builder_schedule" ] }
               },
               // Transform to farmer villager
               {
@@ -3010,6 +3078,11 @@
         "remove": { "component_groups": [ "baby", "child_schedule", "job_specific_goals", "trade_components" ] },
         "add": { "component_groups": [ "mason", "adult", "behavior_non_peasant", "work_schedule" ] }
       },
+
+      "minecraft:become_builder": {
+        "remove": { "component_groups": [ "baby", "child_schedule", "job_specific_goals", "trade_components" ] },
+        "add": { "component_groups": [ "builder", "adult", "behavior_non_peasant", "work_schedule_builder" ] }
+      },
       
       
       "minecraft:schedule_wander_villager": {
@@ -3069,6 +3142,11 @@
       "minecraft:schedule_work_librarian": {
         "remove": { "component_groups": [ "home_schedule_villager", "gather_schedule_villager", "wander_schedule_villager", "bed_schedule_villager", "job_specific_goals", "play_schedule_villager" ] },
         "add": { "component_groups": [ "work_schedule_librarian" ] }
+      },
+
+      "schedule_work_builder": {
+        "remove": {"component_groups": ["home_schedule_villager", "gather_schedule_villager", "wander_schedule_villager", "bed_schedule_villager", "play_schedule_villager", "job_specific_goals"]},
+        "add": {"component_groups": ["work_schedule_builder"]}
       },
 
       "minecraft:resupply_trades": {
