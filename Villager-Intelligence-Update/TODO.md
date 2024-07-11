@@ -1,0 +1,3 @@
+- bvp:builder_villager has no sound (seems to render ok tho)
+- become normal villager event
+- uniform become_whatever event names

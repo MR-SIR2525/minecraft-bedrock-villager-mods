@@ -519,7 +519,7 @@
       
       "builder": {
         "minecraft:type_family": {
-          "family": [ "villager", "builder_villager", "artisan", "builder", "bvp", "mob" ]
+          "family": ["villager", "builder_villager", "artisan", "builder", "bvp", "mob"]
         },
         "minecraft:variant": {
           "value": 0
@@ -552,11 +552,14 @@
         }
       },
 
-      // intended to be unused, but here just in case (for now)
       "unskilled": {
-        "minecraft:transformation": {
-          "into": "minecraft:villager_v2",
-          "keep_level": true
+        "minecraft:type_family": {
+          "family": [
+            "villager", "builder_villager", "peasant", "unskilled", "unskilled_builder", "bvp", "mob"
+          ]
+        },
+        "minecraft:variant": {
+          "value": 1
         }
       },
 
@@ -1290,10 +1293,6 @@
       // API events allowing you to use the interactions from this pack.
       // Override these events in another pack to use.
       //  "interaction_API_alpha": {},
-
-      "become_normal_villager": {
-        // ------ TODO ------
-      },
       
       "become_witch": {
         "add": {
@@ -1488,7 +1487,7 @@
                     "randomize": [
                       {
                         "weight": 90,
-                        "trigger": "bvp:become_builder"
+                        "trigger": "become_builder"
                       },
                       {
                         "weight": 10,
@@ -1598,7 +1597,6 @@
             // Transform to adult villager
             "filters": { "test": "has_component", "subject": "other", "operator": "!=", "value": "minecraft:is_baby" },
             "sequence": [ 
-              // Transform to adult villager
               {
                 "add": { "component_groups": [ "adult" ] }
               },
@@ -1873,22 +1871,23 @@
       "minecraft:ageable_grow_up": {
         "randomize": [
           {
-            // consider changing this to transform into normal villager, or pass nitwit responsibility
-            // to normal villager through transformation
             "weight": 10,
             "remove": { "component_groups": [ "baby", "child_schedule" ] },
             "trigger": "become_normal_villager"
           },
           {
-            // becomes builder villager
             "weight": 90,
             "remove": { "component_groups": [ "baby", "child_schedule" ] },
             "add": { "component_groups": [ "builder", "adult", "behavior_non_peasant", "builder_schedule" ] }
           }
         ]
       },
+
+      "become_normal_villager": {
+        "add": {"component_groups": ["become_normal_villager"]}
+      },
       
-      "bvp:become_builder": {
+      "become_builder": {
         "remove": { "component_groups": [ "baby", "child_schedule", "job_specific_goals", "trade_components", "unskilled" ] },
         "add": { "component_groups": [ "builder", "adult", "behavior_non_peasant", "builder_schedule" ] }
       },

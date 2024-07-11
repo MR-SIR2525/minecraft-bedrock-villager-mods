@@ -729,7 +729,10 @@
           "speed_multiplier": 0.5,
           "duration": 30,
           "cooldown_time": 10,
-          "mingle_partner_type": "minecraft:villager_v2",
+          "mingle_partner_type": [
+            "minecraft:villager_v2",
+            "bvp:builder_villager"
+          ],
           "mingle_distance": 2.0
         }
       },
@@ -1335,6 +1338,9 @@
 
       // new profession, separate file
       "builder": {
+        "minecraft:type_family": {
+          "family": ["villager", "builder", "villager_to_builder", "mob"]
+        },
         "minecraft:transformation": {
           "into": "bvp:builder_villager",
           "keep_level": true
@@ -1343,7 +1349,7 @@
 
       "become_builder_delayed": {
         "minecraft:type_family": {
-          "family": ["villager", "builder", "builder_transform", "mob"]
+          "family": ["villager", "builder", "villager_to_builder", "mob"]
         },
         "minecraft:transformation": {
           "into": "bvp:builder_villager",
