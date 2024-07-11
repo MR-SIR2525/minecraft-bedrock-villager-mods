@@ -1,7 +1,7 @@
 {
   "format_version": "1.8.0",
   // Temporarily included so that blockbench can function in editing the builder textures.
-  "geometry.villager_v2": {
+  "geometry.dev_villager_v2": {
     "visible_bounds_width": 1.5,
     "visible_bounds_height": 2.5,
     "visible_bounds_offset": [ 0, 1.25, 0 ],
