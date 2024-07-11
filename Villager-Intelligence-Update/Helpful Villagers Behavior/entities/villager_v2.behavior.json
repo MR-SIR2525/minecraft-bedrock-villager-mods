@@ -936,13 +936,13 @@
       },
       
       "unskilled": {
-          "minecraft:type_family": {
-            "family": [ "villager", "peasant", "unskilled", "mob" ]
-          },
-          "minecraft:variant": {
-            "value": 0
-          }
+        "minecraft:type_family": {
+          "family": [ "villager", "peasant", "unskilled", "mob" ]
         },
+        "minecraft:variant": {
+          "value": 0
+        }
+      },
 
       "farmer": {
         "minecraft:type_family": {
@@ -2118,7 +2118,7 @@
         },
         "queue_command": {
           "command": [
-            "msg @a[r=8] can be tempted with a hay bale",  //for debug
+            "msg @a[r=6] can be tempted with a hay bale",  //for debug
             "tag @s add can_be_tempted"   //allows farmer to self check if tempting is enabled
           ]
         }
@@ -2130,7 +2130,7 @@
         },
         "queue_command": {
           "command": [
-            "msg @a[r=8] can no longer be tempted.", //for debug
+            "msg @a[r=6] can no longer be tempted.", //for debug
             "tag @s remove can_be_tempted"   //allows farmer to self check if tempting is enabled
           ]
         }
@@ -2147,7 +2147,7 @@
       "arrived_at_guide_stone": {
         "sequence": [
           {
-            "queue_command": {"command": "msg @a[r=8] arrived at guide stone, looking for hopper marker."}  //for debug
+            "queue_command": {"command": "msg @a[r=4] arrived at guide stone, looking for hopper marker."}  //for debug
           },
           {
             "trigger": "add_share_crops_to_hopper_marker"
@@ -2166,7 +2166,7 @@
             "add": {"component_groups": ["default_share_items"]},
             "queue_command": {
               "command": [
-                "msg @a[r=8] no longer trying to stow crops to hopper marker."  //for debug
+                "msg @a[r=4] no longer trying to stow crops to hopper marker."  //for debug
               ]
             }
           },
@@ -2183,18 +2183,16 @@
       },
 
       "add_share_crops_to_hopper_marker": {
-        "add": {"component_groups": ["share_crops_to_hopper_marker"]},
-        "queue_command": {"command": "msg @a[r=8] added share_crops_to_hopper_marker."} //for debug
+        "add": {"component_groups": ["share_crops_to_hopper_marker"]}
       },
 
       "add_farmer_default_shareables": {
-        "add": {"component_groups": ["farmer_default_shareables"]},
-        "queue_command": {"command": "msg @a[r=8] added farmer_default_shareables."} //for debug
+        "add": {"component_groups": ["farmer_default_shareables"]}
       },
 
       "add_default_share_items": {
         "add": {"component_groups": ["default_share_items"]},
-        "queue_command": {"command": "msg @a[r=8] added default_share_items."} //for debug
+        "queue_command": {"command": "msg @a[r=6] added default_share_items."} //for debug
       },
 
       "remove_trade_components": {
@@ -2276,10 +2274,7 @@
           {
             "filters": {"subject": "self", "test": "has_tag", "value": "resupply_trades_pending"},
             "add": { "component_groups": [ "trade_resupply_component_group" ] },
-            "queue_command": {"command": [
-              "tag @s remove resupply_trades_pending",
-              "msg @a[r=8] Pending resupply was executed."  //for debug
-            ]}
+            "queue_command": {"command": "tag @s remove resupply_trades_pending"}
           }
         ]
       },
@@ -2295,6 +2290,7 @@
           ]
         }
       },
+
       "become_zombie": {
         "sequence": [
           {
@@ -2319,6 +2315,7 @@
           }
         ]
       },
+
       "minecraft:entity_spawned": {
         "sequence": [
           {
@@ -2624,14 +2621,8 @@
           {
             "filters": {
               "any_of": [
-                {
-                  "test": "has_biome_tag",
-                  "value": "swamp"
-                },
-                {
-                  "test": "has_biome_tag",
-                  "value": "mangrove_swamp"
-                }
+                { "test": "has_biome_tag", "value": "swamp" },
+                { "test": "has_biome_tag", "value": "mangrove_swamp" }
               ]
             },
             "add": { "component_groups": [ "swamp_villager" ] }
@@ -3176,14 +3167,7 @@
       // ** add new things to this
       "minecraft:schedule_work_farmer": {
         "remove": {
-          "component_groups": [
-            "home_schedule_villager",
-            "gather_schedule_villager",
-            "wander_schedule_villager",
-            "bed_schedule_villager",
-            "job_specific_goals",
-            "play_schedule_villager"
-          ]
+          "component_groups": ["home_schedule_villager", "gather_schedule_villager", "wander_schedule_villager", "bed_schedule_villager", "job_specific_goals", "play_schedule_villager"]
         },
         "add": {
           "component_groups": [
@@ -3217,11 +3201,7 @@
             "filters": {
               "subject": "self", "test": "has_tag", "value": "trade_components_off"
             },
-            "queue_command": {"command": [
-              "tag @s add resupply_trades_pending",
-              // for debug (below)
-              "msg @a[r=4] resupply trades queued, will apply when trade components re-enabled."
-            ]}
+            "queue_command": {"command": "tag @s add resupply_trades_pending"}
           },
           {
             "filters": {
