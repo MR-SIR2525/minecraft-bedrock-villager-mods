@@ -1333,7 +1333,7 @@
         }
       },
 
-      // new profession
+      // new profession, separate file
       "builder": {
         "minecraft:transformation": {
           "into": "bvp:builder_villager",
@@ -1343,7 +1343,7 @@
 
       "become_builder_delayed": {
         "minecraft:type_family": {
-          "family": ["villager", "builder", "builder_transform","mob"]
+          "family": ["villager", "builder", "builder_transform", "mob"]
         },
         "minecraft:transformation": {
           "into": "bvp:builder_villager",
@@ -2578,75 +2578,100 @@
               {
                 "add": { "component_groups": [ "adult" ] }
               },
-              //--new:  Transform to builder villager delayed
+              // new: Transform from zombie/husk to builder_villager
               {
-                "filters": {"test": "is_family", "subject": "other", "value": "builder"},
-                "add": {"component_groups": [ "become_builder_delayed"] }
+                "filters": {
+                  "all_of": [
+                    {"test": "is_family", "subject": "other", "value": "builder"},
+                    {
+                      "any_of": [
+                        {"test": "is_family", "subject": "other", "value": "zombie"},
+                        {"test": "is_family", "subject": "other", "value": "husk"}
+                      ]
+                    }
+                  ]
+                },
+                "add": {"component_groups": ["builder"]}  //transforms to builder_villager
+              },
+              // new: Transform from builder villager to normal villager (unskilled)
+              {
+                "filters": {
+                  "all_of": [
+                    {"test": "is_family", "subject": "other", "value": "builder_villager"},
+                    {
+                      "none_of": [
+                        {"test": "is_family", "subject": "other", "value": "zombie"},
+                        {"test": "is_family", "subject": "other", "value": "husk"}
+                      ]
+                    } 
+                  ]
+                },
+                "trigger": "minecraft:become_unskilled"
               },
               // Transform to farmer villager
               {
-                  "filters": { "test": "is_family", "subject": "other", "value": "farmer"},
-                  "add": { "component_groups": [ "farmer", "behavior_peasant", "farmer_schedule" ] }
+                "filters": { "test": "is_family", "subject": "other", "value": "farmer"},
+                "add": { "component_groups": [ "farmer", "behavior_peasant", "farmer_schedule" ] }
               },
               // Transform to fisherman villager
               {
-                  "filters": { "test": "is_family", "subject": "other", "value": "fisherman"},
-                  "add": { "component_groups": [ "fisherman", "behavior_peasant", "fisher_schedule" ] }
+                "filters": { "test": "is_family", "subject": "other", "value": "fisherman"},
+                "add": { "component_groups": [ "fisherman", "behavior_peasant", "fisher_schedule" ] }
               },
               // Transform to shepherd villager
               {
-                  "filters": { "test": "is_family", "subject": "other", "value": "shepherd" },
-                  "add": { "component_groups": [ "shepherd", "behavior_peasant", "work_schedule" ] }
+                "filters": { "test": "is_family", "subject": "other", "value": "shepherd" },
+                "add": { "component_groups": [ "shepherd", "behavior_peasant", "work_schedule" ] }
               },
               // Transform to fletcher villager
               {
-                  "filters": { "test": "is_family", "subject": "other", "value": "fletcher" },
-                  "add": { "component_groups": [ "fletcher", "behavior_peasant", "work_schedule" ] }
+                "filters": { "test": "is_family", "subject": "other", "value": "fletcher" },
+                "add": { "component_groups": [ "fletcher", "behavior_peasant", "work_schedule" ] }
               },
               // Transform to librarian villager
               {
-                  "filters": { "test": "is_family", "subject": "other", "value": "librarian" },
-                  "add": { "component_groups": [ "librarian", "behavior_non_peasant", "librarian_schedule"] }
+                "filters": { "test": "is_family", "subject": "other", "value": "librarian" },
+                "add": { "component_groups": [ "librarian", "behavior_non_peasant", "librarian_schedule"] }
               },
               // Transform to cartographer villager
               {
-                  "filters": { "test": "is_family", "subject": "other", "value": "cartographer" },
-                  "add": { "component_groups": [ "cartographer", "behavior_non_peasant", "work_schedule" ] }
+                "filters": { "test": "is_family", "subject": "other", "value": "cartographer" },
+                "add": { "component_groups": [ "cartographer", "behavior_non_peasant", "work_schedule" ] }
               },
               // Transform to cleric villager
               {
-                  "filters": { "test": "is_family", "subject": "other", "value": "cleric" },
-                  "add": { "component_groups": [ "cleric", "behavior_non_peasant", "work_schedule" ] }
+                "filters": { "test": "is_family", "subject": "other", "value": "cleric" },
+                "add": { "component_groups": [ "cleric", "behavior_non_peasant", "work_schedule" ] }
               },
               // Transform to armorer villager
               {
-                  "filters": { "test": "is_family", "subject": "other", "value": "armorer" },
-                  "add": { "component_groups": [ "armorer", "behavior_non_peasant", "work_schedule" ] }
+                "filters": { "test": "is_family", "subject": "other", "value": "armorer" },
+                "add": { "component_groups": [ "armorer", "behavior_non_peasant", "work_schedule" ] }
               },
               // Transform to weaponsmith villager
               {
-                  "filters": { "test": "is_family", "subject": "other", "value": "weaponsmith" },
-                  "add": { "component_groups": [ "weaponsmith", "behavior_non_peasant", "work_schedule" ] }
+                "filters": { "test": "is_family", "subject": "other", "value": "weaponsmith" },
+                "add": { "component_groups": [ "weaponsmith", "behavior_non_peasant", "work_schedule" ] }
               },
               // Transform to toolsmith villager
               {
-                  "filters": { "test": "is_family", "subject": "other", "value": "toolsmith" },
-                  "add": { "component_groups": [ "toolsmith", "behavior_non_peasant", "work_schedule" ] }
+                "filters": { "test": "is_family", "subject": "other", "value": "toolsmith" },
+                "add": { "component_groups": [ "toolsmith", "behavior_non_peasant", "work_schedule" ] }
               },
               // Transform to butcher villager
               {
-                  "filters": { "test": "is_family", "subject": "other", "value": "butcher" },
-                  "add": { "component_groups": [ "butcher", "behavior_non_peasant", "work_schedule" ] }
+                "filters": { "test": "is_family", "subject": "other", "value": "butcher" },
+                "add": { "component_groups": [ "butcher", "behavior_non_peasant", "work_schedule" ] }
               },
               // Transform to leatherworker villager
               {
-                  "filters": { "test": "is_family", "subject": "other", "value": "leatherworker" },
-                  "add": { "component_groups": [ "leatherworker", "behavior_non_peasant", "work_schedule" ] }
+                "filters": { "test": "is_family", "subject": "other", "value": "leatherworker" },
+                "add": { "component_groups": [ "leatherworker", "behavior_non_peasant", "work_schedule" ] }
               },
               // Transform to mason villager
               {
-                  "filters": { "test": "is_family", "subject": "other", "value": "stone_mason" },
-                  "add": { "component_groups": [ "mason", "behavior_non_peasant", "work_schedule" ] }
+                "filters": { "test": "is_family", "subject": "other", "value": "stone_mason" },
+                "add": { "component_groups": [ "mason", "behavior_non_peasant", "work_schedule" ] }
               }
             ]
           },
@@ -2655,52 +2680,52 @@
             "filters": { "test": "is_family", "subject": "other", "operator": "==", "value": "zombie_villager" }, 
             "sequence" : [
               {
-                  "filters": { "test": "is_skin_id", "subject": "other", "value": 0 },
-                  "add": { "component_groups": [ "villager_skin_0" ] }
+                "filters": { "test": "is_skin_id", "subject": "other", "value": 0 },
+                "add": { "component_groups": [ "villager_skin_0" ] }
               },
               {
-                  "filters": { "test": "is_skin_id", "subject": "other", "value": 1 },
-                  "add": { "component_groups": [ "villager_skin_1" ] }
+                "filters": { "test": "is_skin_id", "subject": "other", "value": 1 },
+                "add": { "component_groups": [ "villager_skin_1" ] }
               },
               {
-                  "filters": { "test": "is_skin_id", "subject": "other", "value": 2 },
-                  "add": { "component_groups": [ "villager_skin_2" ] }
+                "filters": { "test": "is_skin_id", "subject": "other", "value": 2 },
+                "add": { "component_groups": [ "villager_skin_2" ] }
               },
               {
-                  "filters": { "test": "is_skin_id", "subject": "other", "value": 3 },
-                  "add": { "component_groups": [ "villager_skin_3" ] }
+                "filters": { "test": "is_skin_id", "subject": "other", "value": 3 },
+                "add": { "component_groups": [ "villager_skin_3" ] }
               },
               {
-                  "filters": { "test": "is_skin_id", "subject": "other", "value": 4 },
-                  "add": { "component_groups": [ "villager_skin_4" ] }
+                "filters": { "test": "is_skin_id", "subject": "other", "value": 4 },
+                "add": { "component_groups": [ "villager_skin_4" ] }
               },
               {
-                  "filters": { "test": "is_skin_id", "subject": "other", "value": 5 },
-                  "add": { "component_groups": [ "villager_skin_5" ] }
+                "filters": { "test": "is_skin_id", "subject": "other", "value": 5 },
+                "add": { "component_groups": [ "villager_skin_5" ] }
               },
               {
-                  "filters": { "test": "is_mark_variant", "subject": "other", "value": 1 },
-                  "add": { "component_groups": [ "desert_villager" ] }
+                "filters": { "test": "is_mark_variant", "subject": "other", "value": 1 },
+                "add": { "component_groups": [ "desert_villager" ] }
               },
               {
-                  "filters": { "test": "is_mark_variant", "subject": "other", "value": 2 },
-                  "add": { "component_groups": [ "jungle_villager" ] }
+                "filters": { "test": "is_mark_variant", "subject": "other", "value": 2 },
+                "add": { "component_groups": [ "jungle_villager" ] }
               },
               {
-                  "filters": { "test": "is_mark_variant", "subject": "other", "value": 3 },
-                  "add": { "component_groups": [ "savanna_villager" ] }
+                "filters": { "test": "is_mark_variant", "subject": "other", "value": 3 },
+                "add": { "component_groups": [ "savanna_villager" ] }
               },
               {
-                  "filters": { "test": "is_mark_variant", "subject": "other", "value": 4 },
-                  "add": { "component_groups": [ "snow_villager" ] }
+                "filters": { "test": "is_mark_variant", "subject": "other", "value": 4 },
+                "add": { "component_groups": [ "snow_villager" ] }
               },
               {
-                  "filters": { "test": "is_mark_variant", "subject": "other", "value": 5 },
-                  "add": { "component_groups": [ "swamp_villager" ] }
+                "filters": { "test": "is_mark_variant", "subject": "other", "value": 5 },
+                "add": { "component_groups": [ "swamp_villager" ] }
               },
               {
-                  "filters": { "test": "is_mark_variant", "subject": "other", "value": 6 },
-                  "add": { "component_groups": [ "taiga_villager" ] }
+                "filters": { "test": "is_mark_variant", "subject": "other", "value": 6 },
+                "add": { "component_groups": [ "taiga_villager" ] }
               }
             ]
           },
@@ -2970,10 +2995,18 @@
             "remove": { "component_groups": [ "baby", "child_schedule" ] },
             "add": { "component_groups": [ "adult", "nitwit", "behavior_peasant", "jobless_schedule" ] }
           },
+          // 15 variants - unskilled and nitwit leaves 13. 100/13 = 7.69%. Therefore, each vanilla
+          // job has 7.69% chance to happen. So, 0.769 * 0.90 chance for non-nitwit is 0.06923. 
+          // Builder should have equal probability. 90-6.9 = ~83, leaving 7% chance for builder.
           {
-            "weight": 90,
+            "weight": 83,
             "remove": { "component_groups": [ "baby", "child_schedule" ] },
             "add": { "component_groups": [ "adult", "unskilled", "behavior_peasant", "basic_schedule" ] }
+          },
+          {
+            "weight": 7,
+            "remove": { "component_groups": [ "baby", "child_schedule" ] },
+            "trigger": "become_builder"
           }
         ]
       },
@@ -3049,11 +3082,14 @@
       },
 
       // new
-      "minecraft:become_builder": {
+      "become_builder": {
         "remove": { "component_groups": [ "baby", "child_schedule", "job_specific_goals", "trade_components", "unskilled" ] },
         "add": { "component_groups": [ "builder" ] }
       },
-      
+
+      "minecraft:become_builder": {
+        "trigger": "become_builder"
+      },
       
       "minecraft:schedule_wander_villager": {
         "remove": { "component_groups": [ "home_schedule_villager", "bed_schedule_villager", "wander_schedule_villager", "job_specific_goals", "play_schedule_villager", "trade_resupply_component_group" ] },

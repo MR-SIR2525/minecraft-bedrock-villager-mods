@@ -517,22 +517,12 @@
         "minecraft:economy_trade_table": {}
       },
       
-      // intended to be unused, but here just in case (for now)
-      "unskilled": {
+      "builder": {
         "minecraft:type_family": {
-          "family": [ "villager", "peasant", "unskilled", "bvp", "mob" ]
+          "family": [ "villager", "builder_villager", "artisan", "builder", "bvp", "mob" ]
         },
         "minecraft:variant": {
           "value": 0
-        }
-      },
-
-      "builder": {
-        "minecraft:type_family": {
-          "family": [ "villager", "artisan", "builder", "builder_villager", "bvp", "mob" ]
-        },
-        "minecraft:variant": {
-          "value": 1
         },
         "minecraft:behavior.trade_interest": {
           "priority": 5,
@@ -562,6 +552,14 @@
         }
       },
 
+      // intended to be unused, but here just in case (for now)
+      "unskilled": {
+        "minecraft:transformation": {
+          "into": "minecraft:villager_v2",
+          "keep_level": true
+        }
+      },
+
       "baby": {
         "minecraft:is_baby": {  },
         "minecraft:scale": {
@@ -570,7 +568,7 @@
         "minecraft:ageable": {
           "duration": 1200,
           "grow_up": {
-            "event": "bvp:ageable_grow_up",
+            "event": "minecraft:ageable_grow_up",
             "target": "self"
           }
         },
@@ -868,7 +866,7 @@
       "minecraft:is_hidden_when_invisible": {
       },
       "minecraft:type_family": {
-        "family": ["villager", "builder_unskilled", "bvp", "mob"]
+        "family": ["villager", "builder_villager", "builder_unskilled", "bvp", "mob"]
       },
       "minecraft:mark_variant": {
         "value": 0 // Villagers have the Plains biome skin by default
@@ -1593,7 +1591,7 @@
         "sequence": [
           // Transform to baby villager
           {
-            "filters": { "test": "has_component", "subject": "other", "operator": "==", "value": "minecraft:is_baby" },
+            "filters": { "test": "has_component", "subject": "other", "value": "minecraft:is_baby" },
             "add": { "component_groups": [ "baby", "child_schedule" ] }
           },
           {
@@ -1612,15 +1610,24 @@
               // Transform to *normal* villager
               // this may cause a bug if this executes because of tests that run after it below...
               {
-                "filters": {"subject": "other", "operator": "not", "test": "is_family", "value": "builder"},
+                "filters": {
+                  "operator": "not", "test": "is_family", "subject": "other", "value": "builder"
+                },
                 "trigger": "become_normal_villager"
               }
             ]
           },
           {
-           // Transform from zombie to correct villager skin (mark var already set)
-            "filters": { "test": "is_family", "subject": "other", "operator": "==", "value": "zombie_villager" }, 
+           // Transform from zombie or normal villager to correct villager skin (mark var already set)
+           // and correct biome attire.
+            "filters": {
+              "any_of": [
+                {"test": "is_family", "subject": "other", "operator": "==", "value": "zombie_villager"},
+                {"test": "is_family", "subject": "other", "operator": "==", "value": "villager"}
+              ]
+            }, 
             "sequence" : [
+              // get the correct villager skin
               {
                 "filters": { "test": "is_skin_id", "subject": "other", "value": 0 },
                 "add": { "component_groups": [ "villager_skin_0" ] }
@@ -1645,6 +1652,8 @@
                 "filters": { "test": "is_skin_id", "subject": "other", "value": 5 },
                 "add": { "component_groups": [ "villager_skin_5" ] }
               },
+
+              // get the correct biome disposition
               {
                 "filters": { "test": "is_mark_variant", "subject": "other", "value": 1 },
                 "add": { "component_groups": [ "desert_villager" ] }
@@ -1672,10 +1681,15 @@
             ]
           },
           {
-           // Transform from v1 - > v2 to correct villager skin (mark var not set so test biome)
-            "filters": { "test": "is_family", "subject": "other", "operator": "==", "value": "villager" }, 
+            // Transform from v1 - > v2 to correct villager skin (mark var not set so test biome)
+            // - or, villager becomes builder villager and needs to retain appearance.
+            // - if no skin id, then get random one.
+            "filters": { "test": "is_family", "subject": "other", "value": "villager" }, 
             "sequence" : [
               {
+                "filters": {
+                  "test": "has_component", "subject": "other", "operator": "!=", "value": "minecraft:skin_id"
+                },
                 "randomize": [
                   {
                     "weight": 1,
@@ -1703,65 +1717,76 @@
                   }
                 ]
               },
-              {
-                "filters": { 
-                  "any_of": [
-                    { "test": "has_biome_tag", "value": "desert" },
-                    { "test": "has_biome_tag", "value": "mesa" }
-                  ]
-                },
-                "add": { "component_groups": [ "desert_villager" ] }
-              },
-              {
-                "filters": { "test": "has_biome_tag", "value": "jungle" },
-                "add": { "component_groups": [ "jungle_villager" ] }
-              },
-              {
-                "filters": { "test": "has_biome_tag", "value": "savanna" },
-                "add": { "component_groups": [ "savanna_villager" ] }
-              },
+              // if no biome attire (mark variant), get the correct one based on biome tag
               {
                 "filters": {
-                  "any_of": [
-                    { 
-                      "all_of": [
-                        { "test": "has_biome_tag", "value": "cold" },
-                        { "test": "has_biome_tag", "operator": "!=", "value": "ocean" }
-                      ]
-                    },
-                    { "test": "has_biome_tag", "value": "frozen" }
-                  ]
+                  "test": "has_component", "subject": "other" , "operator": "!=", "value": "minecraft:mark_variant"
+                  // technically, all villagers should have mark_variant of 0 at a minimum because
+                  // it's set in their components. This would only run for villager transformations
+                  // though so maybe it's fine.
                 },
-                "add": { "component_groups": [ "snow_villager" ] }
-              },
-              {
-                "filters": {
-                  "any_of": [
-                    {
-                      "test": "has_biome_tag",
-                      "value": "swamp"
-                    },
-                    {
-                      "test": "has_biome_tag",
-                      "value": "mangrove_swamp"
-                    }
-                  ]
-                },
-                "add": { "component_groups": [ "swamp_villager" ] }
-              },
-              {
-                "filters": {
-                  "all_of": [
-                    {
+                "sequence": [
+                  {
+                    "filters": { 
                       "any_of": [
-                        { "test": "has_biome_tag", "value": "taiga" },
-                        { "test": "has_biome_tag", "value": "extreme_hills" }
+                        { "test": "has_biome_tag", "value": "desert" },
+                        { "test": "has_biome_tag", "value": "mesa" }
                       ]
                     },
-                    { "test": "has_biome_tag", "operator": "!=", "value": "cold" }
-                  ]
-                },
-                "add": { "component_groups": [ "taiga_villager" ] }
+                    "add": { "component_groups": [ "desert_villager" ] }
+                  },
+                  {
+                    "filters": { "test": "has_biome_tag", "value": "jungle" },
+                    "add": { "component_groups": [ "jungle_villager" ] }
+                  },
+                  {
+                    "filters": { "test": "has_biome_tag", "value": "savanna" },
+                    "add": { "component_groups": [ "savanna_villager" ] }
+                  },
+                  {
+                    "filters": {
+                      "any_of": [
+                        { 
+                          "all_of": [
+                            { "test": "has_biome_tag", "value": "cold" },
+                            { "test": "has_biome_tag", "operator": "!=", "value": "ocean" }
+                          ]
+                        },
+                        { "test": "has_biome_tag", "value": "frozen" }
+                      ]
+                    },
+                    "add": { "component_groups": [ "snow_villager" ] }
+                  },
+                  {
+                    "filters": {
+                      "any_of": [
+                        {
+                          "test": "has_biome_tag",
+                          "value": "swamp"
+                        },
+                        {
+                          "test": "has_biome_tag",
+                          "value": "mangrove_swamp"
+                        }
+                      ]
+                    },
+                    "add": { "component_groups": [ "swamp_villager" ] }
+                  },
+                  {
+                    "filters": {
+                      "all_of": [
+                        {
+                          "any_of": [
+                            { "test": "has_biome_tag", "value": "taiga" },
+                            { "test": "has_biome_tag", "value": "extreme_hills" }
+                          ]
+                        },
+                        { "test": "has_biome_tag", "operator": "!=", "value": "cold" }
+                      ]
+                    },
+                    "add": { "component_groups": [ "taiga_villager" ] }
+                  }
+                ]
               }
             ]
           }
@@ -1845,14 +1870,14 @@
         ]
       },
       
-      "bvp:ageable_grow_up": {
+      "minecraft:ageable_grow_up": {
         "randomize": [
           {
             // consider changing this to transform into normal villager, or pass nitwit responsibility
             // to normal villager through transformation
             "weight": 10,
             "remove": { "component_groups": [ "baby", "child_schedule" ] },
-            "add": { "component_groups": [ "adult", "nitwit", "behavior_peasant", "jobless_schedule" ] }
+            "trigger": "become_normal_villager"
           },
           {
             // becomes builder villager
