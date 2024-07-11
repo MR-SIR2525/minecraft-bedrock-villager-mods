@@ -420,7 +420,60 @@
         }
       },
 
-      //----------> builder schedule?
+      // new
+      "builder_schedule": {
+        "minecraft:scheduler": {
+          "min_delay_secs": 0,
+          "max_delay_secs": 10,
+          "scheduled_events" : [
+            {
+              "filters": {
+                "all_of": [
+                  { "test": "hourly_clock_time", "operator": ">=", "value": 0 },
+                  { "test": "hourly_clock_time", "operator": "<", "value": 8000 }
+                ]
+              },
+              "event": "minecraft:schedule_work_builder"
+            },
+            {
+              "filters": {
+                "all_of": [
+                  { "test": "hourly_clock_time", "operator": ">=", "value": 8000 },
+                  { "test": "hourly_clock_time", "operator": "<", "value": 10000 }
+                ]
+              },
+              "event": "minecraft:schedule_gather_villager"
+            },
+            {
+              "filters": {
+                "all_of": [
+                  { "test": "hourly_clock_time", "operator": ">=", "value": 10000 },
+                  { "test": "hourly_clock_time", "operator": "<", "value": 11000 }
+                ]
+              },
+              "event": "minecraft:schedule_work_builder"
+            },
+            {
+              "filters": {
+                "all_of": [
+                  { "test": "hourly_clock_time", "operator": ">=", "value": 11000 },
+                  { "test": "hourly_clock_time", "operator": "<", "value": 12000 }
+                ]
+              },
+              "event": "minecraft:schedule_home_villager"
+            },
+            {
+              "filters": {
+                "all_of": [
+                  { "test": "hourly_clock_time", "operator": ">=", "value": 12000 },
+                  { "test": "hourly_clock_time", "operator": "<", "value": 24000 }
+                ]
+              },
+              "event": "minecraft:schedule_bed_villager"
+            }
+          ]
+        }
+      },
       
       //every goal that has to do with villagers working should go here (work goals, secondary goals)
       //so they can be successfuly removed on schedule change
@@ -466,11 +519,11 @@
             "minecraft:cobblestone",
             "minecraft:dirt_path",
             "minecraft:stone_stairs"  //(cobblestone stairs)
-          ],
-          "on_reach": {
-            "event": "minecraft:resupply_trades",
-            "target": "self"
-          }
+          ]
+          // "on_reach": {
+          //   "event": "minecraft:resupply_trades",
+          //   "target": "self"
+          // }
         }
       },
 
@@ -1356,13 +1409,13 @@
         }
       },
 
-      // new profession by MRxSIR, variant #50 to avoid conflicts with potential new professions
+      // new profession
       "builder": {
         "minecraft:type_family": {
           "family": [ "villager", "artisan", "builder", "builder_villager", "mob" ]
         },
         "minecraft:variant": {
-          "value": 50
+          "value": 15
         },
         "minecraft:behavior.trade_interest": {
           "priority": 5,
@@ -1386,7 +1439,7 @@
           "preferred_profession": "builder",
           "update_interval_base": 60,
           "update_interval_variant": 40,
-          "can_find_poi": true,
+          "can_find_poi": true,     //maybe false? Does it allow for job changing?
           "can_migrate": true,
           "first_founding_reward": 5
         }
@@ -2214,6 +2267,10 @@
             "filters": {"test": "is_family", "subject": "self", "value": "stone_mason" },
             "add": { "component_groups": ["mason"] }  //yes, the names are correct. I checked.
           },
+          {// new
+            "filters": {"test": "is_family", "subject": "self", "value": "builder" },
+            "add": { "component_groups": ["builder"] }
+          },
           
           // resupply if one was pending
           {
@@ -2314,10 +2371,6 @@
                     "randomize": [
                       {
                         "weight": 1,
-                        "add": { "component_groups": [ "builder", "behavior_non_peasant", "basic_schedule" ] }
-                      },
-                      {
-                        "weight": 1,
                         "add": { "component_groups": [ "farmer", "behavior_peasant", "basic_schedule" ] }
                       },
                       {
@@ -2371,6 +2424,12 @@
                       {
                         "weight": 1,
                         "add": { "component_groups": [ "nitwit", "behavior_peasant", "jobless_schedule" ] }
+                      },
+                      // new
+                      {
+                        "weight": 1,
+                        "add": { "component_groups": [ "builder", "behavior_non_peasant", "builder_schedule" ] }
+                        // not "basic_schedule" because I don't think builder would be able to get "builder_schedule" after
                       }
                     ]
                   }
@@ -2609,7 +2668,7 @@
               {
                 "add": { "component_groups": [ "adult" ] }
               },
-              // new:  Transform to builder villager
+              //--new:  Transform to builder villager
               {
                 "filters": { "test": "is_family", "subject": "other", "value": "builder" },
                 "add": { "component_groups": [ "builder", "behavior_non_peasant", "builder_schedule" ] }
@@ -3079,9 +3138,10 @@
         "add": { "component_groups": [ "mason", "adult", "behavior_non_peasant", "work_schedule" ] }
       },
 
+      // new
       "minecraft:become_builder": {
         "remove": { "component_groups": [ "baby", "child_schedule", "job_specific_goals", "trade_components" ] },
-        "add": { "component_groups": [ "builder", "adult", "behavior_non_peasant", "work_schedule_builder" ] }
+        "add": { "component_groups": [ "builder", "adult", "behavior_non_peasant", "builder_schedule" ] }
       },
       
       
@@ -3144,6 +3204,7 @@
         "add": { "component_groups": [ "work_schedule_librarian" ] }
       },
 
+      // new
       "schedule_work_builder": {
         "remove": {"component_groups": ["home_schedule_villager", "gather_schedule_villager", "wander_schedule_villager", "bed_schedule_villager", "play_schedule_villager", "job_specific_goals"]},
         "add": {"component_groups": ["work_schedule_builder"]}
