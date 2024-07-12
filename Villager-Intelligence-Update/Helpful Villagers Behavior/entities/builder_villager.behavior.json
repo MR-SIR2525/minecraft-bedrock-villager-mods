@@ -516,13 +516,24 @@
         "minecraft:behavior.trade_interest": {},
         "minecraft:economy_trade_table": {}
       },
+
+      "unskilled": {
+        "minecraft:type_family": {
+          "family": [
+            "villager", "builder_villager", "peasant", "unskilled", "unskilled_builder", "bvp", "mob"
+          ]
+        },
+        "minecraft:variant": {
+          "value": 0
+        }
+      },
       
       "builder": {
         "minecraft:type_family": {
           "family": ["villager", "builder_villager", "artisan", "builder", "bvp", "mob"]
         },
         "minecraft:variant": {
-          "value": 0
+          "value": 1
         },
         "minecraft:behavior.trade_interest": {
           "priority": 5,
@@ -549,17 +560,6 @@
           "can_find_poi": false,     //maybe false? Does it allow for job changing?
           "can_migrate": true,
           "first_founding_reward": 5
-        }
-      },
-
-      "unskilled": {
-        "minecraft:type_family": {
-          "family": [
-            "villager", "builder_villager", "peasant", "unskilled", "unskilled_builder", "bvp", "mob"
-          ]
-        },
-        "minecraft:variant": {
-          "value": 1
         }
       },
 
@@ -1359,11 +1359,7 @@
             ]
           },
           {
-            "filters": {
-              "test": "has_component",
-              "operator": "!=",
-              "value": "minecraft:variant"
-            },
+            "filters": {"test": "has_component", "operator": "!=", "value": "minecraft:variant"},
             "randomize": [
               {
                 "weight": 5,
