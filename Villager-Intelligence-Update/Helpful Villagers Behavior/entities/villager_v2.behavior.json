@@ -729,10 +729,7 @@
           "speed_multiplier": 0.5,
           "duration": 30,
           "cooldown_time": 10,
-          "mingle_partner_type": [
-            "minecraft:villager_v2",
-            "bvp:builder_villager"
-          ],
+          "mingle_partner_type": "minecraft:villager_v2",
           "mingle_distance": 2.0
         }
       },

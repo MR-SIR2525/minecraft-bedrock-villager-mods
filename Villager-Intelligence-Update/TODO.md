@@ -1,2 +1,4 @@
-
-- builder villager profession attire not working
+- fix glitch that allows re-rolling villager trades when removing their trade components
+- add builder's ability to build houses
+  - way to determine where to build
+- interaction (crafting table?) that allows villager to be turned into builder, and vice versa.

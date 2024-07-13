@@ -1,5 +1,8 @@
+- 7/12/24: tweaked/fixed builder villager and villager_v2 mingling behavior.
+- 7/12/24: fixed builder villager texture not layering with biome texture (merged textures).
+- 7/12/24: made builder villager texture.
 - 7/12/24: fixed sound not working for builder villager.
-- 7/11/24: added new code and files for builder villager.
+- 7/11/24: added new code and files for new builder villager.
 - 7/8/24: update readme to describe farmer's harvest goal radius and fertilizing behavior.
 - 7/4/24: farmer harvest goal radius changed to 1.55.
 - 7/2/24: parity for tempt info messages range and minor things.
