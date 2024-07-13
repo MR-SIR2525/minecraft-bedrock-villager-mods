@@ -2,32 +2,43 @@
   "format_version": "1.8.0",
   // Modified to include new professions
   "render_controllers": {
+    // Note: the molang error "found multiple operations without a combining operation 
+    // between them: ? )" means one of the operations is failing. Check for typos.
 
-    "controller.render.hv_villager_masked": {
+    // could not get layers to work, so just using merged textures for each biome instead
+    "controller.render.hv_villager_clothes": {
       "arrays": {
         "textures": {
-          "Array.biomes": [ 
+          "Array.professions": [
+            "Texture.unskilled"
+          ],
+          "Array.professions_biomes": [
             "Texture.plains",
             "Texture.desert",
             "Texture.jungle",
             "Texture.savanna",
             "Texture.snow",
             "Texture.swamp",
-            "Texture.taiga"
-          ],
-          "Array.professions": [
-            "Texture.unskilled",
-            "Texture.builder"     //new
+            "Texture.taiga",
+            // NOTE: the ones below are basically Array.profession_biome[i + 7]
+            "Texture.builder_plains",
+            "Texture.builder_desert",
+            "Texture.builder_jungle",
+            "Texture.builder_savanna",
+            "Texture.builder_snow",
+            "Texture.builder_swamp",
+            "Texture.builder_taiga"
           ]
         }
       },
       "geometry": "Geometry.default",
       "materials": [
-        { "*": "(query.is_baby || variable.profession_index == 0) ? Material.default : Material.masked" }
+        { "*": "Material.default" }   //no masking because only one texture used (I couldnt blend them)
       ],
       "textures": [
-        "Array.biomes[query.mark_variant]",
-        "Array.professions[variable.profession_index]"
+        // if is_baby_or_unskilled, do normal biome, else do profession_biome by adding 7 to index
+        "Array.professions_biomes[(v.is_baby_or_unskilled == 1) ? v.mark_variant : (7 + v.mark_variant)]"
+          //done this way because Molang doesn't like deep nesting of operations
       ]
     }
 

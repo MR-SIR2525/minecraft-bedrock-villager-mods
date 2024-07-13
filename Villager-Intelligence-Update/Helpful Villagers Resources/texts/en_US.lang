@@ -5,6 +5,9 @@
 
 ## Entities
 entity.bvp:builder_villager.name=Builder Villager
+entity.bvp:builder_villager.builder=Builder
+entity.bvp:builder_villager.unskilled=Unskilled Builder
+
 entity.mrsir:hopper_marker.name=Hopper Marker
 
 ## Containers

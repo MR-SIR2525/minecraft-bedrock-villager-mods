@@ -40,4 +40,7 @@
 ## Known Issues
 - Enabling inventory access with the chest causes the villager to forget their trade table, but not experience. Removing inventory access restores a new, random trade table at their same level.
 
+### Dev notes
+- the error "molang error found multiple operations without a combining operation between them: ? )" means one of the operations is failing.
+
 **Created by MRxSIR**

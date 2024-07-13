@@ -1,16 +1,23 @@
 {
   "format_version": "1.8.0",
   "minecraft:client_entity": {
-    // Edited for textures for new builder profession
     "description": {
       "identifier": "bvp:builder_villager",
       "materials": {
         "default": "villager_v2",
-        "masked": "villager_v2_masked"  //needs to be this
+        "masked": "villager_v2_masked"    //not used currently
       },
 
+      // Notes: For villagers, their skin base is rendered, then biome and profession textures
+      // are merged/layered and added, then the tier level is added. I couldn't get this to work
+      // because of the hardcoded and mysterious nature of "materials." My builder.png wouldn't
+      // layer properly with the biome, it just replaced it. So, I manually copied the builder.png
+      // on top of each biome texture. See 'Profession + Biome' below.
+      //  - if new biome clothes are added, the array indexes in the render controller will need to
+      //    be adjusted, cause rn it's 7 biome attires.
+
       "textures": {
-        // skin color/base
+        // skin color/base    (unused)
         "base": "textures/entity/villager2/villager",
         "base2": "textures/entity/villager2/villager",
         "base3": "textures/entity/villager2/villager",
@@ -27,14 +34,23 @@
         "swamp": "textures/entity/villager2/biomes/biome_swamp",
         "taiga": "textures/entity/villager2/biomes/biome_taiga",
 
+        // Profession + Biome
+        //  - unable to get biome and profession to render correctly when separate, so merged them
+        "builder_desert": "textures/entity/hv_villager/professions/builder_desert",
+        "builder_jungle": "textures/entity/hv_villager/professions/builder_jungle",
+        "builder_plains": "textures/entity/hv_villager/professions/builder_plains",
+        "builder_savanna":"textures/entity/hv_villager/professions/builder_savanna",
+        "builder_snow":   "textures/entity/hv_villager/professions/builder_snow",
+        "builder_swamp":  "textures/entity/hv_villager/professions/builder_swamp",
+        "builder_taiga":  "textures/entity/hv_villager/professions/builder_taiga",
+
         // Professions
         "unskilled": "textures/entity/villager2/professions/unskilled",
-        "builder": "textures/entity/hv_villager/professions/builder",
 
         // Experience Levels
-        "level_stone": "textures/entity/villager2/levels/level_stone",
-        "level_iron": "textures/entity/villager2/levels/level_iron",
-        "level_gold": "textures/entity/villager2/levels/level_gold",
+        "level_stone":  "textures/entity/villager2/levels/level_stone",
+        "level_iron":   "textures/entity/villager2/levels/level_iron",
+        "level_gold":   "textures/entity/villager2/levels/level_gold",
         "level_emerald": "textures/entity/villager2/levels/level_emerald",
         "level_diamond": "textures/entity/villager2/levels/level_diamond"
       },
@@ -47,7 +63,11 @@
           "variable.num_professions = 2;",    // unskilled + builder
           "variable.num_tiers = 3;",
           "variable.profession_index = (query.variant < variable.num_professions ? query.variant : 0);",
-          "variable.level_index = query.trade_tier;"
+          "variable.level_index = query.trade_tier;",
+
+          // new
+          "variable.mark_variant = query.mark_variant;",
+          "variable.is_baby_or_unskilled = (query.is_baby || variable.profession_index == 0) ? 1 : 0;"
         ]
       },
       "animations": {
@@ -74,7 +94,7 @@
       ],
       "render_controllers": [
         "controller.render.villager_v2_base",      // vanilla base
-        "controller.render.hv_villager_masked",    // new
+        "controller.render.hv_villager_clothes",   // new
         "controller.render.villager_v2_level"      // vanilla level
       ],
       
