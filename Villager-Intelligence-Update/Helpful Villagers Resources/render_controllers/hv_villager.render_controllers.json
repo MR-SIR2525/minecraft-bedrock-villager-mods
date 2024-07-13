@@ -1,0 +1,35 @@
+{
+  "format_version": "1.8.0",
+  // Modified to include new professions
+  "render_controllers": {
+
+    "controller.render.hv_villager_masked": {
+      "arrays": {
+        "textures": {
+          "Array.biomes": [ 
+            "Texture.plains",
+            "Texture.desert",
+            "Texture.jungle",
+            "Texture.savanna",
+            "Texture.snow",
+            "Texture.swamp",
+            "Texture.taiga"
+          ],
+          "Array.professions": [
+            "Texture.unskilled",
+            "Texture.builder"     //new
+          ]
+        }
+      },
+      "geometry": "Geometry.default",
+      "materials": [
+        { "*": "(query.is_baby || variable.profession_index == 0) ? Material.default : Material.masked" }
+      ],
+      "textures": [
+        "Array.biomes[query.mark_variant]",
+        "Array.professions[variable.profession_index]"
+      ]
+    }
+
+  }
+}
