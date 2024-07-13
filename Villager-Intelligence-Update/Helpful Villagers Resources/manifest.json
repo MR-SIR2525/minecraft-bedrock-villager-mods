@@ -4,7 +4,7 @@
         "name": "Helpful Villagers Resource Pack",
         "description": "Resource Pack for Helpful Villagers addon by MRxSIR.",
         "uuid": "cacb0330-d0a3-4d19-9661-cb1e8f53ea16",
-        "version": [0, 0, 311],
+        "version": [0, 0, 312],
         "min_engine_version": [1, 20, 10]
     },
     "modules": [
@@ -12,14 +12,14 @@
             "type": "resources",
             "description": "Resource Pack for Helpful Villagers addon",
             "uuid": "8a591957-c091-4fae-9730-738a5d0955f5",
-            "version": [0, 0, 311]
+            "version": [0, 0, 312]
         }
     ],
     "dependencies": [
         {
             // Helpful Villagers behavior pack
             "uuid": "62e7137e-7d10-4c7c-b4f3-f638e721eb79",
-            "version": [0, 0, 311]
+            "version": [0, 0, 312]
         }
     ]
 }

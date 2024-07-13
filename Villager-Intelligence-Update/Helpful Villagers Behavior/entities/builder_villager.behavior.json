@@ -1175,6 +1175,34 @@
             "play_sounds": "item.book.put"
           },
 
+          {
+            "interact_text": "Remove builder job from villager",
+            "on_interact": {
+              "event": "become_normal_villager",
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "has_component", "operator": "!=",
+                    "subject": "self",
+                    "value": "is_baby"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "player"
+                  },
+                  {
+                    "test": "has_equipment",
+                    "domain": "hand",
+                    "subject": "other",
+                    "value": "crafting_table"
+                  }
+                ]
+              }
+            },
+            "use_item": false
+          },
+
           {//for Albert Whitefish song
             "interact_text": "Tag as song leader",
             "on_interact": {
@@ -1642,7 +1670,7 @@
                 "add": { "component_groups": [ "villager_skin_5" ] }
               },
 
-              // get the correct biome disposition
+              // apply the correct biome based on what is being transformed from
               {
                 "filters": { "test": "is_mark_variant", "subject": "other", "value": 1 },
                 "add": { "component_groups": [ "desert_villager" ] }
@@ -1879,6 +1907,7 @@
       },
 
       "become_normal_villager": {
+        "remove": { "component_groups": [ "baby", "child_schedule", "job_specific_goals", "trade_components", "unskilled" ] },
         "add": {"component_groups": ["become_normal_villager"]}
       },
       

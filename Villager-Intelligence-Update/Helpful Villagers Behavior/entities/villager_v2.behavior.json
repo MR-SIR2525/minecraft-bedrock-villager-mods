@@ -1983,6 +1983,39 @@
             "play_sounds": "item.book.put"
           },
 
+          {
+            "interact_text": "Make villager a builder",
+            "on_interact": {
+              "event": "become_builder",
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "has_component", "operator": "!=",
+                    "subject": "self",
+                    "value": "is_baby"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "self",
+                    "value": "unskilled"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "player"
+                  },
+                  {
+                    "test": "has_equipment",
+                    "domain": "hand",
+                    "subject": "other",
+                    "value": "crafting_table"
+                  }
+                ]
+              }
+            },
+            "use_item": false
+          },
+
           {//for Albert Whitefish song
             "interact_text": "Tag as song leader",
             "on_interact": {
@@ -2593,8 +2626,9 @@
                   ]
                 },
                 "add": {"component_groups": ["builder"]}  //transforms to builder_villager
+                // without losing any component groups
               },
-              // new: Transform from builder villager to normal villager (unskilled)
+              // new: Transform from builder villager to normal villager unskilled
               {
                 "filters": {
                   "all_of": [
