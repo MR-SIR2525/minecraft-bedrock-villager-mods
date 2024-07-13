@@ -66,6 +66,18 @@
           ]
         }
       },
+
+      "can_be_tempted": {
+        "minecraft:behavior.tempt": {
+          "priority": 5,
+          "speed_multiplier":  0.75,
+          "within_radius": 10,
+          "can_tempt_vertically": true,
+          "items": [
+            "minecraft:hay_block"
+          ]
+        }
+      },
       
       "work_schedule": {
         "minecraft:scheduler": {
@@ -562,18 +574,6 @@
               "craft_into": "minecraft:bread",
               "stored_in_inventory": true
             }
-          ]
-        }
-      },
-
-      "can_be_tempted": {
-        "minecraft:behavior.tempt": {
-          "priority": 5,
-          "speed_multiplier":  0.75,
-          "within_radius": 10,
-          "can_tempt_vertically": true,
-          "items": [
-            "minecraft:hay_block"
           ]
         }
       },
@@ -1802,8 +1802,6 @@
         "priority": 1,
         "speed_multiplier": 0.6
       },
-      
-      //remove this instead of trade table for inventory access
       "minecraft:behavior.trade_with_player": {
         "priority": 2
       },

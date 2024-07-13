@@ -1,3 +1,4 @@
+- 7/13/24: builder and villager_v2 -> trying new way of removing trade behavior for inventory access by removing "minecraft:behavior.trade_with_player", but it didn't work.
 - 7/12/24: tweaked/fixed builder villager and villager_v2 mingling behavior.
 - 7/12/24: fixed builder villager texture not layering with biome texture (merged textures).
 - 7/12/24: made builder villager texture.

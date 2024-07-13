@@ -986,8 +986,6 @@
         "priority": 1,
         "speed_multiplier": 0.6
       },
-      
-      //remove this instead of trade table for inventory access
       "minecraft:behavior.trade_with_player": {
         "priority": 2
       },
