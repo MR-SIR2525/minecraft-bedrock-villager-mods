@@ -1,15 +1,9 @@
-# MR SIR's Villager Mods
-
-## Lumberjack Villager
-  - New lumberjack villager trade, complete with workstation and trade table.
-  - in progress
 ## Villager Intelligence Update (Helpful Villagers)
 - Renaming with nametags enabled
 - Inventory size increased to 10
 - Using a chest, click on a villager to enable/disable inventory access.
 - Make a villager follow you while holding a hale bale. Toggle on/off by clicking villager with hay bale.
 - Reduced likelihood of pathfinding issues related to grass path blocks.
-
 
 ### Farmer
 - Delay between consecutive harvests/replants reduced from vanilla 1 second to 0.5 seconds.
