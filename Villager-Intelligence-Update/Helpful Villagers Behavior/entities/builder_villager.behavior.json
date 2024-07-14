@@ -845,7 +845,7 @@
           "time": 4,
           "looping": true,
           "time_down_event": {
-            "event": "check_for_enough_villagers",
+            "event": "check_for_audience",
             "target": "self"
           }
         }
@@ -2032,9 +2032,9 @@
         ]
       },
 
-      "check_for_enough_villagers": {
+      "check_for_audience": {
         "queue_command": {
-          "command": "execute as @s at @s if entity @e[type=villager,r=12,c=7,tag=!albert_whitefish_song_leader] run event entity @s found_valid_singing_conditions"
+          "command": "execute as @s at @s if entity @e[family=villager,r=12,c=7,tag=!albert_whitefish_song_leader] if entity @e[type=player,r=18] run event entity @s found_valid_singing_conditions"
         }
       },
 
