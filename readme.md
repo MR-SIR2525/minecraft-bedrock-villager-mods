@@ -1,3 +1,5 @@
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate?hosted_button_id=XGM24VCE7A5LY)
+
 ## Villager Intelligence Update (Helpful Villagers)
 - Renaming with nametags enabled
 - Inventory size increased to 10
