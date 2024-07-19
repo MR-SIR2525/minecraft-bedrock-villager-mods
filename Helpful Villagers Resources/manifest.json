@@ -17,7 +17,6 @@
     ],
     "dependencies": [
         {
-            // Helpful Villagers behavior pack
             "uuid": "62e7137e-7d10-4c7c-b4f3-f638e721eb79",
             "version": [0, 0, 313]
         }
