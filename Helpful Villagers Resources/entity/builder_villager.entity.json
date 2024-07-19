@@ -4,8 +4,8 @@
     "description": {
       "identifier": "bvp:builder_villager",
       "materials": {
-        "default": "villager_v2",
-        "masked": "villager_v2_masked"    //not used currently
+        "default": "villager_v2"
+        // "masked": "villager_v2_masked"    //not used currently
       },
 
       // Notes: For villagers, their skin base is rendered, then biome and profession textures
