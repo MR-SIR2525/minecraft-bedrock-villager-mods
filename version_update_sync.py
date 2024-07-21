@@ -5,6 +5,8 @@ import re
 to then allow you to conviently manage the versions listed in the manifest.json files, and to
 automatically sync the name to include the new version in the format vX.X.X"""
 
+# updated 7/21/24
+
 def find_folders(base_dir, keywords):
     matched_folders = []
     for root, dirs, files in os.walk(base_dir):
@@ -117,7 +119,7 @@ def main():
         if len(version_set) == 1:
             new_version = '.'.join(map(str, version_set.pop()))
             name_choice = input(f"Do you want to update the pack name to include the version {new_version}? (yes/no): ").strip().lower()
-            if name_choice == 'yes':
+            if name_choice == 'yes' or name_choice == 'y':
                 update_name_with_version(manifest_files, new_version)
                 print("Names updated.")
             else:
