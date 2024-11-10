@@ -2375,12 +2375,13 @@
                       {
                         "weight": 1,
                         "add": { "component_groups": [ "nitwit", "behavior_peasant", "jobless_schedule" ] }
-                      },
-                      // new
-                      {
-                        "weight": 1,
-                        "add": {"component_groups": ["become_builder_delayed"]}
                       }
+                      // Muted for now until I implement more for the builder.
+                      // new
+                      // {
+                      //   "weight": 1,
+                      //   "add": {"component_groups": ["become_builder_delayed"]}
+                      // }
                     ]
                   }
                 ]
@@ -3037,12 +3038,13 @@
             "weight": 83,
             "remove": { "component_groups": [ "baby", "child_schedule" ] },
             "add": { "component_groups": [ "adult", "unskilled", "behavior_peasant", "basic_schedule" ] }
-          },
-          {
-            "weight": 7,
-            "remove": { "component_groups": [ "baby", "child_schedule" ] },
-            "trigger": "become_builder"
           }
+          // Muted for now until I implement more for the builder.
+          // {
+          //   "weight": 7,
+          //   "remove": { "component_groups": [ "baby", "child_schedule" ] },
+          //   "trigger": "become_builder"
+          // }
         ]
       },
 
