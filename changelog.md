@@ -1,0 +1,19 @@
+- 7/13/24: improve "become_normal_villager" event in builder_villager behavior.
+- 7/13/24: interaction (crafting table) that allows unskilled villager to be turned into builder, and builder to be turned to normal unskilled villager.
+- 7/13/24: builder and villager_v2 -> trying new way of removing trade behavior for inventory access by removing "minecraft:behavior.trade_with_player", but it didn't work.
+- 7/12/24: tweaked/fixed builder villager and villager_v2 mingling behavior.
+- 7/12/24: fixed builder villager texture not layering with biome texture (merged textures).
+- 7/12/24: made builder villager texture.
+- 7/12/24: fixed sound not working for builder villager.
+- 7/11/24: added new code and files for new builder villager.
+- 7/8/24: update readme to describe farmer's harvest goal radius and fertilizing behavior.
+- 7/4/24: farmer harvest goal radius changed to 1.55.
+- 7/2/24: parity for tempt info messages range and minor things.
+- 7/1/24: tightend farmer harvest goal radius to 1.4 from 1.5. (v0.0.162)
+- 6/4/24: optimized the "restore_trade_components" function.
+- 6/4/24: farmer behavior composter: can empty = true, can fill = true, block interact max = 5.
+- 6/4/24: farmer behavior harvest: priority 8, goal radius 1.5, max seconds before search = 0.25.
+- 6/4/24: farmer behavior fertilze: priority 7, search c 0, search r 6, search h 3, search cooldown 0.25, goal radius 1.5.
+- 6/3/24: added a check that will make a trade resupply event wait until trade components are restored, in the case that the villager's inventory is accessible and trade components are disabled.
+- 6/2/24: potential bug - farmers not able to use composters, they seem to try and fail immediately while standing there.
+- 6/2/24: changed interactions. Now, instead of just farmers, all villagers can be tempted with a hay bale and all villagers can have enabled/disabled inventory access (which works by way of removing their trade components). 

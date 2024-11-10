@@ -1,0 +1,28 @@
+{
+    "format_version": 2,
+    "header": {
+        "name": "Helpful Villagers BP by MRxSIR v0.0.314",
+        "description": "BP. Tasks, behaviors, and intelligence improvements for villagers. By MRxSIR.",
+        "uuid": "62e7137e-7d10-4c7c-b4f3-f638e721eb79",
+        "version": [0, 0, 314],
+        "min_engine_version": [1, 20, 10]
+    },
+    "metadata": {
+        "authors": ["MRxSIR"],
+        "product_type": "addon"
+    },
+    "modules": [
+        {
+            "description": "Behavior Pack for Helpful Villagers addon",
+            "version": [0, 0, 314],
+            "uuid": "e517a1a3-fdf1-42ab-b10f-25a5c0e40fd7",
+            "type": "data"
+        }
+    ],
+    "dependencies": [
+        {
+            "uuid": "cacb0330-d0a3-4d19-9661-cb1e8f53ea16",
+            "version": [0, 0, 313]
+        }
+    ]
+}

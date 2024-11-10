@@ -1,0 +1,21 @@
+{
+    "format_version": 2,
+    "header": {
+        "name": "Helpful Villagers Resources v0.0.313",
+        "description": "Tasks, behaviors, and intelligence improvements for villagers. By MRxSIR.",
+        "uuid": "cacb0330-d0a3-4d19-9661-cb1e8f53ea16",
+        "version": [0, 0, 314],
+        "min_engine_version": [1, 20, 10]
+    },
+    "modules": [
+        {
+            "type": "resources",
+            "description": "Resource Pack for Helpful Villagers addon",
+            "uuid": "8a591957-c091-4fae-9730-738a5d0955f5",
+            "version": [0, 0, 314]
+        }
+    ],
+    "metadata": {
+        "authors": ["MRxSIR"]
+    }
+}

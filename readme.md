@@ -1,6 +1,9 @@
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate?hosted_button_id=XGM24VCE7A5LY)
 
-## Villager Intelligence Update (Helpful Villagers)
+## Helpful Villagers addon
+=======
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate?hosted_button_id=XGM24VCE7A5LY)
+----------
+
 - Renaming with nametags enabled
 - Inventory size increased to 10
 - Using a chest, click on a villager to enable/disable inventory access.
@@ -41,10 +44,9 @@
 ## Known Issues
 - Enabling inventory access with the chest causes the villager to forget their trade table, but not experience. Removing inventory access restores a new, random trade table at their same level.
 
-**Created by MRxSIR**
+## Dev notes
+- the error "molang error found multiple operations without a combining operation between them: ? )" means one of the operations is failing.
 
-
-# Notes for development
 ### 1. Namespace
 - Use `mrsir` namespace
   - e.g. `mrsir:lumberjack` or `mrsir:thing`

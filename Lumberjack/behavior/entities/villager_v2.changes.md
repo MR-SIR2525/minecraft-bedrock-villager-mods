@@ -1,1 +1,0 @@
-- pack_icon.png generated with DALL-E

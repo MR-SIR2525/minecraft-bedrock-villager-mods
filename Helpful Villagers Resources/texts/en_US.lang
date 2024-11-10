@@ -1,0 +1,22 @@
+## Comments can be added anywhere on a valid line by starting with '##'
+##
+## Note, trailing spaces will NOT be trimmed. If you want room between the end of the string and the start of a
+## comment on the same line, use TABs.
+
+## Entities
+entity.bvp:builder_villager.name=Builder Villager
+entity.bvp:builder_villager.builder=Builder
+entity.villager.builder=Builder
+entity.bvp:builder_villager.unskilled=Unskilled Builder
+
+entity.mrsir:hopper_marker.name=Hopper Marker
+
+## Containers
+container.hopper_marker.name=Hopper Markers
+
+## Items
+item.spawn_egg.entity.bvp:builder_villager.name=Spawn Builder Villager
+item.spawn_egg.entity.mrsir:hopper_marker.name=Spawn Hopper Marker
+
+## Blocks
+tile.mrsir:farmer_guide_stone.name=Farmer Guide Stone

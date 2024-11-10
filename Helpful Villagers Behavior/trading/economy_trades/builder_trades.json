@@ -1,0 +1,81 @@
+{
+  "tiers": [
+    { // Tier 1
+      "total_exp_required": 0,
+      "groups": [
+        {
+          "num_to_select": 2,
+          "trades": [
+            {
+              "wants": [
+                {
+                  "item": "minecraft:planks",
+                  "quantity": 16,
+                  "price_multiplier": 0.75
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 1
+                }
+              ],
+              "trader_exp": 2,
+              "max_uses": 24,
+              "reward_exp": true
+            },
+
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 3,
+                  "price_multiplier": 0.2
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:glass",
+                  "quantity": 1
+                }
+              ],
+              "trader_exp": 2,
+              "max_uses": 24,
+              "reward_exp": true
+            },
+
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 25,
+                  "price_multiplier": 0.90
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:stick",
+                  "quantity": 1,
+                  "functions": [
+                    {
+                      "function": "specific_enchants",
+                      "enchants": [
+                        {
+                          "id": "knockback",
+                          "lvl": 10
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "trader_exp": 6,
+              "max_uses": 1,
+              "reward_exp": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

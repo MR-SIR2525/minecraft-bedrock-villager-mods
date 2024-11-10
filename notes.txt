@@ -3,3 +3,13 @@ Guard-type roles: refer to "minecraft:dweller" and look at roles.
 https://www.uuidtools.com/minecraft
 
 https://mcasset.cloud/# 
+
+
+
+example of using script server thing
+{
+    "module_name": "@minecraft/server",
+    "version": "1.10.0"
+    Documentation/Reference:
+    https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/minecraft-server?view=minecraft-bedrock-stable
+}
