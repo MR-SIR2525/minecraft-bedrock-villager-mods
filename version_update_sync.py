@@ -5,8 +5,6 @@ import re
 to then allow you to conviently manage the versions listed in the manifest.json files, and to
 automatically sync the name to include the new version in the format vX.X.X"""
 
-# updated 7/21/24
-
 def find_folders(base_dir, keywords):
     matched_folders = []
     for root, dirs, files in os.walk(base_dir):
@@ -79,12 +77,12 @@ def main():
     print("Searching for behavior pack folder in operating directory...")
     behavior_folders = find_folders(base_dir, behavior_keywords)
     if behavior_folders.__len__() > 1:
-        print("Warning:  Multiple behavior pack folders found. There should only be one per addon. Are you in a folder with multiple behavior packs?")
+        print("Warning:  Multiple behavior pack folders found. Are you in a folder with multiple behavior packs?")
     
     print("Searching for resource pack folder in operating directory...")
     resource_folders = find_folders(base_dir, resource_keywords)
     if resource_folders.__len__() > 1:
-        print("Warning:  Multiple resource pack folders found. There should only be one per addon. Are you in a folder with multiple resource packs?")
+        print("Warning:  Multiple resource pack folders found. Are you in a folder with multiple resource packs?")
 
     all_folders = behavior_folders + resource_folders
     manifest_files = find_manifest_files(all_folders)
@@ -119,7 +117,7 @@ def main():
         if len(version_set) == 1:
             new_version = '.'.join(map(str, version_set.pop()))
             name_choice = input(f"Do you want to update the pack name to include the version {new_version}? (yes/no): ").strip().lower()
-            if name_choice == 'yes' or name_choice == 'y':
+            if name_choice == 'yes':
                 update_name_with_version(manifest_files, new_version)
                 print("Names updated.")
             else:
