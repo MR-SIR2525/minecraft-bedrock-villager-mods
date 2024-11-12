@@ -1,14 +1,11 @@
 
 ## Helpful Villagers addon
-=======
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate?hosted_button_id=XGM24VCE7A5LY)
-----------
 
 - Renaming with nametags enabled
 - Inventory size increased to 10
 - Using a chest, click on a villager to enable/disable inventory access.
 - Make a villager follow you while holding a hale bale. Toggle on/off by clicking villager with hay bale.
-- Reduced likelihood of pathfinding issues related to grass path blocks.
+- Reduced likelihood of pathfinding issues related to dirt path blocks.
 
 ### Farmer
 - Delay between consecutive harvests/replants reduced from vanilla 1 second to 0.5 seconds.
@@ -32,13 +29,6 @@
    - &nbsp;&nbsp;i&nbsp;&nbsp;
       - where "S" is stone
       - where "i" is an iron nugget
-
-(no longer used for farmer)
-- Lodestone crafting recipe (normal except use diamond instead of netherite):
-   - S&nbsp;S&nbsp;S
-  - S&nbsp;D&nbsp;S
-  - S&nbsp;S&nbsp;S
-      - where S = chiseled stonebrick and D = diamond
 
 
 ## Known Issues
