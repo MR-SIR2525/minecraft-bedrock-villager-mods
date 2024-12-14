@@ -2156,7 +2156,7 @@
             "add": {"component_groups": ["default_share_items"]},
             "queue_command": {
               "command": [
-                "msg @a[r=4] no longer trying to stow crops to hopper marker."  //for debug
+                "msg @a[r=4,tag=debug] no longer trying to stow crops to hopper marker."  //for debug
               ]
             }
           },
