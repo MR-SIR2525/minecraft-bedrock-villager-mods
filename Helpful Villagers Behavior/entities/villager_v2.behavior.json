@@ -683,7 +683,7 @@
         },
         "minecraft:timer": {
           "looping": false,
-          "time": 75,
+          "time": 65,
           "time_down_event": {
             "event": "timeout_share_crops_to_hopper_marker",
             "target": "self"
