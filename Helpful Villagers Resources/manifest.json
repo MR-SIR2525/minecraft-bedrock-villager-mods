@@ -1,8 +1,8 @@
 {
     "format_version": 2,
     "header": {
-        "name": "Helpful Villagers Resources v0.0.315",
-        "description": "Tasks, behaviors, and intelligence improvements for villagers. By MRxSIR.",
+        "name": "Helpful Villagers RP v0.0.315",
+        "description": "Farmers now reliably fertilize and harvest crops, store excess crops in hoppers, and get stuck less often. Villager pathfinding on dirt paths is improved, inventories expanded to 10 slots, and they run slightly faster to escape monsters. Craft Hopper Markers and Farmer Guide Stones at the Crafting Table. To enable crop storage, place a Farmer Guide Stone near a hopper and a Hopper Marker on top of the hopper—farmers will drop excess crops there. By MRxSIR.",
         "uuid": "cacb0330-d0a3-4d19-9661-cb1e8f53ea16",
         "version": [0, 0, 315],
         "min_engine_version": [1, 20, 10]
