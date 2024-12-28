@@ -62,7 +62,6 @@ i   S   i
 - **"i"** = Iron Nugget  
 
 
-
 ## Known Issues
 - Enabling inventory access with the chest causes the villager to forget their trade table, but not experience. Removing inventory access restores a new, random trade table at their same level.
 
