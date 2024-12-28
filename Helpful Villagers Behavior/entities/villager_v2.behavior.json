@@ -683,7 +683,7 @@
         },
         "minecraft:timer": {
           "looping": false,
-          "time": 75,
+          "time": 65,
           "time_down_event": {
             "event": "timeout_share_crops_to_hopper_marker",
             "target": "self"
@@ -1845,22 +1845,25 @@
       "minecraft:behavior.trade_with_player": {
         "priority": 2
       },
+      // altered to account for Project Walker walkers and bandits
       "minecraft:behavior.avoid_mob_type": {
         "priority": 4,
         "entity_types": [
           {
-            "filters": { 
-                "any_of": [
-                  { "test" : "is_family", "subject" : "other", "value" : "zombie"},
-                  { "test" : "is_family", "subject" : "other", "value" : "zombie_villager"},
-                  { "test" : "is_family", "subject" : "other", "value" : "illager"},
-                  { "test" : "is_family", "subject" : "other", "value" : "vex"},
-                  { "test" : "is_family", "subject" : "other", "value" : "zoglin" }
-                ]
+            "filters": {
+              "any_of": [
+                {"test": "is_family", "subject": "other", "value": "zombie"},
+                {"test": "is_family", "subject": "other", "value": "zombie_villager"},
+                {"test": "is_family", "subject": "other", "value": "illager"},
+                {"test": "is_family", "subject": "other", "value": "pillager"},
+                {"test": "is_family", "subject": "other", "value": "vex"},
+                {"test": "is_family", "subject": "other", "value": "zoglin"}
+              ]
             },
-            "max_dist": 8,
-            "walk_speed_multiplier": 0.6,
-            "sprint_speed_multiplier": 0.6
+            "max_dist": 12,    //was 8
+            "walk_speed_multiplier": 0.9,
+            "sprint_speed_multiplier": 1.35
+            //both were 0.6
           }
         ]
       },
@@ -2153,7 +2156,7 @@
             "add": {"component_groups": ["default_share_items"]},
             "queue_command": {
               "command": [
-                "msg @a[r=4] no longer trying to stow crops to hopper marker."  //for debug
+                "msg @a[r=4,tag=debug] no longer trying to stow crops to hopper marker."  //for debug
               ]
             }
           },

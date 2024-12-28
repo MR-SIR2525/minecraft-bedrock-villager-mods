@@ -1,20 +1,22 @@
 {
     "format_version": 2,
     "header": {
-        "name": "Helpful Villagers BP by MRxSIR v0.0.314",
-        "description": "BP. Tasks, behaviors, and intelligence improvements for villagers. By MRxSIR.",
+        "name": "Helpful Villagers BP v0.0.315",
+        "description": "Farmers now reliably fertilize and harvest crops, store excess crops in hoppers, and get stuck less often. Villager pathfinding on dirt paths is improved, inventories expanded to 10 slots, and they run slightly faster to escape monsters. Craft Hopper Markers and Farmer Guide Stones at the Crafting Table. To enable crop storage, place a Farmer Guide Stone near a hopper and a Hopper Marker on top of the hopper—farmers will drop excess crops there. Lead a villager with a haybale - click the villager with the haybale to toggle follow mode. By MRxSIR.",
         "uuid": "62e7137e-7d10-4c7c-b4f3-f638e721eb79",
-        "version": [0, 0, 314],
+        "version": [0, 0, 315],
         "min_engine_version": [1, 20, 10]
     },
     "metadata": {
-        "authors": ["MRxSIR"],
+        "authors": [
+            "MRxSIR"
+        ],
         "product_type": "addon"
     },
     "modules": [
         {
             "description": "Behavior Pack for Helpful Villagers addon",
-            "version": [0, 0, 314],
+            "version": [0, 0, 315],
             "uuid": "e517a1a3-fdf1-42ab-b10f-25a5c0e40fd7",
             "type": "data"
         }
@@ -22,7 +24,7 @@
     "dependencies": [
         {
             "uuid": "cacb0330-d0a3-4d19-9661-cb1e8f53ea16",
-            "version": [0, 0, 313]
+            "version": [0, 0, 315]
         }
     ]
 }
