@@ -1,44 +1,66 @@
+# Helpful Villagers Addon
 
-## Helpful Villagers addon
-=======
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate?hosted_button_id=XGM24VCE7A5LY)
-----------
+**Vanilla-friendly enhancements for villagers - smarter behaviors and new functionalities!**  
 
-- Renaming with nametags enabled
-- Inventory size increased to 10
-- Using a chest, click on a villager to enable/disable inventory access.
-- Make a villager follow you while holding a hale bale. Toggle on/off by clicking villager with hay bale.
-- Reduced likelihood of pathfinding issues related to grass path blocks.
+Farmers now reliably fertilize and harvest crops, store excess crops in hoppers, and get stuck less often. Villager pathfinding on dirt paths is improved, inventories are expanded to 10 slots, and they run slightly faster to escape monsters.
 
-### Farmer
-- Delay between consecutive harvests/replants reduced from vanilla 1 second to 0.5 seconds.
-- Farmer will now fertilize crops without fail if the farmer has bonemeal.
-- Farmer can drop crops to hopper:
-  1. During work time, farmer has the chance to look for a "farmer guide stone"...
-  2. If a Guide Stone is found, farmer will go to it then share to a nearby "hopper marker" entity that should be placed on top of a hopper and within sight of the Farmer Guide Stone.
-  3. Farmer will share **excess crops** from his inventory to it and go back to normal activities.
-   
-#### Hopper Marker
-- Hopper Marker crafting recipe:
-   - i&nbsp;i&nbsp;i
-   - i&nbsp;&nbsp;&nbsp;i
-   - i&nbsp;i&nbsp;i
-      - where "i" is an iron nugget
+**Craft new items to unlock features:**  
+- **Hopper Marker**: Helps farmers drop excess crops into hoppers.  
+- **Farmer Guide Stone**: Guides farmers to share crops near hoppers.  
 
-#### Farmer Guide Stone
-- Farmer Guide Stone crafting recipe:
-   - &nbsp;&nbsp;i&nbsp;&nbsp;
-   - i&nbsp;S&nbsp;i
-   - &nbsp;&nbsp;i&nbsp;&nbsp;
-      - where "S" is stone
-      - where "i" is an iron nugget
+**How to use the new farmer features:**  
+1. Place a Farmer Guide Stone near a hopper.  
+2. Place a Hopper Marker on top of the hopper.  
+3. During work time, farmers will locate the Guide Stone and drop their excess crops into the Hopper Marker before resuming normal activities.  
 
-(no longer used for farmer)
-- Lodestone crafting recipe (normal except use diamond instead of netherite):
-   - S&nbsp;S&nbsp;S
-  - S&nbsp;D&nbsp;S
-  - S&nbsp;S&nbsp;S
-      - where S = chiseled stonebrick and D = diamond
+
+## Key Features
+
+- **Renaming with Nametags**: Easily rename villagers using nametags.  
+- **Expanded Inventories**: Villagers now have 10 inventory slots for more storage.  
+- **Inventory Access**: Use a chest on a villager to enable or disable access to their inventory.  
+- **Follow Mode**: Make villagers follow you by holding a hay bale. Toggle this feature on or off by clicking the villager with the hay bale.  
+- **Improved Pathfinding**: Reduced likelihood of pathfinding issues when navigating grass path blocks.  
+- **Pre-nerf Discounts**: Villagers still use the old op discounts after being healed.
+
+---
+
+## Farmer Improvements
+
+- **Faster Harvesting**: The delay between consecutive harvests/replants is reduced from 1 second to 0.5 seconds.  
+- **Reliable Fertilizing**: Farmers now fertilize crops consistently if bonemeal is available.  
+- **Crop Sharing to Hoppers**:  
+  - During work time, farmers check for nearby Farmer Guide Stones.  
+  - If a Guide Stone is present, they share excess crops with a "Hopper Marker" placed on top of a hopper and within sight of the Guide Stone.  
+  - After sharing, farmers resume their regular activities.  
+
+---
+
+## Crafting Recipes
+
+### Hopper Marker  
+Helps farmers drop crops into hoppers.  
+
+```
+i   i   i
+i       i
+i   i   i
+```
+- **"i"** = Iron Nugget  
+
+---
+
+### Farmer Guide Stone  
+Guides farmers to hoppers for crop sharing.  
+
+```
+    i
+i   S   i
+    i
+```
+- **"S"** = Stone  
+- **"i"** = Iron Nugget  
+
 
 
 ## Known Issues
@@ -61,3 +83,7 @@
 
 ### 4. Version History
 - Notable versions/changes will have an accompanying version in the "Releases" section.
+
+
+
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate?hosted_button_id=XGM24VCE7A5LY)
