@@ -16,7 +16,7 @@ container.hopper_marker.name=Hopper Markers
 
 ## Items
 item.spawn_egg.entity.bvp:builder_villager.name=Spawn Builder Villager
-item.spawn_egg.entity.mrsir:hopper_marker.name=Spawn Hopper Marker
+item.spawn_egg.entity.mrsir:hopper_marker.name=Hopper Marker
 
 ## Blocks
 tile.mrsir:farmer_guide_stone.name=Farmer Guide Stone
