@@ -3404,7 +3404,84 @@
 
       "remove_gather_for_albert_whitefish_song": {
         "remove": { "component_groups": [ "gather_for_albert_whitefish_song" ] }
+      },
+
+
+      /* ************ Events for Villager Party stuff ************ */
+      /* *** Events for host *** */
+      "tag_as_party_host": {
+        "sequence": [
+          {
+            "filters": [
+              {"operator": "not", "test": "has_tag", "value": "party_host"}
+            ],
+            "queue_command": {
+              "command": [
+                "tag @s add party_host",
+                "msg @a[r=9] now party host."   //debug
+              ]
+            }
+          },
+          {
+            "filters": [
+              {"test": "has_tag", "value": "party_host"}
+            ],
+            "queue_command": {
+              "command": [
+                "tag @s remove party_host",
+                "msg @a[r=9] no longer party host." //debug
+              ]
+            }
+          }
+        ]
+      },
+
+      "go_home": {
+        "remove": {"component_groups": ["default_move_towards_dwelling_restriction"]},
+        "add": {"component_groups": ["go_home"]}
+      },
+
+      "remove_go_home": {
+        "remove": {"component_groups": ["go_home"]},
+        "add": {"component_groups": ["default_move_towards_dwelling_restriction"]}
+      },
+
+      "move_to_bed": {
+        "add": { "component_groups": ["bed_schedule_villager"] }
+      },
+
+      "remove_move_to_bed": {
+        "remove": { "component_groups": ["bed_schedule_villager"] }
+      },
+
+      "move_to_jobsite": {
+        "add": { "component_groups": ["job_specific_goals"] }
+      },
+
+      "remove_move_to_jobsite": {
+        "remove": { "component_groups": ["job_specific_goals"] }
+      },
+
+
+      /* *** Events for party invitee *** */
+      "add_move_around_target": {
+        "add": { "component_groups": ["move_around_target"] }
+      },
+
+      "remove_move_around_target": {
+        "remove": { "component_groups": ["move_around_target"] }
+      },
+
+      "add_target_party_host": {
+        "add": { "component_groups": ["target_party_host"] }
+      },
+
+      "remove_target_party_host": {
+        "remove": { "component_groups": ["target_party_host"] }
       }
+
+
+
     }
   }
 }
