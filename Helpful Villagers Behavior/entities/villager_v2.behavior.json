@@ -3409,32 +3409,44 @@
 
       /* ************ Events for Villager Party stuff ************ */
       /* *** Events for host *** */
-      "tag_as_party_host": {
+      "set_party_host": {
+        "trigger": "make_party_host"
+      },
+
+      "make_party_host": {
+        "filters": [{"operator": "not", "test": "has_tag", "value": "party_host"}],
+        "queue_command": {
+          "command": [
+            "tag @s add party_host",
+            "msg @a[r=9] now party host.", //debug
+            "scriptevent p:party_host @s"  //hand off to Party at Villagers House dlc
+          ]
+        }
+      },
+
+      "remove_party_host": {
         "sequence": [
           {
-            "filters": [
-              {"operator": "not", "test": "has_tag", "value": "party_host"}
-            ],
-            "queue_command": {
-              "command": [
-                "tag @s add party_host",
-                "msg @a[r=9] now party host."   //debug
-              ]
-            }
-          },
-          {
-            "filters": [
-              {"test": "has_tag", "value": "party_host"}
-            ],
+            "filters": [{"test": "has_tag", "value": "party_host"}],
             "queue_command": {
               "command": [
                 "tag @s remove party_host",
-                "msg @a[r=9] no longer party host." //debug
+                "msg @a[r=9] no longer party host.", //debug
+                "scriptevent p:remove_party_host @s" //hand off to Party at Villagers House dlc
               ]
             }
           }
         ]
       },
+
+      "start_house_party": {
+        "trigger": "go_home"
+      },
+
+      "start_jobsite_party": {
+
+      },
+
 
       "go_home": {
         "remove": {"component_groups": ["default_move_towards_dwelling_restriction"]},
