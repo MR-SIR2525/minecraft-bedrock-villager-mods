@@ -1681,7 +1681,7 @@
 
       /* *********** Party at Villager's house ***********  */
       /* *** Host-related *** */
-      "go_home": {
+      "go_home": {    // TODO: rewrite this to use the real "go_home" behavior
         "minecraft:behavior.move_towards_dwelling_restriction": {
           "priority": 5
         }
@@ -1840,14 +1840,10 @@
       "minecraft:follow_range": {
         "value": 128
       },
-      "minecraft:annotation.open_door": {
-      },
-      "minecraft:movement.basic": {
-      },
-      "minecraft:jump.static": {
-      },
-      "minecraft:can_climb": {
-      },
+      "minecraft:annotation.open_door": {},
+      "minecraft:movement.basic": {},
+      "minecraft:jump.static": {},
+      "minecraft:can_climb": {},
       "minecraft:inventory": {
         "inventory_size": 10,  // 8 by default
         "private": false,      // true by default, false as a feature now
@@ -1972,7 +1968,7 @@
         "priority": 11,
         "speed_multiplier": 0.6
       },
-        "minecraft:physics": {
+      "minecraft:physics": {
       },
       "minecraft:pushable": {
         "is_pushable": true,
@@ -3408,35 +3404,29 @@
 
 
       /* ************ Events for Villager Party stuff ************ */
+      //possible alternative to moving to dwelling restriction...
+      "add_bed_schedule_villager": {
+        "add": { "component_groups": [ "bed_schedule_villager" ] }
+      },
+      "remove_bed_schedule_villager": {
+        "remove": { "component_groups": [ "bed_schedule_villager" ] }
+      },
+      
       /* *** Events for host *** */
       "set_party_host": {
         "trigger": "make_party_host"
       },
 
       "make_party_host": {
-        "filters": [{"operator": "not", "test": "has_tag", "value": "party_host"}],
         "queue_command": {
-          "command": [
-            "tag @s add party_host",
-            "msg @a[r=9] now party host.", //debug
-            "scriptevent p:party_host @s"  //hand off to Party at Villagers House dlc
-          ]
+          "command": "scriptevent p:make_party_host"  //hand off to Party at Villagers House dlc
         }
       },
 
       "remove_party_host": {
-        "sequence": [
-          {
-            "filters": [{"test": "has_tag", "value": "party_host"}],
-            "queue_command": {
-              "command": [
-                "tag @s remove party_host",
-                "msg @a[r=9] no longer party host.", //debug
-                "scriptevent p:remove_party_host @s" //hand off to Party at Villagers House dlc
-              ]
-            }
-          }
-        ]
+        "queue_command": {
+          "command": "scriptevent p:remove_party_host"  //hand off to Party at Villagers House dlc
+        }
       },
 
       "start_house_party": {
@@ -3444,7 +3434,7 @@
       },
 
       "start_jobsite_party": {
-
+        
       },
 
 
@@ -3453,7 +3443,7 @@
         "add": {"component_groups": ["go_home"]}
       },
 
-      "remove_go_home": {
+      "restore_default_go_home": {
         "remove": {"component_groups": ["go_home"]},
         "add": {"component_groups": ["default_move_towards_dwelling_restriction"]}
       },
