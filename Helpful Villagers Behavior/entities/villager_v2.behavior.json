@@ -735,7 +735,7 @@
       },
 
       "home_schedule_villager": {
-
+        //why nothing here?
       },
 
       "bed_schedule_villager": {
@@ -1676,8 +1676,79 @@
             "event": "ended_albert_whitefish_song"
           }
         }
+      },
+
+
+      /* *********** Party at Villager's house ***********  */
+      /* *** Host-related *** */
+      "go_home": {
+        "minecraft:behavior.move_towards_dwelling_restriction": {
+          "priority": 5
+        }
+      },
+
+      "default_move_towards_dwelling_restriction": {
+        "minecraft:behavior.move_towards_dwelling_restriction": {
+          "priority": 11,
+          "speed_multiplier": 0.6
+        }
+      },
+
+      "move_to_bed": {    // their bed, or any bed?
+        "minecraft:behavior.move_to_poi": {
+          "poi_type": "bed",
+          "priority": 5
+        }
+      },
+
+      "move_to_jobsite": {
+        "minecraft:behavior.move_to_poi": {
+          "poi_type": "jobsite",
+          "priority": 5
+        }
+      },
+
+      /* *** Invitee-related *** */
+      "target_party_host": {
+        "minecraft:behavior.nearest_prioritized_attackable_target": {
+          "priority": 5,
+          "attack_interval": 0,
+          "must_reach": true,
+          "must_see": false,
+          "persist_time": 5,
+          "reselect_targets": true,
+          "scan_interval": 20,
+          "set_persistent": false,
+          "target_search_height": -1,
+          "within_radius": 0,
+          "entity_types": [
+            {
+              "filters": [{"test": "has_tag", "value": "party_host"}],
+              "max_dist": 40
+            }
+          ]
+        }
+      },
+
+      "move_around_target": {
+        "minecraft:behavior.move_around_target": {
+          "priority": 5,
+          "destination_position_range": [4, 16],
+          "destination_pos_spread_degrees": 360,
+          "filters": {
+            "all_of": [
+              {
+                "test": "target_distance",
+                "subject": "self",
+                "value": 40,
+                "operator": "<="
+              }
+            ]
+          }
+        }
       }
     },
+
 
     "components": { //Core components of all villagers
       "minecraft:is_hidden_when_invisible": {
